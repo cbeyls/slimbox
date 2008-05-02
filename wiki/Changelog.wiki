@@ -1,0 +1,32 @@
+= Changelog =
+
+
+  * *v1.41 (2007-06-12)*
+    * Fixed a small CSS glitch for "next" and "prev" zones display.
+    * Removed the IE "white noise" fix, it is now fixed by mootools 1.1 (thanks digitarald).
+  * *v1.4 (2007-05-21)*, requires mootools >= 1.1.
+    * Updated code for mootools 1.1.
+    * Added an option to hide the counter.
+  * *v1.31 (2007-05-04)*
+    * Fixed the "white noise" bug occurring in dark areas of JPEG images in Internet Explorer.
+    * Visibility of objects (including Flash animations) are now set to their original values when Slimbox is closed, instead of always being set to visible.
+    * Re-added the hiding of "embed" tags. It was accidentally removed in v1.3.
+  * *v1.3 (2007-02-05)*, requires mootools >= 1.0.
+    * Updated code for mootools 1.0.
+    * The caption now animates using a nice slide effect like the original Lightbox. *CSS update required.*
+    * Added an option to set any custom transition from the mootools Transitions class for the resize animation.
+  * *v1.22 (2006-11-06)*
+    * Now also hides "embed" tags while Slimbox is opened, not just "object" tags. Thanks Felix from Germany.
+  * *v1.21 (2006-11-05)*
+    * Shorter code, slightly reduced file size.
+  * *v1.2 (2006-11-04)*
+    * Fixed serious performance issues with long HTML pages in Internet Explorer.
+    * Fixed overlay not entirely covering the screen when the window is resized/scrolled in specific cases.
+    * Now bulletproof to overlay mad-clicking.
+    * Hidden objects now reappear after the overlay fade out effect instead of before it.
+  * *v1.1 (2006-10-29)*, requires mootools >= revision 83.
+    * Now Slimbox is ready to launch as soon as the DOM is ready.
+    * Added an option to disable caption animation.
+    * Optimized 2 lines of code.
+  * *v1.0 (2006-10-22)*, requires mootools >= revision 77.
+    * Initial release.
