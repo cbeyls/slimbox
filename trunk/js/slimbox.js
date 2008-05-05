@@ -8,12 +8,12 @@ var Lightbox = {
 
 	init: function(options) {
 		this.options = $extend({
-			resizeDuration: 400,
-			resizeTransition: false,	// default transition
-			initialWidth: 250,
-			initialHeight: 250,
+			resizeDuration: 400,		// Duration of each of the box resize animations (in milliseconds)
+			resizeTransition: false,	// Default transition in mootools
+			initialWidth: 250,			// Initial width of the box (in pixels)
+			initialHeight: 250,			// Initial height of the box (in pixels)
 			animateCaption: true,
-			showCounter: true
+			showCounter: true			// If true, a counter will only be shown if there is more than 1 image to display
 		}, options || {});
 
 		this.anchors = [];
@@ -103,18 +103,27 @@ var Lightbox = {
 
 	keyboardListener: function(event) {
 		switch(event.keyCode) {
-			case 27: case 88: case 67: this.close(); break;
-			case 37: case 80: this.previous(); break;	
-			case 39: case 78: this.next();
+			case 27:	// Esc
+			case 88:	// 'x'
+			case 67:	// 'c'
+				this.close();
+				break;
+			case 37:	// Left arrow
+			case 80:	// 'p'
+				this.previous();
+				break;	
+			case 39:	// Right arrow
+			case 78:	// 'n'
+				this.next();
 		}
 	},
 
 	previous: function() {
-		return this.changeImage(this.activeImage-1);
+		return this.changeImage(this.activeImage - 1);
 	},
 
 	next: function() {
-		return this.changeImage(this.activeImage+1);
+		return this.changeImage(this.activeImage + 1);
 	},
 
 	changeImage: function(imageNum) {
@@ -134,44 +143,44 @@ var Lightbox = {
 
 	nextEffect: function() {
 		switch (this.step++) {
-		case 1:
-			this.center.className = "";
-			this.image.style.backgroundImage = "url(" + this.images[this.activeImage][0] + ")";
-			this.image.style.width = this.bottom.style.width = this.preload.width + "px";
-			this.image.style.height = this.prevLink.style.height = this.nextLink.style.height = this.preload.height + "px";
+			case 1:
+				this.center.className = "";
+				this.image.style.backgroundImage = "url(" + this.images[this.activeImage][0] + ")";
+				this.image.style.width = this.bottom.style.width = this.preload.width + "px";
+				this.image.style.height = this.prevLink.style.height = this.nextLink.style.height = this.preload.height + "px";
 
-			this.caption.setHTML(this.images[this.activeImage][1] || "");
-			this.number.setHTML((!this.options.showCounter || (this.images.length == 1)) ? "" : "Image "+ (this.activeImage+1) + " of " + this.images.length);
+				this.caption.setHTML(this.images[this.activeImage][1] || "");
+				this.number.setHTML((!this.options.showCounter || (this.images.length == 1)) ? "" : "Image "+ (this.activeImage + 1) + " of " + this.images.length);
 
-			if (this.activeImage) this.preloadPrev.src = this.images[this.activeImage-1][0];
-			if (this.activeImage != (this.images.length - 1)) this.preloadNext.src = this.images[this.activeImage+1][0];
-			if (this.center.clientHeight != this.image.offsetHeight) {
-				this.fx.resize.start({height: this.image.offsetHeight});
+				if (this.activeImage) this.preloadPrev.src = this.images[this.activeImage - 1][0];
+				if (this.activeImage != (this.images.length - 1)) this.preloadNext.src = this.images[this.activeImage + 1][0];
+				if (this.center.clientHeight != this.image.offsetHeight) {
+					this.fx.resize.start({height: this.image.offsetHeight});
+					break;
+				}
+				this.step++;
+			case 2:
+				if (this.center.clientWidth != this.image.offsetWidth) {
+					this.fx.resize.start({width: this.image.offsetWidth, marginLeft: -this.image.offsetWidth/2});
+					break;
+				}
+				this.step++;
+			case 3:
+				this.bottomContainer.setStyles({top: this.top + this.center.clientHeight, height: 0, marginLeft: this.center.style.marginLeft, display: ""});
+				this.fx.image.start(1);
 				break;
-			}
-			this.step++;
-		case 2:
-			if (this.center.clientWidth != this.image.offsetWidth) {
-				this.fx.resize.start({width: this.image.offsetWidth, marginLeft: -this.image.offsetWidth/2});
-				break;
-			}
-			this.step++;
-		case 3:
-			this.bottomContainer.setStyles({top: this.top + this.center.clientHeight, height: 0, marginLeft: this.center.style.marginLeft, display: ""});
-			this.fx.image.start(1);
-			break;
-		case 4:
-			if (this.options.animateCaption) {
-				this.fx.bottom.set(-this.bottom.offsetHeight);
+			case 4:
+				if (this.options.animateCaption) {
+					this.fx.bottom.set(-this.bottom.offsetHeight);
+					this.bottomContainer.style.height = "";
+					this.fx.bottom.start(0);
+					break;
+				}
 				this.bottomContainer.style.height = "";
-				this.fx.bottom.start(0);
-				break;
-			}
-			this.bottomContainer.style.height = "";
-		case 5:
-			if (this.activeImage) this.prevLink.style.display = "";
-			if (this.activeImage != (this.images.length - 1)) this.nextLink.style.display = "";
-			this.step = 0;
+			case 5:
+				if (this.activeImage) this.prevLink.style.display = "";
+				if (this.activeImage != (this.images.length - 1)) this.nextLink.style.display = "";
+				this.step = 0;
 		}
 	},
 
