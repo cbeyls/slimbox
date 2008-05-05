@@ -8,12 +8,13 @@ var Lightbox = {
 
 	init: function(options) {
 		this.options = $extend({
-			resizeDuration: 400,		// Duration of each of the box resize animations (in milliseconds)
-			resizeTransition: false,	// Default transition in mootools
-			initialWidth: 250,			// Initial width of the box (in pixels)
-			initialHeight: 250,			// Initial height of the box (in pixels)
+			resizeDuration: 400,				// Duration of each of the box resize animations (in milliseconds)
+			resizeTransition: false,			// Default transition in mootools
+			initialWidth: 250,					// Initial width of the box (in pixels)
+			initialHeight: 250,					// Initial height of the box (in pixels)
 			animateCaption: true,
-			showCounter: true			// If true, a counter will only be shown if there is more than 1 image to display
+			showCounter: true,					// If true, a counter will only be shown if there is more than 1 image to display
+			counterText: "Image {x} of {y}"		// Translate or change as you wish
 		}, options || {});
 
 		this.anchors = [];
@@ -150,7 +151,7 @@ var Lightbox = {
 				this.image.style.height = this.prevLink.style.height = this.nextLink.style.height = this.preload.height + "px";
 
 				this.caption.setHTML(this.images[this.activeImage][1] || "");
-				this.number.setHTML((!this.options.showCounter || (this.images.length == 1)) ? "" : "Image "+ (this.activeImage + 1) + " of " + this.images.length);
+				this.number.setHTML((this.options.showCounter && (this.images.length > 1)) ? this.options.counterText.replace(/{x}/, this.activeImage + 1).replace(/{y}/, this.images.length) : "");
 
 				if (this.activeImage) this.preloadPrev.src = this.images[this.activeImage - 1][0];
 				if (this.activeImage != (this.images.length - 1)) this.preloadNext.src = this.images[this.activeImage + 1][0];
