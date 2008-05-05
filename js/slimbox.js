@@ -4,7 +4,7 @@
 	Inspired by the original Lightbox v2 by Lokesh Dhakar.
 */
 
-var Lightbox = {
+var Slimbox = {
 
 	init: function(options) {
 		this.options = $extend({
@@ -71,18 +71,20 @@ var Lightbox = {
 		return this.open(images, imageNum);
 	},
 
-	show: function(url, title) {
-		return this.open([[url, title]], 0);
-	},
+	open: function(images, startImage) {
+		// The function is called for a single image, with URL and Title as first two arguments
+		if (typeof images == "string") {
+			images = [[images,startImage]];
+			startImage = 0;
+		}
 
-	open: function(images, imageNum) {
 		this.images = images;
 		this.position();
 		this.setup(true);
 		this.top = window.getScrollTop() + (window.getHeight() / 15);
 		this.center.setStyles({top: this.top, display: ""});
 		this.fx.overlay.start(0.8);
-		return this.changeImage(imageNum);
+		return this.changeImage(startImage);
 	},
 
 	position: function() {
@@ -199,4 +201,4 @@ var Lightbox = {
 	}
 };
 
-window.addEvent("domready", Lightbox.init.bind(Lightbox));
+window.addEvent("domready", Slimbox.init.bind(Slimbox));
