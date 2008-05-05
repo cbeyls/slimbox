@@ -59,13 +59,10 @@ var Slimbox = {
 		if (link.rel.length == 8) return this.show(link.href, link.title);
 
 		var j, imageNum, images = [];
-		this.anchors.each(function(el) {
+		this.anchors.forEach(function(el, i) {
 			if (el.rel == link.rel) {
-				for (j = 0; j < images.length; j++) if (images[j][0] == el.href) break;
-				if (j == images.length) {
-					images.push([el.href, el.title]);
-					if (el.href == link.href) imageNum = j;
-				}
+				images.push([el.href, el.title]);
+				if (el.href == link.href) imageNum = i;
 			}
 		}, this);
 		return this.open(images, imageNum);
