@@ -6,25 +6,28 @@
 
 var Slimbox = {
 
+	anchors: [],
+
+	state: 0,	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
+
 	init: function(options) {
 		this.options = $extend({
-			resizeDuration: 400,				// Duration of each of the box resize animations (in milliseconds)
-			resizeTransition: false,			// Default transition in mootools
-			initialWidth: 250,					// Initial width of the box (in pixels)
-			initialHeight: 250,					// Initial height of the box (in pixels)
+			resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
+			resizeTransition: false,		// Default transition in mootools
+			initialWidth: 250,			// Initial width of the box (in pixels)
+			initialHeight: 250,			// Initial height of the box (in pixels)
 			animateCaption: true,
-			showCounter: true,					// If true, a counter will only be shown if there is more than 1 image to display
+			showCounter: true,			// If true, a counter will only be shown if there is more than 1 image to display
 			counterText: "Image {x} of {y}"		// Translate or change as you wish
 		}, options || {});
 
-		this.anchors = [];
 		$each(document.links, function(el) {
 			if (el.rel && el.rel.test(/^lightbox/i)) {
 				el.onclick = this.click.pass(el, this);
 				this.anchors.push(el);
 			}
 		}, this);
-		this.eventKeyDown = this.keyboardListener.bindAsEventListener(this);
+		this.eventKeyDown = this.keyDown.bindAsEventListener(this);
 		this.eventPosition = this.position.bind(this);
 
 		this.overlay = new Element("div", {id: "lbOverlay"}).injectInside(document.body);
@@ -98,10 +101,9 @@ var Slimbox = {
 		var fn = open ? "addEvent" : "removeEvent";
 		window[fn]("scroll", this.eventPosition)[fn]("resize", this.eventPosition);
 		document[fn]("keydown", this.eventKeyDown);
-		this.step = 0;
 	},
 
-	keyboardListener: function(event) {
+	keyDown: function(event) {
 		switch(event.keyCode) {
 			case 27:	// Esc
 			case 88:	// 'x'
@@ -127,8 +129,8 @@ var Slimbox = {
 	},
 
 	changeImage: function(imageNum) {
-		if (this.step || (imageNum < 0) || (imageNum >= this.images.length)) return false;
-		this.step = 1;
+		if ((this.state > 1) || (imageNum < 0) || (imageNum >= this.images.length)) return false;
+		this.state = 2;
 		this.activeImage = imageNum;
 
 		this.bottomContainer.style.display = this.prevLink.style.display = this.nextLink.style.display = "none";
@@ -142,8 +144,8 @@ var Slimbox = {
 	},
 
 	nextEffect: function() {
-		switch (this.step++) {
-			case 1:
+		switch (this.state++) {
+			case 2:
 				this.center.className = "";
 				this.image.style.backgroundImage = "url(" + this.images[this.activeImage][0] + ")";
 				this.image.style.width = this.bottom.style.width = this.preload.width + "px";
@@ -158,18 +160,18 @@ var Slimbox = {
 					this.fx.resize.start({height: this.image.offsetHeight});
 					break;
 				}
-				this.step++;
-			case 2:
+				this.state++;
+			case 3:
 				if (this.center.clientWidth != this.image.offsetWidth) {
 					this.fx.resize.start({width: this.image.offsetWidth, marginLeft: -this.image.offsetWidth/2});
 					break;
 				}
-				this.step++;
-			case 3:
+				this.state++;
+			case 4:
 				this.bottomContainer.setStyles({top: this.top + this.center.clientHeight, height: 0, marginLeft: this.center.style.marginLeft, display: ""});
 				this.fx.image.start(1);
 				break;
-			case 4:
+			case 5:
 				if (this.options.animateCaption) {
 					this.fx.bottom.set(-this.bottom.offsetHeight);
 					this.bottomContainer.style.height = "";
@@ -177,16 +179,16 @@ var Slimbox = {
 					break;
 				}
 				this.bottomContainer.style.height = "";
-			case 5:
+			case 6:
 				if (this.activeImage) this.prevLink.style.display = "";
 				if (this.activeImage != (this.images.length - 1)) this.nextLink.style.display = "";
-				this.step = 0;
+				this.state = 1;
 		}
 	},
 
 	close: function() {
-		if (this.step < 0) return;
-		this.step = -1;
+		if (!this.state) return;
+		this.state = 0;
 		if (this.preload) {
 			this.preload.onload = Class.empty;
 			this.preload = null;
