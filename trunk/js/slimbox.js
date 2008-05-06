@@ -51,7 +51,7 @@ var Slimbox = {
 			overlay: this.overlay.effect("opacity", {duration: 500}).hide(),
 			resize: this.center.effects($extend({duration: this.options.resizeDuration, onComplete: nextEffect}, this.options.resizeTransition ? {transition: this.options.resizeTransition} : {})),
 			image: this.image.effect("opacity", {duration: 500, onComplete: nextEffect}),
-			bottom: this.bottom.effect("margin-top", {duration: 400, onComplete: nextEffect})
+			bottom: this.bottom.effect("margin-top", {duration: 400})
 		};
 
 		this.preloadPrev = new Image();
@@ -134,6 +134,7 @@ var Slimbox = {
 		this.activeImage = imageNum;
 
 		this.bottomContainer.style.display = this.prevLink.style.display = this.nextLink.style.display = "none";
+		this.fx.bottom.stop().set(0);
 		this.fx.image.hide();
 		this.center.className = "lbLoading";
 
@@ -156,6 +157,7 @@ var Slimbox = {
 
 				if (this.activeImage) this.preloadPrev.src = this.images[this.activeImage - 1][0];
 				if (this.activeImage != (this.images.length - 1)) this.preloadNext.src = this.images[this.activeImage + 1][0];
+
 				if (this.center.clientHeight != this.image.offsetHeight) {
 					this.fx.resize.start({height: this.image.offsetHeight});
 					break;
@@ -172,16 +174,12 @@ var Slimbox = {
 				this.fx.image.start(1);
 				break;
 			case 5:
-				if (this.options.animateCaption) {
-					this.fx.bottom.set(-this.bottom.offsetHeight);
-					this.bottomContainer.style.height = "";
-					this.fx.bottom.start(0);
-					break;
-				}
-				this.bottomContainer.style.height = "";
-			case 6:
 				if (this.activeImage) this.prevLink.style.display = "";
 				if (this.activeImage != (this.images.length - 1)) this.nextLink.style.display = "";
+				if (this.options.animateCaption) {
+					this.fx.bottom.set(-this.bottom.offsetHeight).start(0);
+				}
+				this.bottomContainer.style.height = "";
 				this.state = 1;
 		}
 	},
