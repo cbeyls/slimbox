@@ -1,5 +1,5 @@
 /*
-	Slimbox v1.41-dev - The ultimate lightweight Lightbox clone
+	Slimbox v1.5-dev - The ultimate lightweight Lightbox clone
 	by Christophe Beyls (http://www.digitalia.be) - MIT-style license.
 	Inspired by the original Lightbox v2 by Lokesh Dhakar.
 */
@@ -20,7 +20,7 @@ var Slimbox;
 	*/
 
 	window.addEvent("domready", function() {
-		$each(document.links, function(el) {
+		$$("a").forEach(function(el) {
 			if (el.rel && el.rel.test(/^lightbox/i)) {
 				el.onclick = click;
 				anchors.push(el);
@@ -28,19 +28,19 @@ var Slimbox;
 		});
 		eventKeyDown = keyDown.create({event: true});
 
-		overlay = new Element("div", {id: "lbOverlay"}).injectInside(document.body);
+		$(document.body).adopt(
+			overlay = new Element("div", {id: "lbOverlay"}),
+			center = new Element("div", {id: "lbCenter", styles: {display: "none"}}),
+			bottomContainer = new Element("div", {id: "lbBottomContainer", styles: {display: "none"}})
+		);
 
-		center = new Element("div", {id: "lbCenter", styles: {display: "none"}}).injectInside(document.body);
-		image = new Element("div", {id: "lbImage"}).injectInside(center);
-		prevLink = new Element("a", {id: "lbPrevLink", href: "#", styles: {display: "none"}}).injectInside(image);
-		nextLink = prevLink.clone().setProperty("id", "lbNextLink").injectInside(image);
-		prevLink.onclick = previous;
-		nextLink.onclick = next;
+		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
+			prevLink = new Element("a", {id: "lbPrevLink", href: "#", styles: {display: "none"}}).addEvent("click", previous),
+			nextLink = new Element("a", {id: "lbNextLink", href: "#", styles: {display: "none"}}).addEvent("click", next)
+		);
 
-		bottomContainer = new Element("div", {id: "lbBottomContainer", styles: {display: "none"}}).injectInside(document.body);
-		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer);
-		new Element("a", {id: "lbCloseLink", href: "#"}).injectInside(bottom).onclick = overlay.onclick = close;
-		bottom.adopt(
+		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer).adopt(
+			new Element("a", {id: "lbCloseLink", href: "#"}).addEvent("click", overlay.onclick = close),
 			new Element("div", {id: "lbCaption"}),
 			new Element("div", {id: "lbNumber"}),
 			new Element("div", {styles: {clear: "both"}})
@@ -114,11 +114,9 @@ var Slimbox;
 	}
 
 	function setup(open) {
-		var elements = $A(document.getElementsByTagName("object"));
-		elements.extend(document.getElementsByTagName(window.ie ? "select" : "embed"));
-		elements.each(function(el) {
-			if (open) el.lbBackupStyle = el.style.visibility;
-			el.style.visibility = open ? "hidden" : el.lbBackupStyle;
+		$$("object", window.ie ? "select" : "embed").forEach(function(el) {
+			if (open) el.slimbox = el.style.visibility;
+			el.style.visibility = open ? "hidden" : el.slimbox;
 		});
 		var fn = open ? "addEvent" : "removeEvent";
 		window[fn]("scroll", position)[fn]("resize", position);
@@ -155,7 +153,7 @@ var Slimbox;
 		state = 2;
 		activeImage = imageNum;
 
-		bottomContainer.style.display = prevLink.style.display = nextLink.style.display = "none";
+		$$(prevLink, nextLink, bottomContainer).setStyle("display", "none");
 		fx.bottom.stop().set(0);
 		fx.image.hide();
 		center.className = "lbLoading";
@@ -171,8 +169,8 @@ var Slimbox;
 			case 2:
 				center.className = "";
 				image.style.backgroundImage = "url(" + images[activeImage][0] + ")";
-				image.style.width = bottom.style.width = preload.width + "px";
-				image.style.height = prevLink.style.height = nextLink.style.height = preload.height + "px";
+				$$(image, bottom).setStyle("width", preload.width);
+				$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
 				$("lbCaption").setHTML(images[activeImage][1] || "");
 				$("lbNumber").setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
@@ -211,7 +209,7 @@ var Slimbox;
 		state = 0;
 		if (preload) preload.onload = Class.empty;
 		for (var f in fx) fx[f].stop();
-		center.style.display = bottomContainer.style.display = "none";
+		$$(center, bottomContainer).setStyle("display", "none");
 		fx.overlay.chain(setup.pass(false)).start(0);
 		return false;
 	}
