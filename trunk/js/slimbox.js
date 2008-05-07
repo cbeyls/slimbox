@@ -13,7 +13,7 @@ var Slimbox;
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
-	var overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number;
+	var overlay, center, image, prevLink, nextLink, bottomContainer, bottom;
 
 	/*
 		Initialization
@@ -50,8 +50,8 @@ var Slimbox;
 		bottomContainer = new Element("div", {id: "lbBottomContainer", styles: {display: "none"}}).injectInside(document.body);
 		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer);
 		new Element("a", {id: "lbCloseLink", href: "#"}).injectInside(bottom).onclick = overlay.onclick = close;
-		caption = new Element("div", {id: "lbCaption"}).injectInside(bottom);
-		number = new Element("div", {id: "lbNumber"}).injectInside(bottom);
+		new Element("div", {id: "lbCaption"}).injectInside(bottom);
+		new Element("div", {id: "lbNumber"}).injectInside(bottom);
 		new Element("div", {styles: {clear: "both"}}).injectInside(bottom);
 
 		fx = {
@@ -171,8 +171,8 @@ var Slimbox;
 				image.style.width = bottom.style.width = preload.width + "px";
 				image.style.height = prevLink.style.height = nextLink.style.height = preload.height + "px";
 
-				caption.setHTML(images[activeImage][1] || "");
-				number.setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
+				$("lbCaption").setHTML(images[activeImage][1] || "");
+				$("lbNumber").setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
 
 				if (activeImage) preloadPrev.src = images[activeImage - 1][0];
 				if (activeImage != (images.length - 1)) preloadNext.src = images[activeImage + 1][0];
