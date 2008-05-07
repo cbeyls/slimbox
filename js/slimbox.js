@@ -59,16 +59,16 @@ var Slimbox = {
 	},
 
 	click: function(link) {
-		if (link.rel.length == 8) return this.show(link.href, link.title);
-
-		var j, imageNum, images = [];
-		this.anchors.forEach(function(el, i) {
+		// Build the list of images that will be displayed
+		// startIndex is the image index related to the link that was clicked
+		var startIndex, images = [];
+		((link.rel == "lightbox") ? [link] : this.anchors).forEach(function(el, i) {
 			if (el.rel == link.rel) {
 				images.push([el.href, el.title]);
-				if (el.href == link.href) imageNum = i;
+				if (el.href == link.href) startIndex = i;
 			}
 		}, this);
-		return this.open(images, imageNum);
+		return this.open(images, startIndex);
 	},
 
 	open: function(images, startImage) {
