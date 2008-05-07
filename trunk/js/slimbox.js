@@ -19,17 +19,7 @@ var Slimbox;
 		Initialization
 	*/
 
-	window.addEvent("domready", function(_options) {
-		options = $extend({
-			resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
-			resizeTransition: false,		// Default transition in mootools
-			initialWidth: 250,			// Initial width of the box (in pixels)
-			initialHeight: 250,			// Initial height of the box (in pixels)
-			animateCaption: true,
-			showCounter: true,			// If true, a counter will only be shown if there is more than 1 image to display
-			counterText: "Image {x} of {y}"		// Translate or change as you wish
-		}, _options || {});
-
+	window.addEvent("domready", function() {
 		$each(document.links, function(el) {
 			if (el.rel && el.rel.test(/^lightbox/i)) {
 				el.onclick = click;
@@ -40,7 +30,7 @@ var Slimbox;
 
 		overlay = new Element("div", {id: "lbOverlay"}).injectInside(document.body);
 
-		center = new Element("div", {id: "lbCenter", styles: {width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: "none"}}).injectInside(document.body);
+		center = new Element("div", {id: "lbCenter", styles: {display: "none"}}).injectInside(document.body);
 		image = new Element("div", {id: "lbImage"}).injectInside(center);
 		prevLink = new Element("a", {id: "lbPrevLink", href: "#", styles: {display: "none"}}).injectInside(image);
 		nextLink = prevLink.clone().setProperty("id", "lbNextLink").injectInside(image);
@@ -50,13 +40,14 @@ var Slimbox;
 		bottomContainer = new Element("div", {id: "lbBottomContainer", styles: {display: "none"}}).injectInside(document.body);
 		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer);
 		new Element("a", {id: "lbCloseLink", href: "#"}).injectInside(bottom).onclick = overlay.onclick = close;
-		new Element("div", {id: "lbCaption"}).injectInside(bottom);
-		new Element("div", {id: "lbNumber"}).injectInside(bottom);
-		new Element("div", {styles: {clear: "both"}}).injectInside(bottom);
+		bottom.adopt(
+			new Element("div", {id: "lbCaption"}),
+			new Element("div", {id: "lbNumber"}),
+			new Element("div", {styles: {clear: "both"}})
+		);
 
 		fx = {
 			overlay: overlay.effect("opacity", {duration: 500}).hide(),
-			resize: center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {})),
 			image: image.effect("opacity", {duration: 500, onComplete: nextEffect}),
 			bottom: bottom.effect("margin-top", {duration: 400})
 		};
@@ -71,7 +62,18 @@ var Slimbox;
 	*/
 
 	Slimbox = {
-		open: function(_images, startImage) {
+		open: function(_images, startImage, _options) {
+			options = $extend({
+				overlayOpacity: 0.8,			// 1 is opaque, 0 is completely transparent (change the color in the CSS file)
+				resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
+				resizeTransition: false,		// Default transition in mootools
+				initialWidth: 250,			// Initial width of the box (in pixels)
+				initialHeight: 250,			// Initial height of the box (in pixels)
+				animateCaption: true,
+				showCounter: true,			// If true, a counter will only be shown if there is more than 1 image to display
+				counterText: "Image {x} of {y}"		// Translate or change as you wish
+			}, _options || {});
+
 			// The function is called for a single image, with URL and Title as first two arguments
 			if (typeof _images == "string") {
 				_images = [[_images,startImage]];
@@ -82,8 +84,9 @@ var Slimbox;
 			position();
 			setup(true);
 			top = window.getScrollTop() + (window.getHeight() / 15);
-			center.setStyles({top: top, display: ""});
-			fx.overlay.start(0.8);
+			fx.resize = center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
+			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
+			fx.overlay.start(options.overlayOpacity);
 			return changeImage(startImage);
 		}
 	};
