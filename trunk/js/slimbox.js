@@ -187,10 +187,7 @@ var Slimbox = {
 	close: function() {
 		if (!this.state) return;
 		this.state = 0;
-		if (this.preload) {
-			this.preload.onload = Class.empty;
-			this.preload = null;
-		}
+		if (this.preload) this.preload.onload = Class.empty;
 		for (var f in this.fx) this.fx[f].stop();
 		this.center.style.display = this.bottomContainer.style.display = "none";
 		this.fx.overlay.chain(this.setup.pass(false, this)).start(0);
