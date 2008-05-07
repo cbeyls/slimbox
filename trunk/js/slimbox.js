@@ -4,16 +4,21 @@
 	Inspired by the original Lightbox v2 by Lokesh Dhakar.
 */
 
-var Slimbox = {};
+var Slimbox;
 
 (function() {
 
+	// Global variables, accessible to Slimbox only
 	var anchors = [], state = 0, options, images, activeImage, top, eventKeydown, fx, preload, preloadPrev, preloadNext;
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
+	// DOM elements
 	var overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number;
 
-	// Slimbox initialization
+	/*
+		Initialization
+	*/
+
 	window.addEvent("domready", function(_options) {
 		options = $extend({
 			resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
@@ -60,6 +65,34 @@ var Slimbox = {};
 		preloadNext = new Image();
 	});
 
+
+	/*
+		API
+	*/
+
+	Slimbox = {
+		open: function(_images, startImage) {
+			// The function is called for a single image, with URL and Title as first two arguments
+			if (typeof _images == "string") {
+				_images = [[_images,startImage]];
+				startImage = 0;
+			}
+
+			images = _images;
+			position();
+			setup(true);
+			top = window.getScrollTop() + (window.getHeight() / 15);
+			center.setStyles({top: top, display: ""});
+			fx.overlay.start(0.8);
+			return changeImage(startImage);
+		}
+	};
+
+
+	/*
+		Internal functions
+	*/
+
 	function click() {
 		// Build the list of images that will be displayed
 		// startIndex is the image index related to the link that was clicked
@@ -72,22 +105,6 @@ var Slimbox = {};
 		}, this);
 		return Slimbox.open(_images, imageNum);
 	}
-
-	Slimbox.open = function(_images, startImage) {
-		// The function is called for a single image, with URL and Title as first two arguments
-		if (typeof _images == "string") {
-			_images = [[_images,startImage]];
-			startImage = 0;
-		}
-
-		images = _images;
-		position();
-		setup(true);
-		top = window.getScrollTop() + (window.getHeight() / 15);
-		center.setStyles({top: top, display: ""});
-		fx.overlay.start(0.8);
-		return changeImage(startImage);
-	};
 
 	function position() {
 		overlay.setStyles({top: window.getScrollTop(), height: window.getHeight()});
