@@ -35,12 +35,12 @@ var Slimbox;
 		);
 
 		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
-			prevLink = new Element("a", {id: "lbPrevLink", href: "#", styles: {display: "none"}}).addEvent("click", previous),
-			nextLink = new Element("a", {id: "lbNextLink", href: "#", styles: {display: "none"}}).addEvent("click", next)
+			prevLink = new Element("div", {id: "lbPrevLink", styles: {display: "none"}}).addEvent("click", previous),
+			nextLink = new Element("div", {id: "lbNextLink", styles: {display: "none"}}).addEvent("click", next)
 		);
 
 		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer).adopt(
-			new Element("a", {id: "lbCloseLink", href: "#"}).addEvent("click", overlay.onclick = close),
+			new Element("div", {id: "lbCloseLink"}).addEvent("click", overlay.onclick = close),
 			new Element("div", {id: "lbCaption"}),
 			new Element("div", {id: "lbNumber"}),
 			new Element("div", {styles: {clear: "both"}})
@@ -87,7 +87,8 @@ var Slimbox;
 			fx.resize = center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			fx.overlay.start(options.overlayOpacity);
-			return changeImage(startImage);
+			changeImage(startImage);
+			return false;
 		}
 	};
 
@@ -141,11 +142,11 @@ var Slimbox;
 	}
 
 	function previous() {
-		return changeImage(activeImage - 1);
+		changeImage(activeImage - 1);
 	}
 
 	function next() {
-		return changeImage(activeImage + 1);
+		changeImage(activeImage + 1);
 	}
 
 	function changeImage(imageNum) {
@@ -161,7 +162,6 @@ var Slimbox;
 		preload = new Image();
 		preload.onload = nextEffect;
 		preload.src = images[imageNum][0];
-		return false;
 	}
 
 	function nextEffect() {
@@ -211,7 +211,6 @@ var Slimbox;
 		for (var f in fx) fx[f].stop();
 		$$(center, bottomContainer).setStyle("display", "none");
 		fx.overlay.chain(setup.pass(false)).start(0);
-		return false;
 	}
 
 })();
