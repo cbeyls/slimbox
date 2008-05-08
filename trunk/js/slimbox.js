@@ -1,7 +1,7 @@
-/*
+/*!
 	Slimbox v1.5-dev - The ultimate lightweight Lightbox clone
-	by Christophe Beyls (http://www.digitalia.be) - MIT-style license.
-	Inspired by the original Lightbox v2 by Lokesh Dhakar.
+	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
+	MIT-style license.
 */
 
 var Slimbox;
@@ -13,7 +13,7 @@ var Slimbox;
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
-	overlay, center, image, prevLink, nextLink, bottomContainer, bottom;
+	overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number;
 
 	/*
 		Initialization
@@ -35,8 +35,8 @@ var Slimbox;
 
 		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer).adopt(
 			new Element("div", {id: "lbCloseLink"}).addEvent("click", overlay.onclick = close),
-			new Element("div", {id: "lbCaption"}),
-			new Element("div", {id: "lbNumber"}),
+			caption = new Element("div", {id: "lbCaption"}),
+			number = new Element("div", {id: "lbNumber"}),
 			new Element("div", {styles: {clear: "both"}})
 		);
 
@@ -179,8 +179,8 @@ var Slimbox;
 				$$(image, bottom).setStyle("width", preload.width);
 				$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
-				$("lbCaption").setHTML(images[activeImage][1] || "");
-				$("lbNumber").setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
+				caption.setHTML(images[activeImage][1] || "");
+				number.setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
 
 				if (activeImage) preloadPrev.src = images[activeImage - 1][0];
 				if (activeImage != (images.length - 1)) preloadNext.src = images[activeImage + 1][0];
