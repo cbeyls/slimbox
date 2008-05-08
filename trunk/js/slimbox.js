@@ -9,11 +9,11 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var state = 0, options, images, activeImage, top, eventKeydown, fx, preload, preloadPrev = new Image(), preloadNext = new Image();
+	var state = 0, options, images, activeImage, top, eventKeyDown, fx, preload, preloadPrev = new Image(), preloadNext = new Image(),
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
-	var overlay, center, image, prevLink, nextLink, bottomContainer, bottom;
+	overlay, center, image, prevLink, nextLink, bottomContainer, bottom;
 
 	/*
 		Initialization
