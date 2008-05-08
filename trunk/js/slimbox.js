@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var anchors = [], state = 0, options, images, activeImage, top, eventKeydown, fx, preload, preloadPrev, preloadNext;
+	var state = 0, options, images, activeImage, top, eventKeydown, fx, preload, preloadPrev = new Image(), preloadNext = new Image();
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
@@ -20,12 +20,6 @@ var Slimbox;
 	*/
 
 	window.addEvent("domready", function() {
-		$$("a").forEach(function(el) {
-			if (el.rel && el.rel.test(/^lightbox/i)) {
-				el.onclick = click;
-				anchors.push(el);
-			}
-		});
 		eventKeyDown = keyDown.create({event: true});
 
 		$(document.body).adopt(
@@ -51,9 +45,6 @@ var Slimbox;
 			image: image.effect("opacity", {duration: 500, onComplete: nextEffect}),
 			bottom: bottom.effect("margin-top", {duration: 400})
 		};
-
-		preloadPrev = new Image();
-		preloadNext = new Image();
 	});
 
 
@@ -92,23 +83,39 @@ var Slimbox;
 		}
 	};
 
+	Element.extend({
+		slimbox: function(_options) {
+			// The processing of a single element is similar to the processing of a collection with a single element
+			$$(this).slimbox(_options);
+		}
+	});
+
+	Elements.extend({
+		slimbox: function(_options, filter) {
+			var links = this;
+
+			links.forEach(function(link) {
+				link.onclick = function() {
+					// Build the list of images that will be displayed
+					// startIndex is the image index related to the link that was clicked
+					var startIndex, _images = [], i = 0;
+					((filter && (this.rel.length == 8)) ? [this] : links).forEach(function(el) {
+						if (!filter || (el.rel == this.rel)) {
+							_images.push([el.href, el.title]);
+							if (el.href == this.href) startIndex = i;
+							i++;
+						}
+					}, this);
+					return Slimbox.open(_images, startIndex, _options);
+				};
+			});
+		}
+	});
+
 
 	/*
 		Internal functions
 	*/
-
-	function click() {
-		// Build the list of images that will be displayed
-		// startIndex is the image index related to the link that was clicked
-		var imageNum, _images = [];
-		((this.rel == "lightbox") ? [this] : anchors).forEach(function(el, i) {
-			if (el.rel == this.rel) {
-				_images.push([el.href, el.title]);
-				if (el.href == this.href) imageNum = i;
-			}
-		}, this);
-		return Slimbox.open(_images, imageNum);
-	}
 
 	function position() {
 		overlay.setStyles({top: window.getScrollTop(), height: window.getHeight()});
@@ -214,3 +221,15 @@ var Slimbox;
 	}
 
 })();
+
+
+// Add Slimbox functionality with default options to all links with a rel attribute starting with "lightbox" on page load, for Lightbox compatibility.
+// You may remove this block if you only want to specify manually which links you want to be handled by Slimbox.
+window.addEvent("domready", function() {
+	var links = [];
+	$$("a").forEach(function(el) {
+		if (el.rel && el.rel.test(/^lightbox/i)) links.push(el);
+	});
+	// You may override the default options by putting your values inside the following {}
+	$$(links).slimbox({}, true);
+});
