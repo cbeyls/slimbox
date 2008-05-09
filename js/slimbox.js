@@ -20,7 +20,7 @@ var Slimbox;
 	*/
 
 	window.addEvent("domready", function() {
-		eventKeyDown = keyDown.create({event: true});
+		eventKeyDown = keyDown.bindWithEvent();
 
 		$(document.body).adopt(
 			overlay = new Element("div", {id: "lbOverlay", styles: {display: "none"}}),
@@ -138,7 +138,7 @@ var Slimbox;
 	}
 
 	function keyDown(event) {
-		switch(event.keyCode) {
+		switch(event.code) {
 			case 27:	// Esc
 			case 88:	// 'x'
 			case 67:	// 'c'
@@ -153,8 +153,7 @@ var Slimbox;
 				next();
 		}
 		// Prevent default keyboard action (like navigating inside the page)
-		if (event.preventDefault) event.preventDefault();
-		event.returnValue = false;
+		event.preventDefault();
 	}
 
 	function previous() {
