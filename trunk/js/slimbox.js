@@ -156,10 +156,10 @@ var Slimbox;
 		changeImage(activeImage + 1);
 	}
 
-	function changeImage(imageNum) {
-		if ((state > 1) || (imageNum < 0) || (imageNum >= images.length)) return false;
+	function changeImage(imageIndex) {
+		if ((state > 1) || (imageIndex < 0) || (imageIndex >= images.length)) return false;
 		state = 2;
-		activeImage = imageNum;
+		activeImage = imageIndex;
 
 		$$(prevLink, nextLink, bottomContainer).setStyle("display", "none");
 		fx.bottom.stop().set(0);
@@ -168,7 +168,7 @@ var Slimbox;
 
 		preload = new Image();
 		preload.onload = nextEffect;
-		preload.src = images[imageNum][0];
+		preload.src = images[imageIndex][0];
 	}
 
 	function nextEffect() {
@@ -202,7 +202,7 @@ var Slimbox;
 				break;
 			case 5:
 				if (activeImage) prevLink.style.display = "";
-				if (activeImage != (images.length - 1)) nextLink.style.display = "";
+				if (activeImage < (images.length - 1)) nextLink.style.display = "";
 				if (options.animateCaption) {
 					fx.bottom.set(-bottom.offsetHeight).start(0);
 				}
@@ -214,10 +214,10 @@ var Slimbox;
 	function close() {
 		if (!state) return;
 		state = 0;
-		if (preload) preload.onload = Class.empty;
+		preload.onload = Class.empty;
 		for (var f in fx) fx[f].stop();
 		$$(center, bottomContainer).setStyle("display", "none");
-		fx.overlay.chain(setup.pass(false)).start(0);
+		fx.overlay.chain(setup).start(0);
 	}
 
 })();
