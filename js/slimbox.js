@@ -152,6 +152,9 @@ var Slimbox;
 			case 78:	// 'n'
 				next();
 		}
+		// Prevent default keyboard action (like navigating inside the page)
+		if (event.preventDefault) event.preventDefault();
+		event.returnValue = false;
 	}
 
 	function previous() {
