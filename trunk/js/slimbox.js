@@ -23,7 +23,7 @@ var Slimbox;
 		eventKeyDown = keyDown.create({event: true});
 
 		$(document.body).adopt(
-			overlay = new Element("div", {id: "lbOverlay"}),
+			overlay = new Element("div", {id: "lbOverlay", styles: {display: "none"}}),
 			center = new Element("div", {id: "lbCenter", styles: {display: "none"}}),
 			bottomContainer = new Element("div", {id: "lbBottomContainer", styles: {display: "none"}})
 		);
@@ -41,7 +41,7 @@ var Slimbox;
 		);
 
 		fx = {
-			overlay: overlay.effect("opacity", {duration: 500}).hide(),
+			overlay: overlay.effect("opacity", {duration: 500}).set(0),
 			image: image.effect("opacity", {duration: 500, onComplete: nextEffect}),
 			bottom: bottom.effect("margin-top", {duration: 400})
 		};
@@ -126,6 +126,9 @@ var Slimbox;
 			if (open) el.slimbox = el.style.visibility;
 			el.style.visibility = open ? "hidden" : el.slimbox;
 		});
+
+		overlay.style.display = open ? "" : "none";
+
 		var fn = open ? "addEvent" : "removeEvent";
 		window[fn]("scroll", position)[fn]("resize", position);
 		document[fn]("keydown", eventKeyDown);
@@ -163,7 +166,7 @@ var Slimbox;
 
 		$$(prevLink, nextLink, bottomContainer).setStyle("display", "none");
 		fx.bottom.stop().set(0);
-		fx.image.hide();
+		fx.image.set(0);
 		center.className = "lbLoading";
 
 		preload = new Image();
