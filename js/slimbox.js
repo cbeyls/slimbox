@@ -233,13 +233,15 @@ var Slimbox;
 })();
 
 
+
 // Add Slimbox functionality with default options to all links with a rel attribute starting with "lightbox" on page load, for Lightbox compatibility.
-// You may remove this block if you only want to specify manually which links you want to be handled by Slimbox.
-window.addEvent("domready", function() {
+// You may remove this code block if you only want to specify manually which links you want to be handled by Slimbox.
+Slimbox.scanPage = function() {
 	var links = [];
 	$$("a").forEach(function(el) {
 		if (el.rel && el.rel.test(/^lightbox/i)) links.push(el);
 	});
 	// You may override the default options by putting your values inside the following {}
 	$$(links).slimbox({}, true);
-});
+};
+window.addEvent("domready", Slimbox.scanPage);
