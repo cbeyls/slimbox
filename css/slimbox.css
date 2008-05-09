@@ -30,10 +30,11 @@
 }
 
 #lbPrevLink, #lbNextLink {
+	display: block;
 	position: absolute;
 	top: 0;
 	width: 50%;
-	cursor: pointer;
+	outline: none;
 }
 
 #lbPrevLink {
@@ -63,12 +64,13 @@
 }
 
 #lbCloseLink {
+	display: block;
 	float: right;
 	width: 66px;
 	height: 22px;
 	background: transparent url(closelabel.gif) no-repeat center;
 	margin: 5px 0;
-	cursor: pointer;
+	outline: none;
 }
 
 #lbCaption, #lbNumber {
