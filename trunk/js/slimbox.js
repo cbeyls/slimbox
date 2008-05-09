@@ -29,16 +29,20 @@ var Slimbox;
 		);
 
 		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
-			prevLink = new Element("div", {id: "lbPrevLink", styles: {display: "none"}}).addEvent("click", previous),
-			nextLink = new Element("div", {id: "lbNextLink", styles: {display: "none"}}).addEvent("click", next)
+			prevLink = new Element("a", {id: "lbPrevLink", href: "#", styles: {display: "none"}}),
+			nextLink = new Element("a", {id: "lbNextLink", href: "#", styles: {display: "none"}})
 		);
+		prevLink.onclick = previous;
+		nextLink.onclick = next;
 
+		var closeLink;
 		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer).adopt(
-			new Element("div", {id: "lbCloseLink"}).addEvent("click", overlay.onclick = close),
+			closeLink = new Element("a", {id: "lbCloseLink", href: "#"}),
 			caption = new Element("div", {id: "lbCaption"}),
 			number = new Element("div", {id: "lbNumber"}),
 			new Element("div", {styles: {clear: "both"}})
 		);
+		closeLink.onclick = overlay.onclick = close;
 
 		fx = {
 			overlay: overlay.effect("opacity", {duration: 500}).set(0),
@@ -78,8 +82,7 @@ var Slimbox;
 			fx.resize = center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			fx.overlay.start(options.overlayOpacity);
-			changeImage(startImage);
-			return false;
+			return changeImage(startImage);
 		}
 	};
 
@@ -152,11 +155,11 @@ var Slimbox;
 	}
 
 	function previous() {
-		changeImage(activeImage - 1);
+		return changeImage(activeImage - 1);
 	}
 
 	function next() {
-		changeImage(activeImage + 1);
+		return changeImage(activeImage + 1);
 	}
 
 	function changeImage(imageIndex) {
@@ -172,6 +175,8 @@ var Slimbox;
 		preload = new Image();
 		preload.onload = nextEffect;
 		preload.src = images[imageIndex][0];
+
+		return false;
 	}
 
 	function nextEffect() {
@@ -215,12 +220,14 @@ var Slimbox;
 	}
 
 	function close() {
-		if (!state) return;
+		if (!state) return false;
 		state = 0;
 		preload.onload = Class.empty;
 		for (var f in fx) fx[f].stop();
 		$$(center, bottomContainer).setStyle("display", "none");
 		fx.overlay.chain(setup).start(0);
+
+		return false;
 	}
 
 })();
