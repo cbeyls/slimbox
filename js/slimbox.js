@@ -87,29 +87,37 @@ var Slimbox;
 	};
 
 	Element.extend({
-		slimbox: function(_options) {
+		slimbox: function(_options, linkMapper) {
 			// The processing of a single element is similar to the processing of a collection with a single element
-			$$(this).slimbox(_options);
+			$$(this).slimbox(_options, linkMapper);
 		}
 	});
 
 	Elements.extend({
-		slimbox: function(_options, filter) {
+		/*
+			options:	Optional options object, see Slimbox.open()
+			linkMapper:	Optional function taking a link DOM element as argument and returning an array containing 2 elements:
+					the image URL and the image Caption (may contain HTML)
+			linksFilter:	Optional function taking a link DOM element as argument and returning true if the element is part of
+					the image collection that will be shown on click, false if not. "this" refers to the element that was clicked.
+					This function must always return true when the element argument is "this".
+		*/
+		slimbox: function(_options, linkMapper, linksFilter) {
+			linkMapper = linkMapper || function(el) {
+				return [el.href, el.title];
+			};
+
+			linksFilter = linksFilter || function() {
+				return true;
+			};
+
 			var links = this;
 
 			links.forEach(function(link) {
 				link.onclick = function() {
 					// Build the list of images that will be displayed
-					// startIndex is the image index related to the link that was clicked
-					var startIndex, _images = [], i = 0;
-					((filter && (this.rel.length == 8)) ? [this] : links).forEach(function(el) {
-						if (!filter || (el.rel == this.rel)) {
-							_images.push([el.href, el.title]);
-							if (el.href == this.href) startIndex = i;
-							i++;
-						}
-					}, this);
-					return Slimbox.open(_images, startIndex, _options);
+					var filteredLinks = links.filter(linksFilter, this);
+					return Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
 				};
 			});
 		}
@@ -239,11 +247,12 @@ var Slimbox;
 // Add Slimbox functionality with default options to all links with a rel attribute starting with "lightbox" on page load, for Lightbox compatibility.
 // You may remove this code block if you only want to specify manually which links you want to be handled by Slimbox.
 Slimbox.scanPage = function() {
-	var links = [];
-	$$("a").forEach(function(el) {
-		if (el.rel && el.rel.test(/^lightbox/i)) links.push(el);
+	var links = $$("a").filter(function(el) {
+		return el.rel && el.rel.test(/^lightbox/i);
 	});
 	// You may override the default options by putting your values inside the following {}
-	$$(links).slimbox({}, true);
+	$$(links).slimbox({}, null, function(el) {
+		return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+	});
 };
 window.addEvent("domready", Slimbox.scanPage);
