@@ -22,15 +22,18 @@ var Slimbox;
 	window.addEvent("domready", function() {
 		eventKeyDown = keyDown.bindWithEvent();
 
+		// Append the Slimbox HTML code at the bottom of the document
 		$(document.body).adopt(
-			overlay = new Element("div", {id: "lbOverlay", styles: {display: "none"}}),
-			center = new Element("div", {id: "lbCenter", styles: {display: "none"}}),
-			bottomContainer = new Element("div", {id: "lbBottomContainer", styles: {display: "none"}})
+			$$([
+				overlay = new Element("div", {id: "lbOverlay"}),
+				center = new Element("div", {id: "lbCenter"}),
+				bottomContainer = new Element("div", {id: "lbBottomContainer"})
+			]).setStyle("display", "none")
 		);
 
 		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
-			prevLink = new Element("a", {id: "lbPrevLink", href: "#", styles: {display: "none"}}),
-			nextLink = new Element("a", {id: "lbNextLink", href: "#", styles: {display: "none"}})
+			prevLink = new Element("a", {id: "lbPrevLink", href: "#"}),
+			nextLink = new Element("a", {id: "lbNextLink", href: "#"})
 		);
 		prevLink.onclick = previous;
 		nextLink.onclick = next;
