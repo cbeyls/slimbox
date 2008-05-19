@@ -99,11 +99,11 @@ var Slimbox;
 	Elements.extend({
 		/*
 			options:	Optional options object, see Slimbox.open()
-			linkMapper:	Optional function taking a link DOM element as argument and returning an array containing 2 elements:
-					the image URL and the image Caption (may contain HTML)
-			linksFilter:	Optional function taking a link DOM element as argument and returning true if the element is part of
+			linkMapper:	Optional function taking a link DOM element and an index as arguments and returning an array containing 2 elements:
+					the image URL and the image caption (may contain HTML)
+			linksFilter:	Optional function taking a link DOM element and an index as arguments and returning true if the element is part of
 					the image collection that will be shown on click, false if not. "this" refers to the element that was clicked.
-					This function must always return true when the element argument is "this".
+					This function must always return true when the DOM element argument is "this".
 		*/
 		slimbox: function(_options, linkMapper, linksFilter) {
 			linkMapper = linkMapper || function(el) {
@@ -244,18 +244,3 @@ var Slimbox;
 	}
 
 })();
-
-
-
-// Add Slimbox functionality with default options to all links with a rel attribute starting with "lightbox" on page load, for Lightbox compatibility.
-// You may remove this code block if you only want to specify manually which links you want to be handled by Slimbox.
-Slimbox.scanPage = function() {
-	var links = $$("a").filter(function(el) {
-		return el.rel && el.rel.test(/^lightbox/i);
-	});
-	// You may override the default options by putting your values inside the following {}
-	$$(links).slimbox({}, null, function(el) {
-		return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
-	});
-};
-window.addEvent("domready", Slimbox.scanPage);
