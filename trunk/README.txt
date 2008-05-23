@@ -7,7 +7,7 @@ http://code.google.com/p/slimbox/
 Included files:
 
 example.html		A simple example page demonstrating how to use Slimbox with the default configuration.
-example.jpg		A test image used on the test page.
+example.jpg		An example image used on the example page.
 README.txt		The file you are reading.
 css/*			The Slimbox stylesheet and its associated images. You can edit them to customize Slimbox appearance.
 js/mootools.js		The minified version of mootools v1.11 including only the modules required by Slimbox.
