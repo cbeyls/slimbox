@@ -14,7 +14,7 @@ From a _functional_ point of view, Slimbox has the following added features comp
 
 From a _design_ point of view, Slimbox is very different from Lightbox:
 
-  * The code has been entirely rewritten with efficiency in mind for the mootools framework instead of the huge Prototype/Scriptaculous. The script itself is as tiny as 7kb (uncompressed).
+  * The code has been entirely rewritten with efficiency in mind for the mootools framework instead of the huge Prototype/Scriptaculous. The script itself is as tiny as 4kb (uncompressed).
   * The Slimbox CSS are simpler and 100% valid (no more CSS hacks). Also, all images used by Slimbox are specified in the CSS instead of the Javascript so it is easier to style.
   * Slimbox does not use the 1 pixel transparent gif image needed by Lightbox.
 
