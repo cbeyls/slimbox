@@ -180,7 +180,7 @@ var Slimbox;
 		state = 2;
 		activeImage = imageIndex;
 
-		$$(prevLink, nextLink, bottomContainer).setStyle("display", "none");
+		$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
 		fx.bottom.stop().set(0);
 		fx.image.set(0);
 		center.className = "lbLoading";
@@ -196,7 +196,7 @@ var Slimbox;
 		switch (state++) {
 			case 2:
 				center.className = "";
-				image.style.backgroundImage = "url(" + images[activeImage][0] + ")";
+				image.setStyles({backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
 				$$(image, bottom).setStyle("width", preload.width);
 				$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
