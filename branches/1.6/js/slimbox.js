@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.5 - The ultimate lightweight Lightbox clone
+	Slimbox v1.6 - The ultimate lightweight Lightbox clone
 	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -48,9 +48,9 @@ var Slimbox;
 		closeLink.onclick = overlay.onclick = close;
 
 		fx = {
-			overlay: overlay.effect("opacity", {duration: 500}).set(0),
-			image: image.effect("opacity", {duration: 500, onComplete: nextEffect}),
-			bottom: bottom.effect("margin-top", {duration: 400})
+			overlay: new Fx.Tween(overlay, {property: "opacity", duration: 500}).set(0),
+			image: new Fx.Tween(image, {property: "opacity", duration: 500, onComplete: nextEffect}),
+			bottom: new Fx.Tween(bottom, {property: "margin-top", duration: 400})
 		};
 	});
 
@@ -82,21 +82,21 @@ var Slimbox;
 			position();
 			setup(true);
 			top = window.getScrollTop() + (window.getHeight() / 15);
-			fx.resize = center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
+			fx.resize = new Fx.Morph(center, $extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			fx.overlay.start(options.overlayOpacity);
 			return changeImage(startImage);
 		}
 	};
 
-	Element.extend({
+	Element.implement({
 		slimbox: function(_options, linkMapper) {
 			// The processing of a single element is similar to the processing of a collection with a single element
 			$$(this).slimbox(_options, linkMapper);
 		}
 	});
 
-	Elements.extend({
+	Elements.implement({
 		/*
 			options:	Optional options object, see Slimbox.open()
 			linkMapper:	Optional function taking a link DOM element and an index as arguments and returning an array containing 2 elements:
@@ -136,7 +136,7 @@ var Slimbox;
 	}
 
 	function setup(open) {
-		$$("object", window.ie ? "select" : "embed").forEach(function(el) {
+		$$("object", Browser.Engine.trident ? "select" : "embed").forEach(function(el) {
 			if (open) el.slimbox = el.style.visibility;
 			el.style.visibility = open ? "hidden" : el.slimbox;
 		});
@@ -181,7 +181,7 @@ var Slimbox;
 		activeImage = imageIndex;
 
 		$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
-		fx.bottom.stop().set(0);
+		fx.bottom.cancel().set(0);
 		fx.image.set(0);
 		center.className = "lbLoading";
 
@@ -200,8 +200,8 @@ var Slimbox;
 				$$(image, bottom).setStyle("width", preload.width);
 				$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
-				caption.setHTML(images[activeImage][1] || "");
-				number.setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
+				caption.set('html', images[activeImage][1] || "");
+				number.set('html', (options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
 
 				if (activeImage) preloadPrev.src = images[activeImage - 1][0];
 				if (activeImage != (images.length - 1)) preloadNext.src = images[activeImage + 1][0];
@@ -236,7 +236,7 @@ var Slimbox;
 		if (!state) return false;
 		state = 0;
 		preload.onload = Class.empty;
-		for (var f in fx) fx[f].stop();
+		for (var f in fx) fx[f].cancel();
 		$$(center, bottomContainer).setStyle("display", "none");
 		fx.overlay.chain(setup).start(0);
 
