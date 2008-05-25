@@ -235,7 +235,7 @@ var Slimbox;
 	function close() {
 		if (!state) return false;
 		state = 0;
-		preload.onload = Class.empty;
+		preload.onload = $empty;
 		for (var f in fx) fx[f].cancel();
 		$$(center, bottomContainer).setStyle("display", "none");
 		fx.overlay.chain(setup).start(0);
