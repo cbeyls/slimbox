@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var state = 0, options, images, activeImage, top, eventKeyDown, fx, preload, preloadPrev = new Image(), preloadNext = new Image(),
+	var state = 0, options, images, activeImage, top, fx, preload, preloadPrev = new Image(), preloadNext = new Image(),
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
@@ -20,8 +20,6 @@ var Slimbox;
 	*/
 
 	window.addEvent("domready", function() {
-		eventKeyDown = keyDown.bindWithEvent();
-
 		// Append the Slimbox HTML code at the bottom of the document
 		$(document.body).adopt(
 			$$([
@@ -145,7 +143,7 @@ var Slimbox;
 
 		var fn = open ? "addEvent" : "removeEvent";
 		window[fn]("scroll", position)[fn]("resize", position);
-		document[fn]("keydown", eventKeyDown);
+		document[fn]("keydown", keyDown);
 	}
 
 	function keyDown(event) {
@@ -164,7 +162,7 @@ var Slimbox;
 				next();
 		}
 		// Prevent default keyboard action (like navigating inside the page)
-		event.preventDefault();
+		return false;
 	}
 
 	function previous() {
