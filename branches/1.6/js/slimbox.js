@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.6 - The ultimate lightweight Lightbox clone
+	Slimbox v1.61 - The ultimate lightweight Lightbox clone
 	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -135,8 +135,8 @@ var Slimbox;
 
 	function setup(open) {
 		$$("object", Browser.Engine.trident ? "select" : "embed").forEach(function(el) {
-			if (open) el.slimbox = el.style.visibility;
-			el.style.visibility = open ? "hidden" : el.slimbox;
+			if (open) el.store("slimbox", el.style.visibility);
+			el.style.visibility = open ? "hidden" : el.retrieve("slimbox");
 		});
 
 		overlay.style.display = open ? "" : "none";
