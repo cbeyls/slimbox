@@ -23,27 +23,23 @@ var Slimbox;
 		// Append the Slimbox HTML code at the bottom of the document
 		$(document.body).adopt(
 			$$([
-				overlay = new Element("div", {id: "lbOverlay"}),
+				overlay = new Element("div", {id: "lbOverlay"}).addEvent("click", close),
 				center = new Element("div", {id: "lbCenter"}),
 				bottomContainer = new Element("div", {id: "lbBottomContainer"})
 			]).setStyle("display", "none")
 		);
 
 		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
-			prevLink = new Element("a", {id: "lbPrevLink", href: "#"}),
-			nextLink = new Element("a", {id: "lbNextLink", href: "#"})
+			prevLink = new Element("a", {id: "lbPrevLink", href: "#"}).addEvent("click", previous),
+			nextLink = new Element("a", {id: "lbNextLink", href: "#"}).addEvent("click", next)
 		);
-		prevLink.onclick = previous;
-		nextLink.onclick = next;
 
-		var closeLink;
 		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer).adopt(
-			closeLink = new Element("a", {id: "lbCloseLink", href: "#"}),
+			new Element("a", {id: "lbCloseLink", href: "#"}).addEvent("click", close),
 			caption = new Element("div", {id: "lbCaption"}),
 			number = new Element("div", {id: "lbNumber"}),
 			new Element("div", {styles: {clear: "both"}})
 		);
-		closeLink.onclick = overlay.onclick = close;
 
 		fx = {
 			overlay: new Fx.Tween(overlay, {property: "opacity", duration: 500}).set(0),
@@ -114,12 +110,10 @@ var Slimbox;
 
 			var links = this;
 
-			links.forEach(function(link) {
-				link.onclick = function() {
-					// Build the list of images that will be displayed
-					var filteredLinks = links.filter(linksFilter, this);
-					return Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
-				};
+			links.addEvent("click", function() {
+				// Build the list of images that will be displayed
+				var filteredLinks = links.filter(linksFilter, this);
+				return Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
 			});
 		}
 	});
