@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.61 - The ultimate lightweight Lightbox clone
+	Slimbox v1.62 - The ultimate lightweight Lightbox clone
 	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -110,7 +110,7 @@ var Slimbox;
 
 			var links = this;
 
-			links.addEvent("click", function() {
+			links.removeEvents("click").addEvent("click", function() {
 				// Build the list of images that will be displayed
 				var filteredLinks = links.filter(linksFilter, this);
 				return Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
