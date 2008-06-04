@@ -4,7 +4,7 @@ Slimbox.scanPage = function() {
 		return el.rel && el.rel.test(/^lightbox/i);
 	});
 	// PUT YOUR CUSTOM OPTIONS INSIDE THE FOLLOWING {}
-	$$(links).slimbox({}, null, function(el) {
+	$$(links).slimbox({/* Put custom options here */}, null, function(el) {
 		return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
 	});
 };
