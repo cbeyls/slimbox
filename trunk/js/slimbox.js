@@ -94,6 +94,8 @@ var Slimbox;
 		slimbox: function(_options, linkMapper) {
 			// The processing of a single element is similar to the processing of a collection with a single element
 			$$(this).slimbox(_options, linkMapper);
+
+			return this;
 		}
 	});
 
@@ -124,6 +126,8 @@ var Slimbox;
 					return Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
 				};
 			});
+
+			return links;
 		}
 	});
 
