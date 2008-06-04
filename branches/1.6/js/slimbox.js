@@ -213,7 +213,7 @@ var Slimbox;
 				}
 				state++;
 			case 4:
-				bottomContainer.setStyles({top: top + center.clientHeight, height: 0, marginLeft: center.style.marginLeft, display: ""});
+				bottomContainer.setStyles({top: top + center.clientHeight, marginLeft: center.style.marginLeft, visibility: "hidden", display: ""});
 				fx.image.start(1);
 				break;
 			case 5:
@@ -222,7 +222,7 @@ var Slimbox;
 				if (options.animateCaption) {
 					fx.bottom.set(-bottom.offsetHeight).start(0);
 				}
-				bottomContainer.style.height = "";
+				bottomContainer.style.visibility = "";
 				state = 1;
 		}
 	}
