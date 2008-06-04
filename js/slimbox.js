@@ -85,6 +85,7 @@ var Slimbox;
 			fx.resize = center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			fx.overlay.start(options.overlayOpacity);
+			state = 1;
 			return changeImage(startImage);
 		}
 	};
@@ -178,7 +179,7 @@ var Slimbox;
 	}
 
 	function changeImage(imageIndex) {
-		if ((state > 1) || (imageIndex < 0) || (imageIndex >= images.length)) return false;
+		if ((state != 1) || (imageIndex < 0) || (imageIndex >= images.length)) return false;
 		state = 2;
 		activeImage = imageIndex;
 
