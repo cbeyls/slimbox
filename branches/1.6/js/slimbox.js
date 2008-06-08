@@ -177,21 +177,22 @@ var Slimbox;
 	}
 
 	function changeImage(imageIndex) {
-		if ((state != 1) || (imageIndex < 0)) return false;
-		state = 2;
-		activeImage = imageIndex;
-		prevImage = ((activeImage || !options.loop) ? activeImage : images.length) - 1;
-		nextImage = activeImage + 1;
-		if (nextImage == images.length) nextImage = options.loop ? 0 : -1;
+		if ((state == 1) && (imageIndex >= 0)) {
+			state = 2;
+			activeImage = imageIndex;
+			prevImage = ((activeImage || !options.loop) ? activeImage : images.length) - 1;
+			nextImage = activeImage + 1;
+			if (nextImage == images.length) nextImage = options.loop ? 0 : -1;
 
-		$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
-		fx.bottom.cancel().set(0);
-		fx.image.set(0);
-		center.className = "lbLoading";
+			$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
+			fx.bottom.cancel().set(0);
+			fx.image.set(0);
+			center.className = "lbLoading";
 
-		preload = new Image();
-		preload.onload = nextEffect;
-		preload.src = images[imageIndex][0];
+			preload = new Image();
+			preload.onload = nextEffect;
+			preload.src = images[imageIndex][0];
+		}
 
 		return false;
 	}
@@ -237,12 +238,13 @@ var Slimbox;
 	}
 
 	function close() {
-		if (!state) return false;
-		state = 0;
-		preload.onload = $empty;
-		for (var f in fx) fx[f].cancel();
-		$$(center, bottomContainer).setStyle("display", "none");
-		fx.overlay.chain(setup).start(0);
+		if (state) {
+			state = 0;
+			preload.onload = $empty;
+			for (var f in fx) fx[f].cancel();
+			$$(center, bottomContainer).setStyle("display", "none");
+			fx.overlay.chain(setup).start(0);
+		}
 
 		return false;
 	}
