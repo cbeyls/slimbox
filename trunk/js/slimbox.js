@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var elementsStyle = {}, state = 0, options, images, activeImage, top, eventKeyDown, fx, preload, preloadPrev = new Image(), preloadNext = new Image(),
+	var elementsStyle = {}, state = 0, options, images, activeImage, prevImage, nextImage, top, eventKeyDown, fx, preload, preloadPrev = new Image(), preloadNext = new Image(),
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
@@ -62,6 +62,7 @@ var Slimbox;
 	Slimbox = {
 		open: function(_images, startImage, _options) {
 			options = $extend({
+				loop: false,				// Allows to navigate between first and last images
 				overlayOpacity: 0.8,			// 1 is opaque, 0 is completely transparent (change the color in the CSS file)
 				resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
 				resizeTransition: false,		// Default transition in mootools
@@ -79,6 +80,7 @@ var Slimbox;
 			}
 
 			images = _images;
+			options.loop = options.loop && (images.length > 1);
 			position();
 			setup(true);
 			top = window.getScrollTop() + (window.getHeight() / 15);
@@ -175,17 +177,20 @@ var Slimbox;
 	}
 
 	function previous() {
-		return changeImage(activeImage - 1);
+		return changeImage(prevImage);
 	}
 
 	function next() {
-		return changeImage(activeImage + 1);
+		return changeImage(nextImage);
 	}
 
 	function changeImage(imageIndex) {
-		if ((state != 1) || (imageIndex < 0) || (imageIndex >= images.length)) return false;
+		if ((state != 1) || (imageIndex < 0)) return false;
 		state = 2;
 		activeImage = imageIndex;
+		prevImage = ((activeImage || !options.loop) ? activeImage : images.length) - 1;
+		nextImage = activeImage + 1;
+		if (nextImage == images.length) nextImage = options.loop ? 0 : -1;
 
 		$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
 		fx.bottom.stop().set(0);
@@ -210,8 +215,8 @@ var Slimbox;
 				caption.setHTML(images[activeImage][1] || "");
 				number.setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
 
-				if (activeImage) preloadPrev.src = images[activeImage - 1][0];
-				if (activeImage != (images.length - 1)) preloadNext.src = images[activeImage + 1][0];
+				if (prevImage >= 0) preloadPrev.src = images[prevImage][0];
+				if (nextImage >= 0) preloadNext.src = images[nextImage][0];
 
 				if (center.clientHeight != image.offsetHeight) {
 					fx.resize.start({height: image.offsetHeight});
@@ -229,8 +234,8 @@ var Slimbox;
 				fx.image.start(1);
 				break;
 			case 5:
-				if (activeImage) prevLink.style.display = "";
-				if (activeImage < (images.length - 1)) nextLink.style.display = "";
+				if (prevImage >= 0) prevLink.style.display = "";
+				if (nextImage >= 0) nextLink.style.display = "";
 				if (options.animateCaption) {
 					fx.bottom.set(-bottom.offsetHeight).start(0);
 				}
