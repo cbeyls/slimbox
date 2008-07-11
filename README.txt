@@ -21,6 +21,13 @@ downloaded from the official mootools website and/or edit the autoloading code i
 You need to download a new mootools version if your web page scripts require additional mootools modules,
 or if you want to use a different version of mootools.
 
+Here are the mootools modules required by this version of Slimbox:
+- Class: _all_
+- Native: _all_
+- Element: Element.Event
+- Window: Window.DomReady, Window.Size
+- Effects: Fx.Style, Fx.Styles (optionally Fx.Transitions)
+
 You can remove or customize the provided autoloading code by editing the slimbox.js file. By default, it behaves like Lightbox.
 When deploying slimbox.js, you MUST always preserve the copyright notice at the beginning of the file.
 
