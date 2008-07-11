@@ -21,7 +21,7 @@ downloaded from the official mootools website and/or edit the autoloading code i
 You need to download a new mootools version if your web page scripts require additional mootools modules,
 or if you want to use a different version of mootools.
 
-Here are the mootools modules required by this version of Slimbox:
+Here are the mootools core modules required by this version of Slimbox:
 - Native: all
 - Class: all
 - Element: all
