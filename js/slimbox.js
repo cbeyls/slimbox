@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.52 - The ultimate lightweight Lightbox clone
+	Slimbox v1.53 - The ultimate lightweight Lightbox clone
 	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var elementsStyle = {}, state = 0, options, images, activeImage, prevImage, nextImage, top, eventKeyDown, fx, preload, preloadPrev = new Image(), preloadNext = new Image(),
+	var state = 0, options, images, activeImage, prevImage, nextImage, top, eventKeyDown, fx, preload, preloadPrev = new Image(), preloadNext = new Image(),
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
@@ -145,8 +145,8 @@ var Slimbox;
 	function setup(open) {
 		["object", window.ie ? "select" : "embed"].forEach(function(tag) {
 			$each(document.getElementsByTagName(tag), function(el) {
-				if (open) elementsStyle[el] = el.style.visibility;
-				el.style.visibility = open ? "hidden" : elementsStyle[el];
+				if (open) el._slimbox = el.style.visibility;
+				el.style.visibility = open ? "hidden" : el._slimbox;
 			});
 		});
 
