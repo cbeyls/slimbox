@@ -135,7 +135,7 @@ var Slimbox;
 	}
 
 	function setup(open) {
-		["object", window.ie ? "select" : "embed"].forEach(function(tag) {
+		["object", Browser.Engine.trident ? "select" : "embed"].forEach(function(tag) {
 			Array.forEach(document.getElementsByTagName(tag), function(el) {
 				if (open) el._slimbox = el.style.visibility;
 				el.style.visibility = open ? "hidden" : el._slimbox;
