@@ -1,56 +1,103 @@
-= Changelog =
+#summary The history of changes for each official release
+#labels changelog
 
+===v1.65 (2008-11-14)===
 
-== v1.41 (2007-06-12) ==
+  * Regression fix: the slimbox fix that hides {{{<select>}}} tags in Internet Explorer to prevent them to appear above the div elements was mistakenly removed in v1.61. It is now working again.
+  * Upgraded the provided mootools.js to version 1.2.1.
+
+===v1.64 (2008-07-15)===
+
+  * Fixed a bug where in some cases, Flash animations inserted using SWFObject would not show properly after Slimbox closes.
+
+===v1.63 (2008-06-10)===
+
+_requires mootools >= 1.2._
+
+  * Updated code for mootools 1.2.
+  * Slimbox is now fully compatible with Opera 9.5+ and quirks mode web pages!
+
+===v1.52 (2008-06-08)===
+
+  * Added the "loop" option to allow navigation between the first and last images of a Slimbox gallery, when there is more than one image to display.
+  * Fixed a bug which allowed to change the image while Slimbox was closing.
+  * API: The Slimbox elements functions now return "this" to allow chaining.
+  * Small optimizations.
+
+===v1.51 (2008-05-30)===
+
+  * Fixed an error which occurred when Slimbox was used in combination with SWFObject in Firefox. Also fixes a memory leak in Internet Explorer.
+
+===v1.5 (2008-05-23)===
+
+  * Most of the code has been rewritten with a new approach. It's now much smaller! (4kb)
+  * Added the "overlayOpacity" option to specify the level of opacity of the overlay.
+  * Added the "counterText" option to specify a custom or localized counter text.
+  * Slimbox does not take up any space at the bottom of the page any more in some browsers.
+  * Now Slimbox does not wait for the caption animation to complete before enabling navigation. So you can navigate faster between images.
+  * Keyboard events are now captured when Slimbox is open to prevent page scrolls when using the arrow keys to navigate.
+  * You can now have two times the same image in an images set.
+  * The CSS file now includes Z-index definitions that are required if your web page design relies on elements with Z-index.
+  * The provided GIF images are now smaller.
+  * API: Slimbox now extends the Element and Elements classes. You can now associate a Slimbox gallery to any group of link elements using {{{$$(elements).slimbox([options])}}}.
+  * API: You can now specify different options for each group of link elements where you applied the {{{slimbox([options])}}} function.
+  * API: When you call {{{slimbox()}}} on elements, you can now specify an optional filter function and an optional mapper function for maximum flexibility (see documentation).
+  * The Lightbox compatibility code is now fully optional. It's implemented in a few lines using the new API and a filter function.
+  * API: The main entry point has been renamed from "Lightbox" to "Slimbox"
+  * API: {{{Lightbox.show()}}} and {{{Lightbox.open()}}} have been merged into {{{Slimbox.open()}}}
+  * The Slimbox distribution now includes mootools, an example page and a Readme file.
+
+===v1.41 (2007-06-12)===
 
   * Fixed a small CSS glitch for "next" and "prev" zones display.
   * Removed the IE "white noise" fix, it is now fixed by mootools 1.1 (thanks digitarald).
 
-== v1.4 (2007-05-21) ==
+===v1.4 (2007-05-21)===
 
-*Requires mootools >= 1.1*
+_requires mootools >= 1.1._
 
   * Updated code for mootools 1.1.
   * Added an option to hide the counter.
 
-== v1.31 (2007-05-04) ==
+===v1.31 (2007-05-04)===
 
   * Fixed the "white noise" bug occurring in dark areas of JPEG images in Internet Explorer.
   * Visibility of objects (including Flash animations) are now set to their original values when Slimbox is closed, instead of always being set to visible.
-  * Re-added the hiding of "embed" tags. It was accidentally removed in v1.3.
+  * Re-added the hiding of {{{<embed>}}} tags. It was accidentally removed in v1.3.
 
-== v1.3 (2007-02-05) ==
+===v1.3 (2007-02-05)===
 
-*Requires mootools >= 1.0*
+_requires mootools >= 1.0._
 
   * Updated code for mootools 1.0.
   * The caption now animates using a nice slide effect like the original Lightbox. *CSS update required.*
   * Added an option to set any custom transition from the mootools Transitions class for the resize animation.
 
-== v1.22 (2006-11-06) ==
+===v1.22 (2006-11-06)===
 
-  * Now also hides `<embed />` tags while Slimbox is opened, not just `<object />` tags. Thanks Felix from Germany.
+  * Now also hides {{{<embed>}}} tags while Slimbox is opened, not just {{{<object>}}} tags. Thanks Felix from Germany.
 
-== v1.21 (2006-11-05) ==
+===v1.21 (2006-11-05)===
 
   * Shorter code, slightly reduced file size.
 
-== v1.2 (2006-11-04) ==
+===v1.2 (2006-11-04)===
+
   * Fixed serious performance issues with long HTML pages in Internet Explorer.
   * Fixed overlay not entirely covering the screen when the window is resized/scrolled in specific cases.
   * Now bulletproof to overlay mad-clicking.
   * Hidden objects now reappear after the overlay fade out effect instead of before it.
 
-== v1.1 (2006-10-29) ==
+===v1.1 (2006-10-29)===
 
-*Requires mootools >= revision 83*
+_requires mootools >= revision 83._
 
   * Now Slimbox is ready to launch as soon as the DOM is ready.
   * Added an option to disable caption animation.
   * Optimized 2 lines of code.
 
-== v1.0 (2006-10-22) ==
+===v1.0 (2006-10-22)==
 
-*Requires mootools >= revision 77*
+_requires mootools >= revision 77._
 
-  * Initial release.
+ * Initial release.
