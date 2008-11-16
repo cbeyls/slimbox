@@ -1,7 +1,7 @@
 #summary Slimbox Manual
 #labels features,requirements,usage
 
-= Features =
+=Features=
 
 From a _functional_ point of view, Slimbox has the following added features compared to the original Lightbox:
 
@@ -18,6 +18,89 @@ From a _design_ point of view, Slimbox is very different from Lightbox:
   * The Slimbox CSS are simpler and 100% valid (no more CSS hacks). Also, all images used by Slimbox are specified in the CSS instead of the Javascript so it is easier to style.
   * Slimbox does not use the 1 pixel transparent gif image needed by Lightbox.
 
-And of course, it has been tested in all modern browsers: Firefox, Internet Explorer 6+, Opera 8+, Safari 1.3+ and Camino. It is not compatible with the old Internet Explorer 5.5 and will never be.
+And of course, it has been tested in all modern browsers: Firefox, Internet Explorer 6+, Opera 8+, Safari 2+ and Camino. It is not compatible with the old Internet Explorer 5.5 and will never be.
 
-The total download size for the compressed version of the required modules of mootools + Slimbox is currently as small as *26kb*.
+The total download size for the required modules of mootools + Slimbox, *both minified and gzipped*, is currently as small as *16kb*.
+
+=Requirements=
+
+Slimbox 1.6 requires the [http://mootools.net/ mootools] framework, *version 1.2* or more recent. Because mootools is modular, you can make your download smaller by only downloading the modules your scripts are actually using. Here are the core modules required by Slimbox:
+
+  * *Native:* _all_
+  * *Class:* _all_
+  * *Element:* _all_
+  * *Utilities:* DomReady
+  * *Fx:* Fx.Tween, Fx.Morph (optionally Fx.Transitions)
+
+The Slimbox download package already includes mootools with the above dependencies only. If you need more dependencies for your own scripts or want to use a different mootools version, you have to build your own version of mootools on the mootools download page.
+
+Slimbox 1.5 is using mootools 1.11 and is also available for download. It provides the same features set as the latest version. Its dependencies are detailed in the provided readme file. You may need to use this version if your entire website is still using mootools 1.11 or if you need compatibility with the old Safari 1.3.
+
+=Usage=
+
+Usage is exactly the same as for Lightbox, with an extra feature in the "activate" part.
+
+Because Slimbox was designed to be 100% compatible with Lightbox, you can just replace the scripts combination "Prototype + Scriptaculous + Lightbox" with "Mootools + Slimbox" in the header of your pages and your Lightbox effects will work just as well as before. Well, a little better.
+
+==Setup==
+
+1. Include the script in the header of your page, after the inclusion of the mootools framework:
+
+{{{
+<script type="text/javascript" src="js/mootools.js"></script>
+<script type="text/javascript" src="js/slimbox.js"></script>
+}}}
+
+There are some options that you can specify inside the script. The default values should be just fine, however if you want you can change the following:
+
+  * *loop:* Boolean; if true, allows to navigate between the first and last images of a Slimbox gallery, when there is more than one image to display.  _Default is false._
+  * *overlayOpacity:* The level of opacity of the background overlay. 1 Is opaque, 0 is completely transparent. You can change the color in the CSS file. _Default is 0.8_
+  * *resizeDuration:* The duration of the resize animation for width and height, in milliseconds. _Default is 400._
+  * *resizeTransition:* The transition you want to use for the resize animation. You can choose amongst lots of cool transitions that are part of the optional "Transitions" module of mootools, like "Fx.Transitions.Elastic.easeOut". Many transitions require a longer execution time to look good, so you should adjust the resizeDuration option above as well.
+  * *initialWidth:* The initial width of the box, in pixels. _Default is 250._
+  * *initialHeight:* The initial height of the box, in pixels. _Default is 250._
+  * *animateCaption:* Boolean; set it to false to disable the caption animation. _Default is true._
+  * *showCounter:* Boolean; if true, a counter will be shown at the bottom of the caption zone if there is more than 1 image to display.  _Default is true._
+  * *counterText:* Allows you to customize or translate the default text for the counter. Inside the text, "{x}" will be replaced by the current image index, and "{y}" will be replaced by the total number of images. _Default is "Image {x} of {y}"_.
+
+Example of a custom options object:
+
+{{{
+{
+	overlayOpacity: 0.6,
+	resizeTransition: Fx.Transitions.Elastic.easeOut,
+	counterText: "Image {x} sur {y}"
+}
+}}}
+
+2. Include the CSS file in the header of your page, or add it to an existing CSS style sheet:
+
+{{{
+<link rel="stylesheet" href="css/slimbox.css" type="text/css" media="screen" />
+}}}
+
+If you keep the provided CSS as is, you must place the 4 required images in the same folder as the CSS file. Of course you can change the images or move them to another place, then you just need to edit the CSS URLs to reflect your changes. You don't even need to edit the javascript.
+
+You can also change the fonts for the caption and the image counter, the width of the border around the lightbox, and the background color. You must not change or add other CSS rules.
+
+==Activate==
+
+Add the {{{rel="lightbox"}}} attribute to the links pointing to your full-sized images. Use the optional title attribute if you want to show a caption:
+
+{{{
+<a href="images/image-1.jpg" rel="lightbox" title="my caption">image #1</a>
+}}}
+
+You can event use HTML in the caption if you want. You must replace the < and > characters with HTML entities and use single quotes instead of double quotes.
+
+For sets of related images that you want to group and make navigable, add a group name to the {{{rel}}} attribute after the "lightbox" word, for example:
+
+{{{
+<a href="images/image-1.jpg" rel="lightbox-atomium">image #1</a>
+<a href="images/image-2.jpg" rel="lightbox-atomium">image #2</a>
+<a href="images/image-3.jpg" rel="lightbox-atomium">image #3</a>
+}}}
+
+I don't recommend using square brackets "[ ]" for groups in the @rel@ attribute like the original Lightbox scripts does because these characters are invalid for XHTML and XML attributes, meaning that your web page would not validate against the latest standards.
+
+_Et voilà._
