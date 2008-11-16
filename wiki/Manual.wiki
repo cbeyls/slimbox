@@ -101,6 +101,6 @@ For sets of related images that you want to group and make navigable, add a grou
 <a href="images/image-3.jpg" rel="lightbox-atomium">image #3</a>
 }}}
 
-I don't recommend using square brackets "[ ]" for groups in the @rel@ attribute like the original Lightbox scripts does because these characters are invalid for XHTML and XML attributes, meaning that your web page would not validate against the latest standards.
+I don't recommend using square brackets "[ ]" for groups in the {{{rel}}} attribute like the original Lightbox scripts does because these characters are invalid for XHTML and XML attributes, meaning that your web page would not validate against the latest standards.
 
 _Et voilà._
