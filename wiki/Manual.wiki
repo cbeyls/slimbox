@@ -61,7 +61,7 @@ There are some options that you can specify inside the script. The default value
   * *initialHeight:* The initial height of the box, in pixels. _Default is 250._
   * *animateCaption:* Boolean; set it to false to disable the caption animation. _Default is true._
   * *showCounter:* Boolean; if true, a counter will be shown at the bottom of the caption zone if there is more than 1 image to display.  _Default is true._
-  * *counterText:* Allows you to customize or translate the default text for the counter. Inside the text, "{x}" will be replaced by the current image index, and "{y}" will be replaced by the total number of images. _Default is "Image {x} of {y}"_.
+  * *counterText:* Allows you to customize or translate the default text for the counter. Inside the text, {{{{x}}}} will be replaced by the current image index, and {{{{y}}}} will be replaced by the total number of images. _Default is "Image {x} of {y}"_.
 
 Example of a custom options object:
 
