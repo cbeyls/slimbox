@@ -29,7 +29,7 @@ Slimbox 1.6 requires the [http://mootools.net/ mootools] framework, *version 1.2
   * *Native:* _all_
   * *Class:* _all_
   * *Element:* _all_
-  * *Utilities:* DomReady
+  * *Utilities:* !DomReady
   * *Fx:* Fx.Tween, Fx.Morph (optionally Fx.Transitions)
 
 The Slimbox download package already includes mootools with the above dependencies only. If you need more dependencies for your own scripts or want to use a different mootools version, you have to build your own version of mootools on the mootools download page.
