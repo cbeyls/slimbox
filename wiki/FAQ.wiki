@@ -50,6 +50,30 @@ You must also replace spaces with {{{%20}}} or {{{+}}}. Other invalid characters
 
 If you are using PHP, the [http://www.php.net/urlencode urlencode()] function will automatically replace all invalid characters with their URL-encoded equivalent.
 
+=Is there a way for the visitors of my website to save the images displayed by Slimbox?=
+
+When you right-click on an image displayed in Slimbox, there is no option to save it because it's actually a {{{<div>}}} tag, not an {{{<img>}}} tag.
+
+However if Slimbox is opened by clicking on an image link, your visitors can right-click on that link and choose "save target as..." to save the image.
+
+If it's not enough for you and you want the visitors to be able to save the image from inside Slimbox, you can modify the "autoload code block" so that a link to the image is added automatically after the image caption. This is achieved by defining a _linkMapper_ function (see the [API] documentation for more information). The autoload code block is located by default in _slimbox.js_ but may be moved inside the HTML page if you want. Here's the new code:
+
+{{{
+// AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
+Slimbox.scanPage = function() {
+        var links = $$("a").filter(function(el) {
+                return el.rel && el.rel.test(/^lightbox/i);
+        });
+        $$(links).slimbox({/* Put custom options here */}, function(el) {
+                return [el.href, (el.title ? (el.title + '<br />') : '') + '<a href="' + el.href + '">Download this image</a>'];
+        }, function(el) {
+                return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+        });
+};
+
+window.addEvent("domready", Slimbox.scanPage); 
+}}}
+
 =I'm using sIFR and the sIFR text appears above Slimbox. How can I fix that?=
 
 When calling sIFR.replaceElement(), you must set the "sWmode" parameter to "transparent".
