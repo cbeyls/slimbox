@@ -1,6 +1,6 @@
 #summary Frequently Asked Questions
 
-<wiki:toc />
+<wiki:toc max_depth="1" />
 
 =Is Slimbox able to display Flash content (like videos), iFrames or other content?=
 
@@ -36,6 +36,72 @@ In particular, Internet Explorer tends to be less tolerant regarding invalid CSS
 =Can I change the Slimbox images, colors, fonts, margins, border sizes?=
 
 Yes of course, you just need to edit the values in the CSS file. Slimbox uses CSS instead of javascript whenever possible.
+
+=Is it possible open Slimbox in the parent frame when clicking on a link inside an iframe?=
+
+(i)frames should be avoided as much as possible. It's generally a bad idea to use them: they are deprecated by the W3C, they make things more complex and slow down page loading.
+
+Note that you can mimic the appearance of an iFrame with the scrollbars using a div block having the CSS property "overflow: auto;" and a fixed width and height. Also, you can change its content using ajax calls.
+
+However, if you really, really want iFrames, there are two ways to do this by modifying the "autoload code block" of the parent frame. By default, this code is located in _slimbox.js_ but you can move it inside the HTML page if you want to. Each way has its own drawbacks and will not work as well as if you were not using iframes.
+
+In both cases, you need to setup the full slimbox in the parent frame (mootools + slimbox + css) and you only need to include mootools in the child frame (no slimbox or css). If you don't add mootools in the child frame, an error will occur when clicking on a slimbox-enabled link.
+
+==Solution 1==
+
+{{{
+// AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
+Slimbox.scanPage = function() {
+        function scanFrame() {
+                var links = $$(this.document.links).filter(function(el) {
+                        return el.rel && el.rel.test(/^lightbox/i);
+                });
+                $$(links).slimbox({/* Put custom options here */}, null, function(el) {
+                        return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+                });
+        }
+        scanFrame.apply(window);
+        Array.forEach(window.frames, function(frame) {
+                frame.onload = scanFrame;
+                scanFrame.apply(frame);
+        });
+
+};
+
+window.addEvent("domready", Slimbox.scanPage);
+}}}
+
+Drawbacks:
+
+  * Slimbox-enabled links will be activated instantly (before the images of the page are fully loaded) in the parent frame *only*. In the child frames, slimbox links will only be activated after the full content (mainly images) is loaded.
+  * Images of each frame will be grouped independently. This means that you can not display all images of the page plus all images of its child frames in one big group, and you can not create groups which include some images from a frame with other images from another frame.
+  * The keyboard navigation will not work when you click on a slimbox-enabled link inside an iframe, because the iframe will capture the keyboard events instead of the main frame.
+
+==Solution 2==
+
+{{{
+// AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
+Slimbox.scanPage = function() {
+        var links = [];
+        [window].extend(window.frames).forEach(function(frame) {
+                links.extend(frame.document.links);
+        });
+        links = $$(links).filter(function(el) {
+                return el.rel && el.rel.test(/^lightbox/i);
+        });
+        $$(links).slimbox({/* Put custom options here */}, null, function(el) {
+                return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+        });
+
+};
+
+window.addEvent("load", Slimbox.scanPage);
+}}}
+
+Drawbacks:
+
+  * You will need to wait for the _full page content_ to load (including the content of all its child frames) before all slimbox-enabled links are activated, which is the same limitation the original Lightbox has. But this time you can create image groups spanning accross multiple frames.
+  * The keyboard navigation will not work when you click on a slimbox-enabled link inside an iframe, because the iframe will capture the keyboard events instead of the main frame.
 
 =Which minification tool are you using for the main Slimbox code?=
 
