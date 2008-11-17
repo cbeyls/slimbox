@@ -1,0 +1,34 @@
+#summary Frequently Asked Questions
+
+<wiki:toc />
+
+=Is Slimbox able to display Flash content (like videos), iFrames or other content?=
+
+No, Slimbox has been designed from the ground up to display *images only*, to be simple and to have the smallest code. However, some people have created Slimbox derivatives that implement these features.
+Because it's open source, you are free to modify the code to fit your needs, as long as you respect the terms of the licence and keep the credits.
+
+=Can Slimbox automatically resize my images when they are too large to be contained in the browser window?=
+
+Slimbox should not be used to display very large images. The general rule is that the images that you want to show with Slimbox must never exceed the width of your website template. You need to create reduced-size versions of your large images before displaying them with Slimbox.
+
+Why?
+
+First, very large images are better handled by the browser itself when opened in a dedicated window: usually in this case the browser will show the image progressively while it's loading and will automatically resize it to fit the browser window which is exactly what you want.
+
+Second, Slimbox preloads images and only shows them when they are completely loaded. For very large images, this takes some time and this is bad for the user experience. Then, when the image is eventually loaded and shown, next and previous images of the gallery will start to preload too, even if the user does not intend to see them, thus it will use a lot of bandwidth on your website.
+
+Third, dynamically resized images look pixellated in most browsers.
+
+And finally, dynamic image resizing would make the Slimbox code very complex and there is actually no way to make it work flawlessly. Here's a quick technical explanation (you may skip it to avoid headaches):
+
+  * The borders around the images in Slimbox can be freely adjusted in the CSS, so Slimbox cannot determine its own width or height until the resize animation is complete. But then it's too late because we need to know the size in order to launch the animation. And I don't want to hardcode the borders dimensions in the javascript code like Lightbox does, because I prefeir to keep the design part in the CSS file.
+  * The caption under the image would ideally need to be fully visible too. It has a variable height and this height cannot be computed until it is displayed (it depends on the used font, the margins, the number of text lines, and so on), but again it's too late.
+  * Even if the height is adjusted at the end of the animation so that the caption becames fully visible, then the width must be adjusted too in order to preserve the aspect ratio of the image. But if the width is reduced, the caption's height may increase because the text has less space and could take up more lines. In this case, to make the caption fully visible, the height must be reduced again, and the width also, and so on... in a loop until everything can finally fit the screen. This effect will look buggy and unpredictable. So we need to forget about making the caption visible without scrolling when the image is automatically resized.
+
+=Can I change the Slimbox images, colors, fonts, margins, border sizes?=
+
+Yes, you just need to edit the values in the CSS file. Slimbox uses CSS instead of javascript whenever possible.
+
+=Which minification tool are you using for the main Slimbox code?=
+
+The best one: [http://developer.yahoo.com/yui/compressor/ YUI Compressor] by Julien Lecomte. The code was also written in a way that allows it to be efficiently minified with this tool.
