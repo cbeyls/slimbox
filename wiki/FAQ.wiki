@@ -79,7 +79,7 @@ window.addEvent("domready", Slimbox.scanPage);
 When calling sIFR.replaceElement(), you must set the "sWmode" parameter to "transparent".
 Please read the sIFR documentation for more information about how to do this.
 
-=Is it possible open Slimbox in the parent frame when clicking on a link inside an iframe?=
+=Is it possible to open Slimbox in the parent frame when clicking on a link inside an iframe?=
 
 (i)frames should be avoided as often as possible. It's generally a bad idea to use them: they are deprecated by the W3C, they make things more complex and slow down page loading.
 
