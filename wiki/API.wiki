@@ -1,8 +1,8 @@
-#summary Calling Slimbox from Javascript
+#summary Calling Slimbox functions from Javascript
 
 <wiki:toc />
 
-=Launching Slimbox manually from Javascript code=
+=Launching Slimbox from Javascript code=
 
 {{{
 Slimbox.open()
@@ -57,3 +57,13 @@ Slimbox.open([["cat.jpg", "Nice cat"], ["dog.jpg"]], 0);
 {{{
 Slimbox.open([["left.jpg"], ["middle.jpg"], ["right.jpg"]], 1, {loop: true});
 }}}
+
+=Enabling DOM elements (such as links) to launch Slimbox when clicking=
+
+==The autoload code block==
+
+The *autoload code block* is the readable code block located by default inside the slimbox.js file of the official Slimbox distribution. This code is using the Slimbox API to register Slimbox for a specific kind of links, so that Slimbox will open when the user clicks on any of these links. The registration is performed as soon as the DOM is ready.
+
+The default implementation mimics the original Lightbox behavior: it registers Slimbox for all links ({{{<a>}}} tags) having a {{{rel}}} attribute value starting with the word "lightbox". If the {{{rel}}} attribute contains only the word "lightbox", it opens Slimbox to display a single image. Otherwise, it displays an image gallery containing all the images having the same {{{rel}}} attribute value as the one that was clicked, like "lightbox-animal" for example. For each link, its target ({{{href}}} attribute) is used as the image URL and its {{{title}}} attribute is used as an optional description shown in a caption below the image.
+
+All the aspects of this default implementation may be freely changed to fit your needs thanks to the powerful Slimbox API. The following section explains how to do it.
