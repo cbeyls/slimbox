@@ -1,8 +1,8 @@
-#summary Calling Slimbox functions from Javascript
+#summary Calling Slimbox methods from Javascript
 
 <wiki:toc />
 
-=Launching Slimbox from Javascript code=
+=Launching Slimbox directly from Javascript code=
 
 {{{
 Slimbox.open()
