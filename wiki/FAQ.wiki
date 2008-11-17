@@ -37,6 +37,19 @@ In particular, Internet Explorer tends to be less tolerant regarding invalid CSS
 
 Yes of course, you just need to edit the values in the CSS file. Slimbox uses CSS instead of javascript whenever possible.
 
+=The loading of one of my images in Slimbox takes forever. What's wrong?=
+
+This happens when the URL of the image is incorrect or unavailable. Check that the URL is correct and that the server hosting the image is online.
+
+=Slimbox displays a blank image for images containing parenthesis in their URL. What's wrong?=
+
+Parenthesis are invalid characters for URLs. You must use their URL-encoded equivalent instead.
+
+Just replace {{{(}}} with {{{%28}}} and {{{)}}} with {{{%29}}}.
+You must also replace spaces with {{{%20}}} or {{{+}}}. Other invalid characters include commas, square brackets, exclamation marks, question marks, semicolons, quotes.
+
+If you are using PHP, the [http://www.php.net/urlencode urlencode()] function will automatically replace all invalid characters with their URL-encoded equivalent.
+
 =I'm using sIFR and the sIFR text appears above Slimbox. How can I fix that?=
 
 When calling sIFR.replaceElement(), you must set the "sWmode" parameter to "transparent".
@@ -44,7 +57,7 @@ Please read the sIFR documentation for more information about how to do this.
 
 =Is it possible open Slimbox in the parent frame when clicking on a link inside an iframe?=
 
-(i)frames should be avoided as much as possible. It's generally a bad idea to use them: they are deprecated by the W3C, they make things more complex and slow down page loading.
+(i)frames should be avoided as often as possible. It's generally a bad idea to use them: they are deprecated by the W3C, they make things more complex and slow down page loading.
 
 Note that you can mimic the appearance of an iFrame with the scrollbars using a div block having the CSS property "overflow: auto;" and a fixed width and height. Also, you can change its content using ajax calls.
 
