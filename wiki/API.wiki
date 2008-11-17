@@ -1,0 +1,59 @@
+#summary Calling Slimbox from Javascript
+
+<wiki:toc />
+
+=Launching Slimbox manually from Javascript code=
+
+{{{
+Slimbox.open()
+}}}
+
+You can launch Slimbox using Javascript to display a single image or a collection of images.
+
+==Single image==
+
+Call the {{{Slimbox.open()}}} method with the following parameters:
+
+{{{
+Slimbox.open(url, description, options);
+}}}
+
+  * *url* is _mandatory_, it's the URL of the image to display.
+  * *description* is _optional_, it's the image description text.
+  * *options* is _optional_, it's a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [Manual#Setup manual]. Example of options object: {{{{ animateCaption: false, loop: true, overlayOpacity: 0.5 }}}}
+
+_Examples:_
+
+{{{
+Slimbox.open("tree.jpg");
+}}}
+
+{{{
+Slimbox.open("http://externalwebsite.com/tree.jpg", "My beautiful tree");
+}}}
+
+{{{
+Slimbox.open("tree.jpg", "", {overlayOpacity: 0.2});
+}}}
+
+==Multiple images==
+
+Call the {{{Slimbox.open()}}} method with the following parameters:
+
+{{{
+Slimbox.open(images, startImage, options);
+}}}
+
+  * *images* is _mandatory_, it's an array of arrays. The main array contains one array for each image. The second-level arrays contain the image URL as a _mandatory_ first element, and the image description as an _optional_ second element. Example, for 2 images: {{{[["image1.jpg"], ["image2.jpg", "description2"]]}}}
+  * *startImage* is _mandatory_, it's the zero-based index of the image that you want to show first when Slimbox opens. 0 is the first image of the array, 1 is the second, etc. Of course, this value must be smaller than the size of the main array. Most of the time, you will use *0*.
+  * *options* is _optional_, it's the same parameter as the one described above for displaying a single image.
+
+_Examples:_
+
+{{{
+Slimbox.open([["cat.jpg", "Nice cat"], ["dog.jpg"]], 0);
+}}}
+
+{{{
+Slimbox.open([["left.jpg"], ["middle.jpg"], ["right.jpg"]], 1, {loop: true});
+}}}
