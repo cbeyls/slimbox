@@ -8,7 +8,7 @@
 Slimbox.open()
 }}}
 
-You can launch Slimbox using Javascript to display a single image or a collection of images.
+You can launch Slimbox using Javascript to display a single image or a group of images.
 
 ==Single image==
 
@@ -58,12 +58,83 @@ Slimbox.open([["cat.jpg", "Nice cat"], ["dog.jpg"]], 0);
 Slimbox.open([["left.jpg"], ["middle.jpg"], ["right.jpg"]], 1, {loop: true});
 }}}
 
-=Enabling DOM elements (such as links) to launch Slimbox when clicking=
+=Enabling HTML DOM elements (such as links) to launch Slimbox when clicking=
 
 ==The autoload code block==
 
-The *autoload code block* is the readable code block located by default inside the slimbox.js file of the official Slimbox distribution. This code is using the Slimbox API to register Slimbox for a specific kind of links, so that Slimbox will open when the user clicks on any of these links. The registration is performed as soon as the DOM is ready.
+The *autoload code block* is the readable code block located by default inside the _slimbox.js_ file of the official Slimbox distribution. This code is using the Slimbox API to register Slimbox for a specific kind of links, so that Slimbox will open when the user clicks on any of these links. The registration is performed as soon as the DOM is ready.
 
 The default implementation mimics the original Lightbox behavior: it registers Slimbox for all links ({{{<a>}}} tags) having a {{{rel}}} attribute value starting with the word "lightbox". If the {{{rel}}} attribute contains only the word "lightbox", it opens Slimbox to display a single image. Otherwise, it displays an image gallery containing all the images having the same {{{rel}}} attribute value as the one that was clicked, like "lightbox-animal" for example. For each link, its target ({{{href}}} attribute) is used as the image URL and its {{{title}}} attribute is used as an optional description shown in a caption below the image.
 
 All the aspects of this default implementation may be freely changed to fit your needs thanks to the powerful Slimbox API. The following section explains how to do it.
+
+==The slimbox() function for HTML DOM elements==
+
+Slimbox makes a new function available to DOM elements when they are extended by mootools. This function can be called on a single extended DOM element, or on a group of extended DOM elements. Those elements will usually be link elements ({{{<a>}}} tags) but it's not mandatory: for example you can also use image maps ({{{<area>}}} tags). For other kinds of DOM elements, you'll need to provide a linkMapper function (described further in this page).
+
+The syntax is as follows.
+
+===Single element===
+
+{{{
+$(element).slimbox(options, linkMapper);
+}}}
+
+where *element* is either:
+
+  * a DOM element.
+  * a string containing the _id_ of a DOM element.
+
+parameters are all _optional_:
+
+  * *options* is a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [Manual#Setup manual].
+  * *linkMapper* is a function. It is described further in this page.
+
+_Example:_
+
+{{{
+<a id="myLink" href="tree.jpg">Click Me</a>
+}}}
+
+{{{
+$("myLink").slimbox();
+}}}
+
+===Multiple elements===
+
+{{{
+$$(elements).slimbox(options, linkMapper, linksFilter);
+}}}
+
+where *elements* is either:
+
+  * a collection of DOM elements.
+  * an array containing DOM elements.
+  * a comma-separated list of DOM elements (multiple arguments).
+  * a string, which may contain either:
+    * A tag name. This will select all DOM elements with the specified tag name.
+    * A [http://mootools.net/docs/Utilities/Selectors mootools selector] (See the warning below).
+
+*Warning:* If you want to use mootools selectors, your mootools build must include selectors support. The minimal mootools build included in the Slimbox distribution does not provide selectors support. The standard [http://mootools.net/download Mootools Core] download provides selectors support.
+
+parameters are all _optional_:
+
+  * *options* is a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [Manual#Setup manual].
+  * *linkMapper* is a function. It is described further in this page. If you want to omit this parameter, you can set it to {{{null}}}.
+  * *linksFilter* is a function. It is described further in this page.
+
+This is the magic part: calling the {{{slimbox()}}} function on a group of elements which actually contains more than one element will cause the associated images to be shown together as a group in Slimbox, with one image for each DOM element. The order of the images in the Slimbox gallery will follow the order of the DOM elements in the group.
+
+_Example (using a mootools selector):_
+
+{{{
+<div id="gallery">
+   <a href="tree.jpg">A tree</a>
+   <a href="cat.jpg" title="Nice cat">A cat</a>
+   <a href="dog.jpg" title="Look at this dog">A dog</a>
+</div>
+}}}
+
+{{{
+$$("#gallery a").slimbox();
+}}}
