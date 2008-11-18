@@ -1,5 +1,5 @@
 #summary Slimbox Manual
-#labels features,requirements,usage
+#labels features,requirements,usage,Featured
 
 =Features=
 
