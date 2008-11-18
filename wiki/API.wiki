@@ -70,9 +70,9 @@ All the aspects of this default implementation may be freely changed to fit your
 
 ==The slimbox() function for HTML DOM elements==
 
-Slimbox makes a new function available to DOM elements when they are extended by mootools. This function can be called on a single extended DOM element, or on a group of extended DOM elements. Those elements will usually be link elements ({{{<a>}}} tags) but it's not mandatory: for example you can also use image maps ({{{<area>}}} tags). For other kinds of DOM elements, you'll need to provide a linkMapper function (described further in this page).
+Slimbox makes a new function available on DOM elements when they are extended by mootools. This function can be called on a single extended DOM element, or on a group of extended DOM elements. Those elements will usually be link elements ({{{<a>}}} tags) but it's not mandatory: for example you can also use image maps ({{{<area>}}} tags). For other kinds of DOM elements, you'll need to provide a linkMapper function (described further in this page).
 
-The syntax is as follows.
+When calling this function on DOM elements, Slimbox will register itself and will open as soon as one of these DOM elements is clicked. The syntax is as follows.
 
 ===Single element===
 
@@ -138,3 +138,21 @@ _Example (using a mootools selector):_
 {{{
 $$("#gallery a").slimbox();
 }}}
+
+==Unregistering Slimbox from the DOM elements==
+
+In order to reverse the process and unregister Slimbox once the {{{slimbox()}}} function has been called on a DOM element or a group of DOM elements, use the following code.
+
+For a single element:
+
+{{{
+$(element).removeEvents("click");
+}}}
+
+or for a group:
+
+{{{
+$$(elements).removeEvents("click");
+}}}
+
+The normal behavior will then be restored for these DOM elements and clicking on them will not launch Slimbox anymore.
