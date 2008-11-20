@@ -194,10 +194,10 @@ function(el) {
 
 _Example 3 (Flickr integration):_
 
-In this latest example, we'll accomplish a complete Flickr integration with very little code. Let's say that we have links pointing to pages dedicated to pictures on the Flickr website. Each one of these links is surrounding an {{{<img>}}} tag, which is actually a thumbnail of the picture hosted on the Flickr website. It looks like this:
+In this last example, we'll accomplish a complete Flickr integration with very little code. Let's say that we have links pointing to pages dedicated to pictures on the Flickr website. Each one of these links is surrounding an {{{<img>}}} tag, which is actually a thumbnail of the picture hosted on the Flickr website. It looks like this:
 
 {{{
-<a href="http://www.flickr.com/photos/14516334@N00/345009210/" title="A bee"><img src="http://farm1.static.flickr.com/159/345009210_1f826cd5a1_t.jpg" alt=""></a>
+<a href="http://www.flickr.com/photos/14516334@N00/345009210/" title="A bee"><img src="http://farm1.static.flickr.com/159/345009210_1f826cd5a1_t.jpg" alt="" /></a>
 }}}
 
 By default, clicking on this link (and thus on the thumbnail) will just make the browser navigate to the Flickr page of the picture.
