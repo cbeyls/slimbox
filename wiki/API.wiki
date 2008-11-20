@@ -1,4 +1,4 @@
-#summary Calling Slimbox methods from Javascript
+#summary Calling Slimbox functions from Javascript
 
 <wiki:toc />
 
@@ -166,11 +166,17 @@ This default implementation will work well with {{{<a>}}} and {{{<anchor>}}} tag
 
 _Example 1:_
 
-Let's say that you want to fetch the image description from the {{{title}}} attribute located in a DOM image node which is a direct child of the link node, instead of the title attribute of the link node itself. Here's the linkMapper function that you will need to use:
+Let's say that you want to fetch the image description from the {{{alt}}} attribute located in a DOM image node which is a *direct child* of the link node, instead of the {{{title}}} attribute of the link node itself. The HTML code looks like this:
+
+{{{
+<a href="flower.jpg" id="mypicture"><img src="flower-thumbnail.jpg" alt="Beautiful flower" /></a>
+}}}
+
+Here's the linkMapper function that you will need to use:
 
 {{{
 function(el) {
-   return [el.href, el.firstChild.title];
+   return [el.href, el.firstChild.alt];
 }
 }}}
 
@@ -184,6 +190,32 @@ This time, let's say that you want to use the image URL itself as description, s
 function(el) {
    return [el.href, /[^\/]*(?=\.\w+$)/.exec(el.href)];
 }
+}}}
+
+_Example 3 (Flickr integration):_
+
+In this latest example, we'll accomplish a complete Flickr integration with very little code. Let's say that we have links pointing to pages dedicated to pictures on the Flickr website. Each one of these links is surrounding an {{{<img>}}} tag, which is actually a thumbnail of the picture hosted on the Flickr website. It looks like this:
+
+{{{
+<a href="http://www.flickr.com/photos/14516334@N00/345009210/" title="A bee"><img src="http://farm1.static.flickr.com/159/345009210_1f826cd5a1_t.jpg" alt=""></a>
+}}}
+
+By default, clicking on this link (and thus on the thumbnail) will just make the browser navigate to the Flickr page of the picture.
+
+Now, *without changing anything to the HTML*, we want to register Slimbox on these links so that when the visitor clicks on them, Slimbox will open and display the *medium-sized* image, also hosted on the Flickr website.
+
+How to achieve this using a linkMapper function? It's quite simple actually. URLs of images hosted on the Flickr website are always the same for the same picture, only the end of the URL changes depending on the image size. Square-sized images name ends with {{{_s.jpg}}}, thumbnails name ends with {{{_t.jpg}}}, small images name ends with {{{_m.jpg}}} and medium-sized images name just ends with {{{.jpg}}}. So, we need to retrieve the URL of the thumbnail image which is a direct child of the clicked link, and then using a regular expression, replace the end of this URL with ".jpg" to get the URL of the medium-sized image. Done!
+
+But that's not all, we also want to automatically add a link to the Flickr page of the picture in its description inside Slimbox. This is easy to achieve: we just need to append some HTML at the end of the existing description.
+
+Last but not least, we'll use mootools selectors in order to create a collection of DOM elements containing only the links pointing to the Flickr website, so we can call our {{{slimbox()}}} function on it, passing it our custom linkMapper function as a second parameter. _*Note:* You'll need to include selectors in your mootools build for this to work. Mootools core includes selectors, the custom mootools build included with Slimbox does not._
+
+Here's the code:
+
+{{{
+$$("a[href^=http://www.flickr.com/photos/]").slimbox({}, function(el) {
+	return [el.firstChild.src.replace(/_[mts]\.jpg$/, ".jpg"), el.title + '<br /><a href="' + el.href + '">Flickr page</a>'];
+});
 }}}
 
 ==Unregistering Slimbox from the DOM elements==
