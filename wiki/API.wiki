@@ -141,7 +141,7 @@ $$("#gallery a").slimbox();
 
 ==The linkMapper function==
 
-The linkMapper is an optional function that you can pass as argument to the {{{slimbox()}}} function. It is responsible for doing the mapping between a DOM element and the image URL and description that will be shown in Slimbox when clicking on that element.
+The linkMapper is an optional function that you can pass as a parameter to the {{{slimbox()}}} function. It is responsible for doing the mapping between a DOM element and the image URL and description that will be shown in Slimbox when clicking on that element.
 
 You can change it in order to change the location where the URL and description will be retrieved, or even customize the URL or description itself.
 
@@ -150,9 +150,9 @@ It takes one parameter: *the DOM element*.
 It returns an *array* containing 2 elements: 
 
   * The image URL.
-  * The image description. This parameter may be {{{null}}} or an empty string because the description is optional.
+  * The image description. It may be {{{null}}}, an empty string or event omitted because the description is optional.
 
-When you don't provide a linkMapper function, a default one is used. Here is its definition:
+When you don't provide a linkMapper function, a default one is used. Here is it:
 
 {{{
 function(el) {
@@ -160,9 +160,9 @@ function(el) {
 }
 }}}
 
-As you can see, the default linkMapper uses the href attribute of the DOM element as image URL, and the title attribute of the DOM element (if present, otherwise it will return {{{null}}}) as the image description.
+As you can see, the default linkMapper uses the {{{href}}} attribute of the DOM element as image URL, and the {{{title}}} attribute of the DOM element (if present, otherwise it will return {{{null}}}) as the image description.
 
-This default implementation will work well with {{{<a>}}} and {{{<anchor>}}} tags. If you call the {{{slimbox()}}} function on other kinds of DOM elements which do not have an {{{href}}} attribute, of course it will not work and you will need to override the default linkMapper function.
+This default implementation works well with {{{<a>}}} and {{{<anchor>}}} tags. If you call the {{{slimbox()}}} function on other kinds of DOM elements which do not have an {{{href}}} attribute, of course it will not work and you will need to override the default linkMapper function.
 
 _Example 1:_
 
