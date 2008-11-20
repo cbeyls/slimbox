@@ -41,7 +41,7 @@ Yes of course, you just need to edit the values in the CSS file. Slimbox uses CS
 
 This happens when the URL of the image is incorrect or unavailable. Check that the URL is correct and that the server hosting the image is online.
 
-=Slimbox displays a blank image for images containing parenthesis in their URL. What's wrong?=
+=Slimbox does not display images containing parenthesis in their URL. What's wrong?=
 
 Parenthesis are invalid characters for URLs. You must use their URL-encoded equivalent instead.
 
