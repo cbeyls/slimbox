@@ -139,6 +139,53 @@ _Example (using a mootools selector):_
 $$("#gallery a").slimbox();
 }}}
 
+==The linkMapper function==
+
+The linkMapper is an optional function that you can pass as argument to the {{{slimbox()}}} function. It is responsible for doing the mapping between a DOM element and the image URL and description that will be shown in Slimbox when clicking on that element.
+
+You can change it in order to change the location where the URL and description will be retrieved, or even customize the URL or description itself.
+
+It takes one parameter: *the DOM element*.
+
+It returns an *array* containing 2 elements: 
+
+  * The image URL.
+  * The image description. This parameter may be {{{null}}} or an empty string because the description is optional.
+
+When you don't provide a linkMapper function, a default one is used. Here is its definition:
+
+{{{
+function(el) {
+   return [el.href, el.title];
+}
+}}}
+
+As you can see, the default linkMapper uses the href attribute of the DOM element as image URL, and the title attribute of the DOM element (if present, otherwise it will return {{{null}}}) as the image description.
+
+This default implementation will work well with {{{<a>}}} and {{{<anchor>}}} tags. If you call the {{{slimbox()}}} function on other kinds of DOM elements which do not have an {{{href}}} attribute, of course it will not work and you will need to override the default linkMapper function.
+
+_Example 1:_
+
+Let's say that you want to fetch the image description from the {{{title}}} attribute located in a DOM image node which is a direct child of the link node, instead of the title attribute of the link node itself. Here's the linkMapper function that you will need to use:
+
+{{{
+function(el) {
+   return [el.href, el.firstChild.title];
+}
+}}}
+
+Please note that this function will only work if the DOM element actually has a child node, otherwise an error will occur when trying to access the {{{title}}} attribute.
+
+_Example 2:_
+
+This time, let's say that you want to use the image URL itself as description, so no need to fetch it from the {{{title}}} attribute of the DOM element. But you only want to keep the main part of the image URL, without the path at the beginning and without the file extension (.jpg). You will use a regular expression to achieve this. Here's what your custom linkMapper function will look like:
+
+{{{
+function(el) {
+   return [el.href, /[^\/]*(?=\.\w+$)/.exec(el.href)];
+}
+}}}
+
 ==Unregistering Slimbox from the DOM elements==
 
 In order to reverse the process and unregister Slimbox once the {{{slimbox()}}} function has been called on a DOM element or a group of DOM elements, use the following code.
