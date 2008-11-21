@@ -216,7 +216,7 @@ Here's the code:
 
 {{{
 $$("a[href^=http://www.flickr.com/photos/]").slimbox({}, function(el) {
-	return [el.firstChild.src.replace(/_[mts]\.jpg$/, ".jpg"),
+	return [el.firstChild.src.replace(/_[mts]\.(\w+)$/, ".$1"),
 		el.title + '<br /><a href="' + el.href + '">Flickr page</a>'];
 });
 }}}
