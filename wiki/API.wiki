@@ -141,11 +141,11 @@ $$("#gallery a").slimbox();
 
 ==The linkMapper function==
 
-The linkMapper is an optional function that you can pass as a parameter to the {{{slimbox()}}} function. It is responsible for doing the mapping between a DOM element and the image URL and description that will be shown in Slimbox when clicking on that element.
+The linkMapper is an optional function that you can pass as an optional parameter to the {{{slimbox()}}} function. It is responsible for doing the mapping between a DOM element and the image URL and description that will be shown in Slimbox when clicking on that element.
 
 You can change it in order to change the location where the URL and description will be retrieved, or even customize the URL or description itself.
 
-It takes one parameter: *the DOM element*.
+It takes one parameter: *a DOM element*.
 
 It returns an *array* containing 2 elements: 
 
@@ -156,7 +156,7 @@ When you don't provide a linkMapper function, a default one is used. Here is it:
 
 {{{
 function(el) {
-   return [el.href, el.title];
+	return [el.href, el.title];
 }
 }}}
 
@@ -176,7 +176,7 @@ Here's the linkMapper function that you will need to use:
 
 {{{
 function(el) {
-   return [el.href, el.firstChild.alt];
+	return [el.href, el.firstChild.alt];
 }
 }}}
 
@@ -188,7 +188,7 @@ This time, let's say that you want to use the image URL itself as description, s
 
 {{{
 function(el) {
-   return [el.href, /[^\/]*(?=\.\w+$)/.exec(el.href)];
+	return [el.href, /[^\/]*(?=\.\w+$)/.exec(el.href)];
 }
 }}}
 
@@ -197,7 +197,8 @@ _Example 3 (Flickr integration):_
 In this last example, we'll accomplish a complete Flickr integration with very little code. Let's say that we have links pointing to pages dedicated to pictures on the Flickr website. Each one of these links is surrounding an {{{<img>}}} tag, which is actually a thumbnail of the picture hosted on the Flickr website. It looks like this:
 
 {{{
-<a href="http://www.flickr.com/photos/14516334@N00/345009210/" title="A bee"><img src="http://farm1.static.flickr.com/159/345009210_1f826cd5a1_t.jpg" alt="" /></a>
+<a href="http://www.flickr.com/photos/14516334@N00/345009210/" 
+title="A bee"><img src="http://farm1.static.flickr.com/159/345009210_1f826cd5a1_t.jpg" alt="" /></a>
 }}}
 
 By default, clicking on this link (and thus on the thumbnail) will just make the browser navigate to the Flickr page of the picture.
@@ -214,9 +215,71 @@ Here's the code:
 
 {{{
 $$("a[href^=http://www.flickr.com/photos/]").slimbox({}, function(el) {
-	return [el.firstChild.src.replace(/_[mts]\.jpg$/, ".jpg"), el.title + '<br /><a href="' + el.href + '">Flickr page</a>'];
+	return [el.firstChild.src.replace(/_[mts]\.jpg$/, ".jpg"),
+		el.title + '<br /><a href="' + el.href + '">Flickr page</a>'];
 });
 }}}
+
+==The linksFilter function==
+
+The linksFilter is an optional function that you can pass as an optional parameter to the {{{slimbox()}}} function when called on a *group* of DOM elements. It allows you to exclude specific elements of the group when clicking on a particular element, so they will not be part of the selection of images that will be displayed by Slimbox when it opens after the click. The element that was clicked must never be excluded because it's the one that will be displayed first when Slimbox opens.
+
+In other terms, this function allows you to divide a group into sub-groups based on a selected criteria, by hiding some images depending on the element that was clicked.
+
+It takes one parameter: *a DOM element*.
+
+Also, the *DOM element that was clicked* is accessible by using the {{{this}}} keyword from inside the function.
+
+It returns a boolean: {{{true}}} if the element that was passed as a parameter must be part of the selection of images that will be displayed, {{{false}}} if the element must be excluded. When the passed DOM element is equal to {{{this}}}, the function *must* return {{{true}}}.
+
+When you don't provide a linksFilter function, a default one is used. Here is it:
+
+{{{
+function(el) {
+	return true;
+}
+}}}
+
+which means that by default no DOM element will ever be filtered out. There will only be one big group.
+
+_Example 1:_
+
+Let's say that you want to display all the images having the word "exclusive" somewhere in the {{{title}}} attribute value of their DOM element together in a separate "exclusive" group, and all other images together in a default group. Here is the linksFilter function that you will use:
+
+{{{
+function(el) {
+	return /exclusive/i.test(this.title) == /exclusive/i.test(el.title);
+}
+}}}
+
+_Example 2:_
+
+This is a very useful one. Let's say that you want to automatically group together all the images with a DOM element having the same parent node (for example, all image links inside the same {{{<div>}}} block or the same paragraph). Images with a DOM element having no parent node or being a "unique slimbox child" will be displayed individually. Here is the linksFilter function that achieves this:
+
+{{{
+function(el) {
+	return (this == el) || (this.parentNode && (this.parentNode == el.parentNode));
+}
+}}}
+
+As you can see, we need to test first if the parent node exists before comparing the parent nodes of the clicked element and the passed element, otherwise all orphans will be grouped together. If there is no parent node, we return {{{false}}} so that all images are excluded, except for the one which was clicked for which we always return {{{true}}}.
+
+_Example 3 (Lightbox behavior):_
+
+The default *autoload code block* provided with Slimbox makes use of the following linksFilter function to mimic the default behavior of Lightbox:
+
+{{{
+function(el) {
+	return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+}
+}}}
+
+It may look a bit complicated at the beginning but it's not. Here's the detailed explanation.
+
+  * Before calling this linksFilter function, we have already narrowed our selection of DOM elements to the ones having a {{{rel}}} attribute value starting with the word "lightbox".
+  * First, if the clicked element ({{{this}}}) is the one being tested, we return {{{true}}} as required. It will always be part of the selection.
+  * If it's not, then we test if the {{{rel}}} attribute value has exactly 8 characters. If it has, it means that the {{{rel}}} attribute value is exactly "lightbox" (8 letters) and in this case we return {{{false}}} so that in the end all images will be filtered out, except for the one that was clicked of course. This allows to display the image individually if the {{{rel}}} attribute value is exactly "lightbox".
+  * Finally, if the {{{rel}}} attribute value has more than 8 characters, we know that it's a group name (like "lightbox-animals" for example) and we return {{{true}}} far all DOM elements having exactly the same group name as the one being clicked, or {{{false}}} to discard the other ones. This allows to display all the images having the same group name together.
 
 ==Unregistering Slimbox from the DOM elements==
 
