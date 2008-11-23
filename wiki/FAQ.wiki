@@ -66,7 +66,7 @@ Slimbox.scanPage = function() {
                 return el.rel && el.rel.test(/^lightbox/i);
         });
         $$(links).slimbox({/* Put custom options here */}, function(el) {
-                return [el.href, (el.title ? (el.title + '<br />') : '') + '<a href="' + el.href + '">Download this image</a>'];
+                return [el.href, el.title + '<br /><a href="' + el.href + '">Download this image</a>'];
         }, function(el) {
                 return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
         });
