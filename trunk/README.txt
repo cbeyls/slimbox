@@ -1,5 +1,5 @@
-SLIMBOX V1.53 README
-====================
+SLIMBOX V1.6 README
+===================
 (c) Christophe Beyls 2007-2008
 
 http://code.google.com/p/slimbox/
@@ -10,7 +10,7 @@ example.html		A simple example page demonstrating how to use Slimbox with the de
 example.jpg		An example image used on the example page.
 README.txt		The file you are reading.
 css/*			The Slimbox stylesheet and its associated images. You can edit them to customize Slimbox appearance.
-js/mootools.js		The minified version of mootools v1.11 including only the modules required by Slimbox.
+js/mootools.js		The minified version of mootools v1.2 including only the modules required by Slimbox.
 js/slimbox.js		The minified version of Slimbox, plus the editable autoloading code using default options.
 src/slimbox.js		The Slimbox source. Contains many comments and is not suitable for production use (needs to be minified first).
 
@@ -22,11 +22,11 @@ You need to download a new mootools version if your web page scripts require add
 or if you want to use a different version of mootools.
 
 Here are the mootools modules required by this version of Slimbox:
-- Class: _all_
-- Native: _all_
-- Element: Element.Event
-- Window: Window.DomReady, Window.Size
-- Effects: Fx.Style, Fx.Styles (optionally Fx.Transitions)
+- Native: all
+- Class: all
+- Element: all
+- Utilities: DomReady
+- Fx: Fx.Tween, Fx.Morph (optionally Fx.Transitions)
 
 You can remove or customize the provided autoloading code by editing the slimbox.js file. By default, it behaves like Lightbox.
 When deploying slimbox.js, you MUST always preserve the copyright notice at the beginning of the file.
