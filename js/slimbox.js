@@ -40,12 +40,6 @@ var Slimbox;
 			number = new Element("div", {id: "lbNumber"}),
 			new Element("div", {styles: {clear: "both"}})
 		);
-
-		fx = {
-			overlay: new Fx.Tween(overlay, {property: "opacity", duration: 500}).set(0),
-			image: new Fx.Tween(image, {property: "opacity", duration: 500, onComplete: nextEffect}),
-			bottom: new Fx.Tween(bottom, {property: "margin-top", duration: 400})
-		};
 	});
 
 
@@ -58,14 +52,24 @@ var Slimbox;
 			options = $extend({
 				loop: false,				// Allows to navigate between first and last images
 				overlayOpacity: 0.8,			// 1 is opaque, 0 is completely transparent (change the color in the CSS file)
+				overlayFadeDuration: 400,		// Duration of the overlay fade-in and fade-out animations (in milliseconds)
 				resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
-				resizeTransition: false,		// Default transition in mootools
+				resizeTransition: false,		// "false" uses the mootools default transition
 				initialWidth: 250,			// Initial width of the box (in pixels)
 				initialHeight: 250,			// Initial height of the box (in pixels)
-				animateCaption: true,
+				imageFadeDuration: 400,			// Duration of the image fade-in animation (in milliseconds)
+				captionAnimationDuration: 400,		// Duration of the caption animation (in milliseconds)
 				showCounter: true,			// If true, a counter will only be shown if there is more than 1 image to display
 				counterText: "Image {x} of {y}"		// Translate or change as you wish
 			}, _options || {});
+
+			// Setup effects
+			fx = {
+				overlay: new Fx.Tween(overlay, {property: "opacity", duration: options.overlayFadeDuration}),
+				resize: new Fx.Morph(center, $extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {})),
+				image: new Fx.Tween(image, {property: "opacity", duration: options.imageFadeDuration, onComplete: nextEffect}),
+				bottom: new Fx.Tween(bottom, {property: "margin-top", duration: options.captionAnimationDuration})
+			};
 
 			// The function is called for a single image, with URL and Title as first two arguments
 			if (typeof _images == "string") {
@@ -73,15 +77,15 @@ var Slimbox;
 				startImage = 0;
 			}
 
-			images = _images;
-			options.loop = options.loop && (images.length > 1);
+			top = window.getScrollTop() + (window.getHeight() / 15);
+			fx.overlay.set(0).start(options.overlayOpacity);
+			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			position();
 			setup(true);
-			top = window.getScrollTop() + (window.getHeight() / 15);
-			fx.resize = new Fx.Morph(center, $extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
-			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
-			fx.overlay.start(options.overlayOpacity);
+
 			state = 1;
+			images = _images;
+			options.loop = options.loop && (images.length > 1);
 			return changeImage(startImage);
 		}
 	};
@@ -229,9 +233,7 @@ var Slimbox;
 			case 5:
 				if (prevImage >= 0) prevLink.style.display = "";
 				if (nextImage >= 0) nextLink.style.display = "";
-				if (options.animateCaption) {
-					fx.bottom.set(-bottom.offsetHeight).start(0);
-				}
+				fx.bottom.set(-bottom.offsetHeight).start(0);
 				bottomContainer.style.visibility = "";
 				state = 1;
 		}
