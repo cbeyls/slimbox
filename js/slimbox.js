@@ -210,8 +210,8 @@ var Slimbox;
 				$$(image, bottom).setStyle("width", preload.width);
 				$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
-				caption.set('html', images[activeImage][1] || "");
-				number.set('html', (options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
+				caption.set("html", images[activeImage][1] || "");
+				number.set("html", (options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
 
 				if (prevImage >= 0) preloadPrev.src = images[prevImage][0];
 				if (nextImage >= 0) preloadNext.src = images[nextImage][0];
