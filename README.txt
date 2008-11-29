@@ -13,7 +13,7 @@ css/*			The Slimbox stylesheet and its associated images. You can edit them to c
 js/mootools.js		The minified version of mootools v1.2.1 including only the modules required by Slimbox.
 js/slimbox.js		The minified version of Slimbox, plus the editable autoloading code using default options.
 src/slimbox.js		The Slimbox source. Contains many comments and is not suitable for production use (needs to be minified first).
-examples/*		Some example scripts that you can add to the autoload code block inside slimbox.js to add special functionality.
+extra/*			Some extra scripts that you can add to the autoload code block inside slimbox.js to add special functionality.
 
 
 You can use the provided mootools.js and slimbox.js scripts "as is", or you can use a custom mootools build
