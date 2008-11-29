@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.65 - The ultimate lightweight Lightbox clone
+	Slimbox v1.66 - The ultimate lightweight Lightbox clone
 	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var state = 0, options, images, activeImage, prevImage, nextImage, top, fx, preload, preloadPrev = new Image(), preloadNext = new Image(),
+	var state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, preload, preloadPrev = new Image(), preloadNext = new Image(),
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
@@ -81,7 +81,11 @@ var Slimbox;
 			top = window.getScrollTop() + (window.getHeight() / 15);
 			fxOverlay.set(0).start(options.overlayOpacity);
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
-			position();
+			compatibleOverlay = (overlay.currentStyle && (overlay.currentStyle.position != "fixed"));
+			if (compatibleOverlay) {
+				overlay.style.position = "absolute";
+				positionOverlay();
+			}
 			setup(true);
 
 			state = 1;
@@ -135,8 +139,10 @@ var Slimbox;
 		Internal functions
 	*/
 
-	function position() {
-		overlay.setStyles({top: window.getScrollTop(), height: window.getHeight()});
+	// Only for browsers that do not support "position: fixed"
+	function positionOverlay() {
+		var scroll = window.getScroll(), size = window.getSize();
+		overlay.setStyles({left: scroll.x, top: scroll.y, width: size.x, height: size.y});
 	}
 
 	function setup(open) {
@@ -150,7 +156,7 @@ var Slimbox;
 		overlay.style.display = open ? "" : "none";
 
 		var fn = open ? "addEvent" : "removeEvent";
-		window[fn]("scroll", position)[fn]("resize", position);
+		if (compatibleOverlay) window[fn]("scroll", positionOverlay)[fn]("resize", positionOverlay);
 		document[fn]("keydown", keyDown);
 	}
 
