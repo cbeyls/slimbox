@@ -13,7 +13,10 @@ var Slimbox;
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
-	overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number;
+	overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number,
+
+	// Effects
+	fxOverlay, fxResize, fxImage, fxBottom;
 
 	/*
 		Initialization
@@ -46,12 +49,6 @@ var Slimbox;
 			new Element("div", {styles: {clear: "both"}})
 		);
 		closeLink.onclick = overlay.onclick = close;
-
-		fx = {
-			overlay: overlay.effect("opacity", {duration: 500}).set(0),
-			image: image.effect("opacity", {duration: 500, onComplete: nextEffect}),
-			bottom: bottom.effect("margin-top", {duration: 400})
-		};
 	});
 
 
@@ -64,14 +61,22 @@ var Slimbox;
 			options = $extend({
 				loop: false,				// Allows to navigate between first and last images
 				overlayOpacity: 0.8,			// 1 is opaque, 0 is completely transparent (change the color in the CSS file)
+				overlayFadeDuration: 400,		// Duration of the overlay fade-in and fade-out animations (in milliseconds)
 				resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
-				resizeTransition: false,		// Default transition in mootools
+				resizeTransition: false,		// "false" uses the mootools default transition
 				initialWidth: 250,			// Initial width of the box (in pixels)
 				initialHeight: 250,			// Initial height of the box (in pixels)
-				animateCaption: true,
+				imageFadeDuration: 400,			// Duration of the image fade-in animation (in milliseconds)
+				captionAnimationDuration: 400,		// Duration of the caption animation (in milliseconds)
 				showCounter: true,			// If true, a counter will only be shown if there is more than 1 image to display
 				counterText: "Image {x} of {y}"		// Translate or change as you wish
 			}, _options || {});
+
+			// Setup effects
+			fxOverlay = overlay.effect("opacity", {duration: options.overlayFadeDuration});
+			fxResize = center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
+			fxImage = image.effect("opacity", {duration: imageFadeDuration, onComplete: nextEffect});
+			fxBottom = bottom.effect("margin-top", {duration: captionAnimationDuration});
 
 			// The function is called for a single image, with URL and Title as first two arguments
 			if (typeof _images == "string") {
@@ -79,15 +84,15 @@ var Slimbox;
 				startImage = 0;
 			}
 
-			images = _images;
-			options.loop = options.loop && (images.length > 1);
+			top = window.getScrollTop() + (window.getHeight() / 15);
+			fxOverlay.set(0).start(options.overlayOpacity);
+			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			position();
 			setup(true);
-			top = window.getScrollTop() + (window.getHeight() / 15);
-			fx.resize = center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
-			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
-			fx.overlay.start(options.overlayOpacity);
+
 			state = 1;
+			images = _images;
+			options.loop = options.loop && (images.length > 1);
 			return changeImage(startImage);
 		}
 	};
@@ -193,8 +198,8 @@ var Slimbox;
 			if (nextImage == images.length) nextImage = options.loop ? 0 : -1;
 
 			$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
-			fx.bottom.stop().set(0);
-			fx.image.set(0);
+			fxBottom.stop().set(0);
+			fxImage.set(0);
 			center.className = "lbLoading";
 
 			preload = new Image();
@@ -220,26 +225,24 @@ var Slimbox;
 				if (nextImage >= 0) preloadNext.src = images[nextImage][0];
 
 				if (center.clientHeight != image.offsetHeight) {
-					fx.resize.start({height: image.offsetHeight});
+					fxResize.start({height: image.offsetHeight});
 					break;
 				}
 				state++;
 			case 3:
 				if (center.clientWidth != image.offsetWidth) {
-					fx.resize.start({width: image.offsetWidth, marginLeft: -image.offsetWidth/2});
+					fxResize.start({width: image.offsetWidth, marginLeft: -image.offsetWidth/2});
 					break;
 				}
 				state++;
 			case 4:
 				bottomContainer.setStyles({top: top + center.clientHeight, marginLeft: center.style.marginLeft, visibility: "hidden", display: ""});
-				fx.image.start(1);
+				fxImage.start(1);
 				break;
 			case 5:
 				if (prevImage >= 0) prevLink.style.display = "";
 				if (nextImage >= 0) nextLink.style.display = "";
-				if (options.animateCaption) {
-					fx.bottom.set(-bottom.offsetHeight).start(0);
-				}
+				fxBottom.set(-bottom.offsetHeight).start(0);
 				bottomContainer.style.visibility = "";
 				state = 1;
 		}
@@ -249,9 +252,11 @@ var Slimbox;
 		if (state) {
 			state = 0;
 			preload.onload = Class.empty;
-			for (var f in fx) fx[f].stop();
+			[fxOverlay, fxResize, fxImage, fxBottom].forEach(function(fx) {
+				fx.cancel();
+			});
 			$$(center, bottomContainer).setStyle("display", "none");
-			fx.overlay.chain(setup).start(0);
+			fxOverlay.chain(setup).start(0);
 		}
 
 		return false;
