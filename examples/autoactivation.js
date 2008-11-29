@@ -10,7 +10,7 @@
 */
 
 Slimbox.scanPage = function() {
-	$$("a").filter(function(el) {
+	$$(document.links).filter(function(el) {
 		return el.href && el.href.test(/\.(jpg|png|gif)$/i);
 	}).slimbox({}, null, function(el) {
 		return (this == el) || (this.parentNode && (this.parentNode == el.parentNode));
