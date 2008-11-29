@@ -75,8 +75,8 @@ var Slimbox;
 			// Setup effects
 			fxOverlay = overlay.effect("opacity", {duration: options.overlayFadeDuration});
 			fxResize = center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
-			fxImage = image.effect("opacity", {duration: imageFadeDuration, onComplete: nextEffect});
-			fxBottom = bottom.effect("margin-top", {duration: captionAnimationDuration});
+			fxImage = image.effect("opacity", {duration: options.imageFadeDuration, onComplete: nextEffect});
+			fxBottom = bottom.effect("margin-top", {duration: options.captionAnimationDuration});
 
 			// The function is called for a single image, with URL and Title as first two arguments
 			if (typeof _images == "string") {
@@ -253,7 +253,7 @@ var Slimbox;
 			state = 0;
 			preload.onload = Class.empty;
 			[fxOverlay, fxResize, fxImage, fxBottom].forEach(function(fx) {
-				fx.cancel();
+				fx.stop();
 			});
 			$$(center, bottomContainer).setStyle("display", "none");
 			fxOverlay.chain(setup).start(0);
