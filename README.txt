@@ -1,4 +1,4 @@
-SLIMBOX V1.65 README
+SLIMBOX V1.66 README
 ====================
 (c) Christophe Beyls 2007-2008
 
@@ -13,6 +13,7 @@ css/*			The Slimbox stylesheet and its associated images. You can edit them to c
 js/mootools.js		The minified version of mootools v1.2.1 including only the modules required by Slimbox.
 js/slimbox.js		The minified version of Slimbox, plus the editable autoloading code using default options.
 src/slimbox.js		The Slimbox source. Contains many comments and is not suitable for production use (needs to be minified first).
+examples/*		Some example scripts that you can add to the autoload code block inside slimbox.js to add special functionality.
 
 
 You can use the provided mootools.js and slimbox.js scripts "as is", or you can use a custom mootools build
@@ -28,7 +29,7 @@ Here are the mootools core modules required by this version of Slimbox:
 - Utilities: DomReady
 - Fx: Fx.Tween, Fx.Morph (optionally Fx.Transitions)
 
-You can remove or customize the provided autoloading code by editing the slimbox.js file. By default, it behaves like Lightbox.
+You can remove or customize the provided autoload code block by editing the slimbox.js file. By default, it behaves like Lightbox.
 When deploying slimbox.js, you MUST always preserve the copyright notice at the beginning of the file.
 
 If you are a developer and want to edit the provided Slimbox source code, it is strongly recommended to minify the script using "YUI Compressor"
