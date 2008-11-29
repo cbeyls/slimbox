@@ -13,7 +13,10 @@ var Slimbox;
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
-	overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number;
+	overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number,
+
+	// Effects
+	fxOverlay, fxResize, fxImage, fxBottom;
 
 	/*
 		Initialization
@@ -64,12 +67,10 @@ var Slimbox;
 			}, _options || {});
 
 			// Setup effects
-			fx = {
-				overlay: new Fx.Tween(overlay, {property: "opacity", duration: options.overlayFadeDuration}),
-				resize: new Fx.Morph(center, $extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {})),
-				image: new Fx.Tween(image, {property: "opacity", duration: options.imageFadeDuration, onComplete: nextEffect}),
-				bottom: new Fx.Tween(bottom, {property: "margin-top", duration: options.captionAnimationDuration})
-			};
+			fxOverlay = new Fx.Tween(overlay, {property: "opacity", duration: options.overlayFadeDuration});
+			fxResize = new Fx.Morph(center, $extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
+			fxImage = new Fx.Tween(image, {property: "opacity", duration: options.imageFadeDuration, onComplete: nextEffect});
+			fxBottom = new Fx.Tween(bottom, {property: "margin-top", duration: options.captionAnimationDuration});
 
 			// The function is called for a single image, with URL and Title as first two arguments
 			if (typeof _images == "string") {
@@ -78,7 +79,7 @@ var Slimbox;
 			}
 
 			top = window.getScrollTop() + (window.getHeight() / 15);
-			fx.overlay.set(0).start(options.overlayOpacity);
+			fxOverlay.set(0).start(options.overlayOpacity);
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			position();
 			setup(true);
@@ -189,8 +190,8 @@ var Slimbox;
 			if (nextImage == images.length) nextImage = options.loop ? 0 : -1;
 
 			$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
-			fx.bottom.cancel().set(0);
-			fx.image.set(0);
+			fxBottom.cancel().set(0);
+			fxImage.set(0);
 			center.className = "lbLoading";
 
 			preload = new Image();
@@ -216,24 +217,24 @@ var Slimbox;
 				if (nextImage >= 0) preloadNext.src = images[nextImage][0];
 
 				if (center.clientHeight != image.offsetHeight) {
-					fx.resize.start({height: image.offsetHeight});
+					fxResize.start({height: image.offsetHeight});
 					break;
 				}
 				state++;
 			case 3:
 				if (center.clientWidth != image.offsetWidth) {
-					fx.resize.start({width: image.offsetWidth, marginLeft: -image.offsetWidth/2});
+					fxResize.start({width: image.offsetWidth, marginLeft: -image.offsetWidth/2});
 					break;
 				}
 				state++;
 			case 4:
 				bottomContainer.setStyles({top: top + center.clientHeight, marginLeft: center.style.marginLeft, visibility: "hidden", display: ""});
-				fx.image.start(1);
+				fxImage.start(1);
 				break;
 			case 5:
 				if (prevImage >= 0) prevLink.style.display = "";
 				if (nextImage >= 0) nextLink.style.display = "";
-				fx.bottom.set(-bottom.offsetHeight).start(0);
+				fxBottom.set(-bottom.offsetHeight).start(0);
 				bottomContainer.style.visibility = "";
 				state = 1;
 		}
@@ -243,9 +244,11 @@ var Slimbox;
 		if (state) {
 			state = 0;
 			preload.onload = $empty;
-			for (var f in fx) fx[f].cancel();
+			[fxOverlay, fxResize, fxImage, fxBottom].forEach(function(fx) {
+				fx.cancel();
+			});
 			$$(center, bottomContainer).setStyle("display", "none");
-			fx.overlay.chain(setup).start(0);
+			fxOverlay.chain(setup).start(0);
 		}
 
 		return false;
