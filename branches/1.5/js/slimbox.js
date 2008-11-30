@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.53 - The ultimate lightweight Lightbox clone
+	Slimbox v1.54 - The ultimate lightweight Lightbox clone
 	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -27,11 +27,11 @@ var Slimbox;
 
 		// Append the Slimbox HTML code at the bottom of the document
 		$(document.body).adopt(
-			$$([
+			$$(
 				overlay = new Element("div", {id: "lbOverlay"}),
 				center = new Element("div", {id: "lbCenter"}),
 				bottomContainer = new Element("div", {id: "lbBottomContainer"})
-			]).setStyle("display", "none")
+			).setStyle("display", "none")
 		);
 
 		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
@@ -88,10 +88,8 @@ var Slimbox;
 			fxOverlay.set(0).start(options.overlayOpacity);
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			compatibleOverlay = overlay.currentStyle && (overlay.currentStyle.position != "fixed");
-			if (compatibleOverlay) {
-				overlay.style.position = "absolute";
-				positionOverlay();
-			}
+			if (compatibleOverlay) overlay.style.position = "absolute";
+			position();
 			setup(true);
 
 			state = 1;
@@ -147,10 +145,10 @@ var Slimbox;
 		Internal functions
 	*/
 
-	// Only for browsers that do not support "position: fixed"
-	function positionOverlay() {
-		var w = window;
-		overlay.setStyles({left: w.getScrollLeft(), top: w.getScrollTop(), width: w.getWidth(), height: w.getHeight()});
+	function position() {
+		var l = window.getScrollLeft(), w = window.getWidth();
+		$$(center, bottomContainer).setStyle("left", l + (w / 2));
+		if (compatibleOverlay) overlay.setStyles({left: l, top: window.getScrollTop(), width: w, height: window.getHeight()});
 	}
 
 	function setup(open) {
@@ -164,7 +162,7 @@ var Slimbox;
 		overlay.style.display = open ? "" : "none";
 
 		var fn = open ? "addEvent" : "removeEvent";
-		if (compatibleOverlay) window[fn]("scroll", positionOverlay)[fn]("resize", positionOverlay);
+		window[fn]("scroll", position)[fn]("resize", position);
 		document[fn]("keydown", eventKeyDown);
 	}
 
