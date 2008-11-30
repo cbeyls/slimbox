@@ -65,8 +65,8 @@ var Slimbox;
 				showCounter: true,			// If true, a counter will only be shown if there is more than 1 image to display
 				counterText: "Image {x} of {y}",	// Translate or change as you wish
 				closeKeys: [27, 88, 67],		// Array of keycodes to close Slimbox, default: Esc (27), 'x' (88), 'c' (67)
-				previousKeys: [37, 80],			// Array of keycodes to navigate to the next image, default: Left arrow (37), 'p' (80)
-				nextKeys: [39, 78]			// Array of keycodes to navigate to the previous image, default: Right arrow (39), 'n' (78)
+				previousKeys: [37, 80],			// Array of keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
+				nextKeys: [39, 78]			// Array of keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
 			}, _options || {});
 
 			// Setup effects
