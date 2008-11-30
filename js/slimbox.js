@@ -71,8 +71,8 @@ var Slimbox;
 
 			// Setup effects
 			fxOverlay = new Fx.Tween(overlay, {property: "opacity", duration: options.overlayFadeDuration});
-			fxResize = new Fx.Morph(center, $extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
-			fxImage = new Fx.Tween(image, {property: "opacity", duration: options.imageFadeDuration, onComplete: nextEffect});
+			fxResize = new Fx.Morph(center, $extend({duration: options.resizeDuration, link: "chain"}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
+			fxImage = new Fx.Tween(image, {property: "opacity", duration: options.imageFadeDuration, onComplete: animateCaption});
 			fxBottom = new Fx.Tween(bottom, {property: "margin-top", duration: options.captionAnimationDuration});
 
 			// The function is called for a single image, with URL and Title as first two arguments
@@ -192,49 +192,45 @@ var Slimbox;
 			center.className = "lbLoading";
 
 			preload = new Image();
-			preload.onload = nextEffect;
+			preload.onload = animateBox;
 			preload.src = images[imageIndex][0];
 		}
 
 		return false;
 	}
 
-	function nextEffect() {
-		switch (state++) {
-			case 2:
-				center.className = "";
-				image.setStyles({backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
-				$$(image, bottom).setStyle("width", preload.width);
-				$$(image, prevLink, nextLink).setStyle("height", preload.height);
+	function animateBox() {
+		center.className = "";
+		image.setStyles({backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
+		$$(image, bottom).setStyle("width", preload.width);
+		$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
-				caption.set("html", images[activeImage][1] || "");
-				number.set("html", (options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
+		caption.set("html", images[activeImage][1] || "");
+		number.set("html", (options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
 
-				if (prevImage >= 0) preloadPrev.src = images[prevImage][0];
-				if (nextImage >= 0) preloadNext.src = images[nextImage][0];
+		if (prevImage >= 0) preloadPrev.src = images[prevImage][0];
+		if (nextImage >= 0) preloadNext.src = images[nextImage][0];
 
-				if (center.clientHeight != image.offsetHeight) {
-					fxResize.start({height: image.offsetHeight});
-					break;
-				}
-				state++;
-			case 3:
-				if (center.clientWidth != image.offsetWidth) {
-					fxResize.start({width: image.offsetWidth, marginLeft: -image.offsetWidth/2});
-					break;
-				}
-				state++;
-			case 4:
-				bottomContainer.setStyles({top: top + center.clientHeight, marginLeft: center.style.marginLeft, visibility: "hidden", display: ""});
-				fxImage.start(1);
-				break;
-			case 5:
-				if (prevImage >= 0) prevLink.style.display = "";
-				if (nextImage >= 0) nextLink.style.display = "";
-				fxBottom.set(-bottom.offsetHeight).start(0);
-				bottomContainer.style.visibility = "";
-				state = 1;
+		var centerHeight = image.offsetHeight, centerWidth = image.offsetWidth, fn;
+		if (center.clientHeight != centerHeight) {
+			fxResize.start({height: centerHeight});
 		}
+		if (center.clientWidth != centerWidth) {
+			fxResize.start({width: centerWidth, marginLeft: -centerWidth/2});
+		}
+		fn = function() {
+			bottomContainer.setStyles({top: top + centerHeight, marginLeft: -centerWidth/2, visibility: "hidden", display: ""});
+			fxImage.start(1);
+		};
+		if (fxResize.check(fn)) fn();
+	}
+
+	function animateCaption() {
+		if (prevImage >= 0) prevLink.style.display = "";
+		if (nextImage >= 0) nextLink.style.display = "";
+		fxBottom.set(-bottom.offsetHeight).start(0);
+		bottomContainer.style.visibility = "";
+		state = 1;
 	}
 
 	function close() {
