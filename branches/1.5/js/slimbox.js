@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, eventKeyDown, preload, preloadPrev = new Image(), preloadNext = new Image(),
+	var win = window, state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, eventKeyDown, preload, preloadPrev = new Image(), preloadNext = new Image(),
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
@@ -22,7 +22,7 @@ var Slimbox;
 		Initialization
 	*/
 
-	window.addEvent("domready", function() {
+	win.addEvent("domready", function() {
 		eventKeyDown = keyDown.bindWithEvent();
 
 		// Append the Slimbox HTML code at the bottom of the document
@@ -84,7 +84,7 @@ var Slimbox;
 				startImage = 0;
 			}
 
-			top = window.getScrollTop() + (window.getHeight() / 15);
+			top = win.getScrollTop() + (win.getHeight() / 15);
 			fxOverlay.set(0).start(options.overlayOpacity);
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			compatibleOverlay = overlay.currentStyle && (overlay.currentStyle.position != "fixed");
@@ -146,13 +146,13 @@ var Slimbox;
 	*/
 
 	function position() {
-		var l = window.getScrollLeft(), w = window.getWidth();
+		var l = win.getScrollLeft(), w = win.getWidth();
 		$$(center, bottomContainer).setStyle("left", l + (w / 2));
-		if (compatibleOverlay) overlay.setStyles({left: l, top: window.getScrollTop(), width: w, height: window.getHeight()});
+		if (compatibleOverlay) overlay.setStyles({left: l, top: win.getScrollTop(), width: w, height: win.getHeight()});
 	}
 
 	function setup(open) {
-		["object", window.ie ? "select" : "embed"].forEach(function(tag) {
+		["object", win.ie ? "select" : "embed"].forEach(function(tag) {
 			$each(document.getElementsByTagName(tag), function(el) {
 				if (open) el._slimbox = el.style.visibility;
 				el.style.visibility = open ? "hidden" : el._slimbox;
@@ -162,7 +162,7 @@ var Slimbox;
 		overlay.style.display = open ? "" : "none";
 
 		var fn = open ? "addEvent" : "removeEvent";
-		window[fn]("scroll", position)[fn]("resize", position);
+		win[fn]("scroll", position)[fn]("resize", position);
 		document[fn]("keydown", eventKeyDown);
 	}
 
