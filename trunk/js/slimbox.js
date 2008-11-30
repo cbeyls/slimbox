@@ -164,9 +164,9 @@ var Slimbox;
 	function keyDown(event) {
 		var code = event.code;
 		// Prevent default keyboard action (like navigating inside the page)
-		return (options.closeKeys.contains(code)) ? close()
-			: (options.nextKeys.contains(code)) ? next()
-			: (options.previousKeys.contains(code)) ? previous()
+		return options.closeKeys.contains(code) ? close()
+			: options.nextKeys.contains(code) ? next()
+			: options.previousKeys.contains(code) ? previous()
 			: false;
 	}
 
