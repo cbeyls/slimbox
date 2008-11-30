@@ -10,7 +10,7 @@ var Slimbox;
 
 	// Global variables, accessible to Slimbox only
 	var win = window, state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, eventKeyDown, preload, preloadPrev = new Image(), preloadNext = new Image(),
-	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
+	// State values: 0 (closed or closing), 1 (open and ready), 2 (open and busy with animation)
 
 	// DOM elements
 	overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number,
@@ -77,8 +77,8 @@ var Slimbox;
 
 			// Setup effects
 			fxOverlay = overlay.effect("opacity", {duration: options.overlayFadeDuration});
-			fxResize = center.effects($extend({duration: options.resizeDuration, onComplete: nextEffect}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
-			fxImage = image.effect("opacity", {duration: options.imageFadeDuration, onComplete: nextEffect});
+			fxResize = center.effects($extend({duration: options.resizeDuration}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
+			fxImage = image.effect("opacity", {duration: options.imageFadeDuration, onComplete: animateCaption});
 			fxBottom = bottom.effect("margin-top", {duration: options.captionAnimationDuration});
 
 			// The function is called for a single image, with URL and Title as first two arguments
@@ -200,55 +200,52 @@ var Slimbox;
 			center.className = "lbLoading";
 
 			preload = new Image();
-			preload.onload = nextEffect;
+			preload.onload = animateBox;
 			preload.src = images[imageIndex][0];
 		}
 
 		return false;
 	}
 
-	function nextEffect() {
-		switch (state++) {
-			case 2:
-				center.className = "";
-				image.setStyles({backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
-				$$(image, bottom).setStyle("width", preload.width);
-				$$(image, prevLink, nextLink).setStyle("height", preload.height);
+	function animateBox() {
+		center.className = "";
+		image.setStyles({backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
+		$$(image, bottom).setStyle("width", preload.width);
+		$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
-				caption.setHTML(images[activeImage][1] || "");
-				number.setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
+		caption.setHTML(images[activeImage][1] || "");
+		number.setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
 
-				if (prevImage >= 0) preloadPrev.src = images[prevImage][0];
-				if (nextImage >= 0) preloadNext.src = images[nextImage][0];
+		if (prevImage >= 0) preloadPrev.src = images[prevImage][0];
+		if (nextImage >= 0) preloadNext.src = images[nextImage][0];
 
-				if (center.clientHeight != image.offsetHeight) {
-					fxResize.start({height: image.offsetHeight});
-					break;
-				}
-				state++;
-			case 3:
-				if (center.clientWidth != image.offsetWidth) {
-					fxResize.start({width: image.offsetWidth, marginLeft: -image.offsetWidth/2});
-					break;
-				}
-				state++;
-			case 4:
-				bottomContainer.setStyles({top: top + center.clientHeight, marginLeft: center.style.marginLeft, visibility: "hidden", display: ""});
-				fxImage.start(1);
-				break;
-			case 5:
-				if (prevImage >= 0) prevLink.style.display = "";
-				if (nextImage >= 0) nextLink.style.display = "";
-				fxBottom.set(-bottom.offsetHeight).start(0);
-				bottomContainer.style.visibility = "";
-				state = 1;
+		var centerHeight = image.offsetHeight, centerWidth = image.offsetWidth;
+		if (center.clientHeight != centerHeight) {
+			fxResize.chain(fxResize.start.pass({height: centerHeight}, fxResize));
 		}
+		if (center.clientWidth != centerWidth) {
+			fxResize.chain(fxResize.start.pass({width: centerWidth, marginLeft: -centerWidth/2}, fxResize));
+		}
+		fxResize.chain(function() {
+			bottomContainer.setStyles({top: top + centerHeight, marginLeft: -centerWidth/2, visibility: "hidden", display: ""});
+			fxImage.start(1);
+		});
+		fxResize.callChain();
+	}
+
+	function animateCaption() {
+		if (prevImage >= 0) prevLink.style.display = "";
+		if (nextImage >= 0) nextLink.style.display = "";
+		fxBottom.set(-bottom.offsetHeight).start(0);
+		bottomContainer.style.visibility = "";
+		state = 1;
 	}
 
 	function close() {
 		if (state) {
 			state = 0;
 			preload.onload = Class.empty;
+			fxResize.clearChain();
 			[fxOverlay, fxResize, fxImage, fxBottom].forEach(function(fx) {
 				fx.stop();
 			});
