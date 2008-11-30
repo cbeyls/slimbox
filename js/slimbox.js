@@ -10,7 +10,7 @@ var Slimbox;
 
 	// Global variables, accessible to Slimbox only
 	var win = window, state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, centerWidth, centerHeight,
-	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
+	// State values: 0 (closed or closing), 1 (open and ready), 2 (open and busy with animation)
 
 	// Preload images
 	preload, preloadPrev = new Image(), preloadNext = new Image(),
@@ -60,13 +60,12 @@ var Slimbox;
 				overlayOpacity: 0.8,			// 1 is opaque, 0 is completely transparent (change the color in the CSS file)
 				overlayFadeDuration: 400,		// Duration of the overlay fade-in and fade-out animations (in milliseconds)
 				resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
-				resizeTransition: false,		// "false" uses the mootools default transition
+				resizeTransition: false,		// false uses the mootools default transition
 				initialWidth: 250,			// Initial width of the box (in pixels)
 				initialHeight: 250,			// Initial height of the box (in pixels)
 				imageFadeDuration: 400,			// Duration of the image fade-in animation (in milliseconds)
 				captionAnimationDuration: 400,		// Duration of the caption animation (in milliseconds)
-				showCounter: true,			// If true, a counter will only be shown if there is more than 1 image to display
-				counterText: "Image {x} of {y}",	// Translate or change as you wish
+				counterText: "Image {x} of {y}",	// Translate or change as you wish, or set it to false to disable counter text for image groups
 				closeKeys: [27, 88, 67],		// Array of keycodes to close Slimbox, default: Esc (27), 'x' (88), 'c' (67)
 				previousKeys: [37, 80],			// Array of keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
 				nextKeys: [39, 78]			// Array of keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
@@ -191,9 +190,8 @@ var Slimbox;
 			nextImage = activeImage + 1;
 			if (nextImage == images.length) nextImage = options.loop ? 0 : -1;
 
+			fxBottom.cancel();
 			$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
-			fxBottom.cancel().set(0);
-			fxImage.set(0);
 			center.className = "lbLoading";
 
 			preload = new Image();
@@ -206,12 +204,13 @@ var Slimbox;
 
 	function animateBox() {
 		center.className = "";
+		fxImage.set(0);
 		image.setStyles({backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
 		$$(image, bottom).setStyle("width", preload.width);
 		$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
 		caption.set("html", images[activeImage][1] || "");
-		number.set("html", (options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
+		number.set("html", (options.counterText && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
 
 		if (prevImage >= 0) preloadPrev.src = images[prevImage][0];
 		if (nextImage >= 0) preloadNext.src = images[nextImage][0];
