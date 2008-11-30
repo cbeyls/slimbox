@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, preload, preloadPrev = new Image(), preloadNext = new Image(),
+	var win = window, state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, preload, preloadPrev = new Image(), preloadNext = new Image(),
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
@@ -22,7 +22,7 @@ var Slimbox;
 		Initialization
 	*/
 
-	window.addEvent("domready", function() {
+	win.addEvent("domready", function() {
 		// Append the Slimbox HTML code at the bottom of the document
 		$(document.body).adopt(
 			$$(
@@ -78,7 +78,7 @@ var Slimbox;
 				startImage = 0;
 			}
 
-			top = window.getScrollTop() + (window.getHeight() / 15);
+			top = win.getScrollTop() + (win.getHeight() / 15);
 			fxOverlay.set(0).start(options.overlayOpacity);
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
 			compatibleOverlay = overlay.currentStyle && (overlay.currentStyle.position != "fixed");
@@ -138,7 +138,7 @@ var Slimbox;
 	*/
 
 	function position() {
-		var scroll = window.getScroll(), size = window.getSize();
+		var scroll = win.getScroll(), size = win.getSize();
 		$$(center, bottomContainer).setStyle("left", scroll.x + (size.x / 2));
 		if (compatibleOverlay) overlay.setStyles({left: scroll.x, top: scroll.y, width: size.x, height: size.y});
 	}
@@ -154,7 +154,7 @@ var Slimbox;
 		overlay.style.display = open ? "" : "none";
 
 		var fn = open ? "addEvent" : "removeEvent";
-		window[fn]("scroll", position)[fn]("resize", position);
+		win[fn]("scroll", position)[fn]("resize", position);
 		document[fn]("keydown", keyDown);
 	}
 
