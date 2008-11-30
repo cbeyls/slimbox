@@ -69,7 +69,10 @@ var Slimbox;
 				imageFadeDuration: 400,			// Duration of the image fade-in animation (in milliseconds)
 				captionAnimationDuration: 400,		// Duration of the caption animation (in milliseconds)
 				showCounter: true,			// If true, a counter will only be shown if there is more than 1 image to display
-				counterText: "Image {x} of {y}"		// Translate or change as you wish
+				counterText: "Image {x} of {y}",	// Translate or change as you wish
+				closeKeys: [27, 88, 67],		// Array of keycodes to close Slimbox, default: Esc (27), 'x' (88), 'c' (67)
+				previousKeys: [37, 80],			// Array of keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
+				nextKeys: [39, 78]			// Array of keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
 			}, _options || {});
 
 			// Setup effects
@@ -167,20 +170,10 @@ var Slimbox;
 	}
 
 	function keyDown(event) {
-		switch(event.code) {
-			case 27:	// Esc
-			case 88:	// 'x'
-			case 67:	// 'c'
-				close();
-				break;
-			case 37:	// Left arrow
-			case 80:	// 'p'
-				previous();
-				break;	
-			case 39:	// Right arrow
-			case 78:	// 'n'
-				next();
-		}
+		var code = event.code;
+		if (options.closeKeys.contains(code)) close();
+		else if (options.nextKeys.contains(code)) next();
+		else if (options.previousKeys.contains(code)) previous();
 		// Prevent default keyboard action (like navigating inside the page)
 		event.preventDefault();
 	}
