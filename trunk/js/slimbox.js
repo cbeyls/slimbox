@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var win = window, state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, preload, preloadPrev = new Image(), preloadNext = new Image(),
+	var win = window, centerWidth, centerHeight, state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, preload, preloadPrev = new Image(), preloadNext = new Image(),
 	// State values: 0 (closed or closing), 1 (open and ready), 2+ (open and busy with animation)
 
 	// DOM elements
@@ -81,9 +81,11 @@ var Slimbox;
 				startImage = 0;
 			}
 
-			top = win.getScrollTop() + (win.getHeight() / 15);
+			top = win.getScrollTop() + (win.getHeight() / 2);
 			fxOverlay.set(0).start(options.overlayOpacity);
-			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
+			centerWidth = options.initialWidth;
+			centerHeight = options.initialHeight;
+			center.setStyles({top: top, width: centerWidth, height: centerHeight, marginLeft: -centerWidth/2, marginTop: -centerHeight/2, display: ""});
 			compatibleOverlay = overlay.currentStyle && (overlay.currentStyle.position != "fixed");
 			if (compatibleOverlay) overlay.style.position = "absolute";
 			position();
@@ -211,15 +213,16 @@ var Slimbox;
 		if (prevImage >= 0) preloadPrev.src = images[prevImage][0];
 		if (nextImage >= 0) preloadNext.src = images[nextImage][0];
 
-		var centerHeight = image.offsetHeight, centerWidth = image.offsetWidth, fn;
+		centerWidth = image.offsetWidth;
+		centerHeight = image.offsetHeight;
 		if (center.clientHeight != centerHeight) {
-			fxResize.start({height: centerHeight});
+			fxResize.start({height: centerHeight, marginTop: -centerHeight/2});
 		}
 		if (center.clientWidth != centerWidth) {
 			fxResize.start({width: centerWidth, marginLeft: -centerWidth/2});
 		}
-		fn = function() {
-			bottomContainer.setStyles({top: top + centerHeight, marginLeft: -centerWidth/2, visibility: "hidden", display: ""});
+		var fn = function() {
+			bottomContainer.setStyles({top: top + (centerHeight / 2), marginLeft: -centerWidth/2, visibility: "hidden", display: ""});
 			fxImage.start(1);
 		};
 		if (fxResize.check(fn)) fn();
