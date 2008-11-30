@@ -25,11 +25,11 @@ var Slimbox;
 	window.addEvent("domready", function() {
 		// Append the Slimbox HTML code at the bottom of the document
 		$(document.body).adopt(
-			$$([
+			$$(
 				overlay = new Element("div", {id: "lbOverlay"}).addEvent("click", close),
 				center = new Element("div", {id: "lbCenter"}),
 				bottomContainer = new Element("div", {id: "lbBottomContainer"})
-			]).setStyle("display", "none")
+			).setStyle("display", "none")
 		);
 
 		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
@@ -81,11 +81,9 @@ var Slimbox;
 			top = window.getScrollTop() + (window.getHeight() / 15);
 			fxOverlay.set(0).start(options.overlayOpacity);
 			center.setStyles({top: top, width: options.initialWidth, height: options.initialHeight, marginLeft: -(options.initialWidth/2), display: ""});
-			compatibleOverlay = (overlay.currentStyle && (overlay.currentStyle.position != "fixed"));
-			if (compatibleOverlay) {
-				overlay.style.position = "absolute";
-				positionOverlay();
-			}
+			compatibleOverlay = overlay.currentStyle && (overlay.currentStyle.position != "fixed");
+			if (compatibleOverlay) overlay.style.position = "absolute";
+			position();
 			setup(true);
 
 			state = 1;
@@ -139,10 +137,10 @@ var Slimbox;
 		Internal functions
 	*/
 
-	// Only for browsers that do not support "position: fixed"
-	function positionOverlay() {
+	function position() {
 		var scroll = window.getScroll(), size = window.getSize();
-		overlay.setStyles({left: scroll.x, top: scroll.y, width: size.x, height: size.y});
+		$$(center, bottomContainer).setStyle("left", scroll.x + (size.x / 2));
+		if (compatibleOverlay) overlay.setStyles({left: scroll.x, top: scroll.y, width: size.x, height: size.y});
 	}
 
 	function setup(open) {
@@ -156,7 +154,7 @@ var Slimbox;
 		overlay.style.display = open ? "" : "none";
 
 		var fn = open ? "addEvent" : "removeEvent";
-		if (compatibleOverlay) window[fn]("scroll", positionOverlay)[fn]("resize", positionOverlay);
+		window[fn]("scroll", position)[fn]("resize", position);
 		document[fn]("keydown", keyDown);
 	}
 
