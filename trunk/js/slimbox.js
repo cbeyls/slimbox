@@ -163,11 +163,11 @@ var Slimbox;
 
 	function keyDown(event) {
 		var code = event.code;
-		if (options.closeKeys.contains(code)) close();
-		else if (options.nextKeys.contains(code)) next();
-		else if (options.previousKeys.contains(code)) previous();
 		// Prevent default keyboard action (like navigating inside the page)
-		return false;
+		return (options.closeKeys.contains(code)) ? close()
+			: (options.nextKeys.contains(code)) ? next()
+			: (options.previousKeys.contains(code)) ? previous()
+			: false;
 	}
 
 	function previous() {
