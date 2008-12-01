@@ -10,9 +10,9 @@
 */
 
 Slimbox.scanPage = function() {
-	$$(document.links).filter(function(el) {
+	$$($$(document.links).filter(function(el) {
 		return el.href && el.href.test(/\.(jpg|png|gif)$/i);
-	}).slimbox({}, null, function(el) {
+	})).slimbox({}, null, function(el) {
 		return (this == el) || (this.parentNode && (this.parentNode == el.parentNode));
 	});
 };
