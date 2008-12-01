@@ -188,7 +188,6 @@ var Slimbox;
 			activeImage = imageIndex;
 			prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
 			nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
-			if (nextImage == images.length) nextImage = options.loop ? 0 : -1;
 
 			fxBottom.cancel();
 			$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
