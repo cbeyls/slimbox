@@ -87,7 +87,7 @@ var Slimbox;
 			centerWidth = options.initialWidth;
 			centerHeight = options.initialHeight;
 			center.setStyles({top: Math.max(0, middle - (centerHeight / 2)), width: centerWidth, height: centerHeight, marginLeft: -centerWidth/2, display: ""});
-			compatibleOverlay = overlay.currentStyle && (overlay.currentStyle.position != "fixed");
+			compatibleOverlay = !win.XMLHttpRequest || (overlay.currentStyle && (overlay.currentStyle.position != "fixed"));
 			if (compatibleOverlay) overlay.style.position = "absolute";
 			fxOverlay.set(0).start(options.overlayOpacity);
 			position();
@@ -205,8 +205,7 @@ var Slimbox;
 	function animateBox() {
 		center.className = "";
 		fxImage.set(0);
-		image.setStyles({backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
-		$$(image, bottom).setStyle("width", preload.width);
+		image.setStyles({width: preload.width, backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
 		$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
 		caption.set("html", images[activeImage][1] || "");
@@ -225,7 +224,7 @@ var Slimbox;
 			fxResize.start({width: centerWidth, marginLeft: -centerWidth/2});
 		}
 		fn = function() {
-			bottomContainer.setStyles({top: top + centerHeight, marginLeft: -centerWidth/2, visibility: "hidden", display: ""});
+			bottomContainer.setStyles({width: centerWidth, top: top + centerHeight, marginLeft: -centerWidth/2, visibility: "hidden", display: ""});
 			fxImage.start(1);
 		};
 		if (fxResize.check(fn)) fn();
