@@ -138,8 +138,8 @@ var Slimbox;
 					// Build the list of images that will be displayed
 					var filteredLinks = links.filter(linksFilter, this);
 					Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
-					event.preventDefault();
-				});
+					event.stop();
+				}.bindWithEvent(link));
 			});
 
 			return links;
@@ -178,7 +178,7 @@ var Slimbox;
 		else if (options.nextKeys.contains(code)) next();
 		else if (options.previousKeys.contains(code)) previous();
 		// Prevent default keyboard action (like navigating inside the page)
-		event.preventDefault();
+		event.stop();
 	}
 
 	function previous() {
