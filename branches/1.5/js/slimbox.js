@@ -134,11 +134,12 @@ var Slimbox;
 			var links = this;
 
 			links.forEach(function(link) {
-				link.onclick = function() {
+				link.removeEvents("click").addEvent("click", function(event) {
 					// Build the list of images that will be displayed
 					var filteredLinks = links.filter(linksFilter, this);
-					return Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
-				};
+					Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
+					event.preventDefault();
+				});
 			});
 
 			return links;
