@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var win = window, state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, top, centerWidth, centerHeight, eventKeyDown = keyDown.bindWithEvent(),
+	var win = window, state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight, eventKeyDown = keyDown.bindWithEvent(),
 	// State values: 0 (closed or closing), 1 (open and ready), 2 (open and busy with animation)
 
 	// Preload images
@@ -69,7 +69,6 @@ var Slimbox;
 				initialHeight: 250,			// Initial height of the box (in pixels)
 				imageFadeDuration: 400,			// Duration of the image fade-in animation (in milliseconds)
 				captionAnimationDuration: 400,		// Duration of the caption animation (in milliseconds)
-				showCounter: true,			// If true, a counter will only be shown if there is more than 1 image to display
 				counterText: "Image {x} of {y}",	// Translate or change as you wish
 				closeKeys: [27, 88, 67],		// Array of keycodes to close Slimbox, default: Esc (27), 'x' (88), 'c' (67)
 				previousKeys: [37, 80],			// Array of keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
@@ -88,13 +87,13 @@ var Slimbox;
 				startImage = 0;
 			}
 
-			top = win.getScrollTop() + (win.getHeight() /2);
-			fxOverlay.set(0).start(options.overlayOpacity);
+			middle = win.getScrollTop() + (win.getHeight() /2);
 			centerWidth = options.initialWidth;
 			centerHeight = options.initialHeight;
-			center.setStyles({top: top, width: centerWidth, height: options.initialHeight, marginLeft: -centerWidth/2, marginTop: -centerHeight/2, display: ""});
+			center.setStyles({top: Math.max(0, middle - (centerHeight / 2)), width: centerWidth, height: options.initialHeight, marginLeft: -centerWidth/2, display: ""});
 			compatibleOverlay = overlay.currentStyle && (overlay.currentStyle.position != "fixed");
 			if (compatibleOverlay) overlay.style.position = "absolute";
+			fxOverlay.set(0).start(options.overlayOpacity);
 			position();
 			setup(true);
 
@@ -197,9 +196,8 @@ var Slimbox;
 			nextImage = activeImage + 1;
 			if (nextImage == images.length) nextImage = options.loop ? 0 : -1;
 
+			fxBottom.stop();
 			$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
-			fxBottom.stop().set(0);
-			fxImage.set(0);
 			center.className = "lbLoading";
 
 			preload = new Image();
@@ -212,26 +210,28 @@ var Slimbox;
 
 	function animateBox() {
 		center.className = "";
+		fxImage.set(0);
 		image.setStyles({backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
 		$$(image, bottom).setStyle("width", preload.width);
 		$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
 		caption.setHTML(images[activeImage][1] || "");
-		number.setHTML((options.showCounter && (images.length > 1)) ? options.counterText.replace(/{x}/, activeImage + 1).replace(/{y}/, images.length) : "");
+		number.setHTML((((images.length > 1) && options.counterText) || "").replace(/{x}/, activeImage + 1).replace(/{y}/, images.length));
 
 		if (prevImage >= 0) preloadPrev.src = images[prevImage][0];
 		if (nextImage >= 0) preloadNext.src = images[nextImage][0];
 
 		centerWidth = image.offsetWidth;
 		centerHeight = image.offsetHeight;
+		var top = Math.max(0, middle - (centerHeight / 2));
 		if (center.clientHeight != centerHeight) {
-			fxResize.chain(fxResize.start.pass({height: centerHeight, marginTop: -centerHeight/2}, fxResize));
+			fxResize.chain(fxResize.start.pass({height: centerHeight, top: top}, fxResize));
 		}
 		if (center.clientWidth != centerWidth) {
 			fxResize.chain(fxResize.start.pass({width: centerWidth, marginLeft: -centerWidth/2}, fxResize));
 		}
 		fxResize.chain(function() {
-			bottomContainer.setStyles({top: top + (centerHeight / 2), marginLeft: -centerWidth/2, visibility: "hidden", display: ""});
+			bottomContainer.setStyles({top: top + centerHeight, marginLeft: -centerWidth/2, visibility: "hidden", display: ""});
 			fxImage.start(1);
 		});
 		fxResize.callChain();
