@@ -83,7 +83,7 @@ var Slimbox;
 
 			// The function is called for a single image, with URL and Title as first two arguments
 			if (typeof _images == "string") {
-				_images = [[_images,startImage]];
+				_images = [[_images, startImage]];
 				startImage = 0;
 			}
 
@@ -192,9 +192,8 @@ var Slimbox;
 		if ((state == 1) && (imageIndex >= 0)) {
 			state = 2;
 			activeImage = imageIndex;
-			prevImage = ((activeImage || !options.loop) ? activeImage : images.length) - 1;
-			nextImage = activeImage + 1;
-			if (nextImage == images.length) nextImage = options.loop ? 0 : -1;
+			prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
+			nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
 
 			fxBottom.stop();
 			$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
