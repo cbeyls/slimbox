@@ -9,7 +9,7 @@
    * Added customizable keyboard navigation (as often requested) using new options: "closeKeys", "previousKeys" and "nextKeys".
    * Added new options to set effects duration: "overlayFadeDuration", "imageFadeDuration" and "captionAnimationDuration" which replaces "animateCaption". Each animation can now be disabled by setting these options to {{{0}}}.
    * Removed the "showCounter" option, you can now set the "counterText" option to {{{false}}} or {{{""}}} to disable the counter display.
-  * CSS: The bottom div block can now be styled with any border width, they don't need to match the border widths of the center div block anymore.
+   * CSS: The bottom div block can now be styled with any border width, they don't need to match the border widths of the center div block anymore.
    * Many code optimizations.
    * 3 useful extra scripts and a new example image are now provided in the distribution file.
 
