@@ -9,8 +9,9 @@ From a _functional_ point of view, Slimbox has the following added features comp
   * Slimbox also centers images vertically on startup, not just horizontally. Vertical scrolling is still possible.
   * It works perfectly on horizontal-scrolling websites.
   * It temporary hides flash animations and other embedded videos while it is open to avoid display bugs in some browsers. It also hides select boxes in Internet Explorer.
-  * With a special option, it allows you to navigate between the first and last images.
-  * The script is more robust; for example you can try to start and stop Slimbox or navigate between images very quickly to interrupt the animations and resume them and you won't notice any bug like in the original Lightbox where sometimes the animation stops or the captions are wrongly sized.
+  * Using a special option (loop), it allows you to navigate between the first and last images.
+  * Slimbox is more responsive, it allows you to close it immediately at any time using the keyboard or mouse, and to navigate to the previous and next images before the caption animation is complete.
+  * The script is more robust; for example you can try to start and stop Slimbox or navigate between images very quickly to interrupt the animations and resume them and you won't notice any bug like in the original Lightbox where sometimes the animation stops or the elements are wrongly sized or positioned.
   * Slimbox may be launched from the traditional image links inside the page like the original Lightbox, but also directly from Javascript using its complete API.
 
 From a _design_ point of view, Slimbox is very different from Lightbox:
@@ -57,20 +58,19 @@ Because Slimbox was designed to be 100% compatible with Lightbox, you can just r
 
 There are some options that you can specify inside the script. The default values should be just fine, however if you want you can change the following:
 
-  * *loop:* Boolean; if true, allows the user to navigate between the first and last images of a Slimbox gallery, when there is more than one image to display.  _Default is {{{false}}}._
-  * *overlayOpacity:* The level of opacity of the background overlay. {{{1}}} Is opaque, {{{0}}} is completely transparent. You can change the color in the CSS file. _Default is {{{0.8}}}_
-  * *overlayFadeDuration:* The duration of the overlay fade-in and fade-out animations, in milliseconds. Set it to {{{0}}} to disable the overlay fade effects. _Default is {{{400}}}._
-  * *resizeDuration:* The duration of the resize animation for width and height, in milliseconds. Set it to {{{0}}} to disable resize animations. _Default is {{{400}}}._
-  * *resizeTransition:* The transition you want to use for the resize animation. You can choose amongst lots of cool transitions that are part of the optional "Transitions" module of mootools, like {{{Fx.Transitions.Elastic.easeOut}}}. Many transitions require a longer execution time to look good, so you should adjust the resizeDuration option above as well. _Default is mootools' default transition, sineInOut._
-  * *initialWidth:* The initial width of the box, in pixels. _Default is {{{250}}}._
-  * *initialHeight:* The initial height of the box, in pixels. _Default is {{{250}}}._
-  * *imageFadeDuration:* The duration of the image fade-in animation, in milliseconds. Set it to {{{0}}} to disable this effect and make the image appear instantly. _Default is {{{400}}}._
-  * *captionAnimationDuration:* The duration of the caption animation, in milliseconds. Set it to {{{0}}} to disable it and make the caption appear instantly. _Default is {{{400}}}._
-  * *showCounter:* Boolean; if true, a counter will be shown at the bottom of the caption zone if there is more than 1 image to display.  _Default is true._
-  * *counterText:* Text value; allows you to customize, translate or disable the text of the counter which appears in the captions when multiple images are shown. Inside the text, {{{{x}}}} will be replaced by the current image index, and {{{{y}}}} will be replaced by the total number of images. Set it to {{{false}}} (boolean value, without quotes) or {{{""}}} to disable the counter display. _Default is {{{"Image {x} of {y}"}}}_.
-  * closeKeys: An array of [http://www.webonweboff.com/tips/js/event_key_codes.aspx key codes] of the keys to press to close Slimbox. _Default is {{{[27, 88, 67]}}} meaning *Esc* (27), *"x"* (88) and *"c"* (67)._
-  * previousKeys: An array of [http://www.webonweboff.com/tips/js/event_key_codes.aspx key codes] of the keys to press to navigate to the previous image. _Default is {{{[37, 80]}}} meaning *Left arrow* (37) and *"p"* (80)._
-  * nextKeys: An array of [http://www.webonweboff.com/tips/js/event_key_codes.aspx key codes] of the keys to press to navigate to the next image. _Default is {{{[39, 78]}}} meaning *Right arrow* (39) and *"n"* (78)._
+  * *loop:* Boolean; if true, allows the user to navigate between the first and last images of a Slimbox gallery, when there is more than one image to display. Default is {{{false}}}.
+  * *overlayOpacity:* The level of opacity of the background overlay. {{{1}}} Is opaque, {{{0}}} is completely transparent. You can change the color in the CSS file. Default is {{{0.8}}}
+  * *overlayFadeDuration:* The duration of the overlay fade-in and fade-out animations, in milliseconds. Set it to {{{0}}} to disable the overlay fade effects. Default is {{{400}}}.
+  * *resizeDuration:* The duration of the resize animation for width and height, in milliseconds. Set it to {{{0}}} to disable resize animations. Default is {{{400}}}.
+  * *resizeTransition:* The transition you want to use for the resize animation. You can choose amongst lots of cool transitions that are part of the optional "Transitions" module of mootools, like {{{Fx.Transitions.Elastic.easeOut}}}. Many transitions require a longer execution time to look good, so you should adjust the resizeDuration option above as well. Default is mootools' default transition, sineInOut.
+  * *initialWidth:* The initial width of the box, in pixels. Default is {{{250}}}.
+  * *initialHeight:* The initial height of the box, in pixels. Default is {{{250}}}.
+  * *imageFadeDuration:* The duration of the image fade-in animation, in milliseconds. Set it to {{{0}}} to disable this effect and make the image appear instantly. Default is {{{400}}}.
+  * *captionAnimationDuration:* The duration of the caption animation, in milliseconds. Set it to {{{0}}} to disable it and make the caption appear instantly. Default is {{{400}}}.
+  * *counterText:* Text value; allows you to customize, translate or disable the text of the counter which appears in the captions when multiple images are shown. Inside the text, {{{{x}}}} will be replaced by the current image index, and {{{{y}}}} will be replaced by the total number of images. Set it to {{{false}}} (boolean value, without quotes) or {{{""}}} to disable the counter display. Default is {{{"Image {x} of {y}"}}}.
+  * *closeKeys:* An array of [http://www.webonweboff.com/tips/js/event_key_codes.aspx key codes] of the keys to press to close Slimbox. Default is {{{[27, 88, 67]}}} which means Esc (27), "x" (88) and "c" (67).
+  * *previousKeys:* An array of [http://www.webonweboff.com/tips/js/event_key_codes.aspx key codes] of the keys to press to navigate to the previous image. Default is {{{[37, 80]}}} which means Left arrow (37) and "p" (80).
+  * *nextKeys:* An array of [http://www.webonweboff.com/tips/js/event_key_codes.aspx key codes] of the keys to press to navigate to the next image. Default is {{{[39, 78]}}} which means Right arrow (39) and "n" (78).
 
 Example of a custom options object, including french translation:
 
