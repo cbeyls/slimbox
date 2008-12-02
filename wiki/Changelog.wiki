@@ -1,9 +1,21 @@
 #summary The history of changes for each official release
 #labels changelog
 
+===v1.66 (2008-12-02)===
+
+   * New overlay implementation which works much better with standards-compliant browsers. A compatibility mode has been added for other browsers (IE6 and quirks mode IE7). *CSS update required.*
+   * Now fully compatible with horizontal scrolling websites (overlay + box centering).
+   * The images are now also vertically centered in the browser window on startup. Vertical scrolling is still possible.
+   * Added customizable keyboard navigation (as often requested) using new options: "closeKeys", "previousKeys" and "nextKeys".
+   * Added new options to set effects duration: "overlayFadeDuration", "imageFadeDuration" and "captionAnimationDuration" which replaces "animateCaption". Each animation can now be disabled by setting these options to {{{0}}}.
+   * Removed the "showCounter" option, you can now set the "counterText" option to {{{false}}} or {{{""}}} to disable the counter display.
+  * CSS: The bottom div block can now be styled with any border width, they don't need to match the border widths of the center div block anymore.
+   * Many code optimizations.
+   * 3 useful extra scripts and a new example image are now provided in the distribution file.
+
 ===v1.65 (2008-11-14)===
 
-  * Regression fix: the slimbox fix that hides {{{<select>}}} tags in Internet Explorer to prevent them to appear above the div elements was mistakenly removed in v1.61. It is now working again.
+  * Regression fix: the code fix which hides select boxes in Internet Explorer to prevent them to appear above the overlay was mistakenly removed in v1.61. It is now working again.
   * Upgraded the provided mootools.js to version 1.2.1.
 
 ===v1.64 (2008-07-15)===
