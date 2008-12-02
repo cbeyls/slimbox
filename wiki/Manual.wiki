@@ -5,20 +5,24 @@
 
 From a _functional_ point of view, Slimbox has the following added features compared to the original Lightbox:
 
-  * Slimbox is ready to launch as soon as the document is ready. This means that you don’t have to wait for all images of the page to be loaded before clicking on a link launching the Lightbox effect.
-  * The left and right arrow keys can be used to navigate through images, and the ESC key can be used to close Slimbox (Warning: in Mozilla browsers, the ESC key is also used to stop GIF images from animating).
-  * The dark background overlay can be clicked anywhere to close Slimbox, even on the parts located on the left and right of the image.
-  * The script is more robust; for example you can try to start-stop Slimbox very quickly to interrupt the animation then resume it and you won’t notice any bug like in the original Lightbox where sometimes the animation stops or the captions are wrongly sized.
-  * Slimbox temporary hides flash animations and other embedded videos while it is open to avoid display bugs in some browsers.
-  * Slimbox can be launched from the traditional image links inside the page like the original Lightbox, but also directly from a Javascript call using a special method.
+  * Slimbox is ready to launch as soon as the document is ready. This means that you don't have to wait for all images of the page to be loaded before clicking on a link that will launch the Lightbox effect.
+  * Slimbox also centers images vertically on startup, not just horizontally. Vertical scrolling is still possible.
+  * It works perfectly on horizontal-scrolling websites.
+  * It temporary hides flash animations and other embedded videos while it is open to avoid display bugs in some browsers. It also hides select boxes in Internet Explorer.
+  * With a special option, it allows you to navigate between the first and last images.
+  * The script is more robust; for example you can try to start and stop Slimbox or navigate between images very quickly to interrupt the animations and resume them and you won't notice any bug like in the original Lightbox where sometimes the animation stops or the captions are wrongly sized.
+  * Slimbox may be launched from the traditional image links inside the page like the original Lightbox, but also directly from Javascript using its complete API.
 
 From a _design_ point of view, Slimbox is very different from Lightbox:
 
-  * The code has been entirely rewritten with efficiency in mind for the mootools framework instead of the huge Prototype/Scriptaculous. The script itself is as tiny as 4kb (uncompressed).
-  * The Slimbox CSS are simpler and 100% valid (no more CSS hacks). Also, all images used by Slimbox are specified in the CSS instead of the Javascript so it is easier to style.
-  * Slimbox does not use the 1 pixel transparent gif image needed by Lightbox.
+  * The code is optimized to an insane level and has been written from scratch with efficiency in mind for the mootools framework instead of the huge Prototype/Scriptaculous. The script itself is as tiny as 4kb (minified, uncompressed).
+  * Slimbox can be completely customized thanks to many options. You can change the duration of any effect, the counter text translation or even the navigtation keys.
+  * Slimbox has a much more powerful [API], allowing you to apply the Lightbox effect easily on any clickable element or from any script. For example, it can be easily integrated with links pointing to Flickr or Picasa Web Albums pages or with any javascript image gallery.
+  * The Slimbox CSS are simpler and 100% valid (no more CSS hacks). Also, every visual aspect of Slimbox (including images) is specified in the CSS instead of the Javascript so it is easier to style. You may even change any border size in the CSS and Slimbox will still work fine, which means that nothing is "hard-coded" in the source code.
 
-And of course, it has been tested in all modern browsers: Firefox, Internet Explorer 6+, Opera 8+, Safari 2+ and Camino. It is not compatible with the old Internet Explorer 5.5 and will never be.
+And of course, it has been tested in all modern browsers: Firefox 2+, Internet Explorer 6+, Opera 9+, Safari 2+, Camino and Google Chrome. It is not compatible with the old Internet Explorer 5.5 and will never be.
+
+Slimbox 1.5, which is also available, is also compatible with Safari 1.3, Firefox 1.x and Opera 8.x but not with Opera 9.5+.
 
 The total download size for the required modules of mootools + Slimbox, *both minified and gzipped*, is currently as small as *16kb*.
 
@@ -34,7 +38,7 @@ Slimbox 1.6 requires the [http://mootools.net/ mootools] framework, *version 1.2
 
 The Slimbox download package already includes mootools with the above dependencies only. If you need more dependencies for your own scripts or want to use a different mootools version, you have to build your own version of mootools on the mootools download page.
 
-Slimbox 1.5 is using mootools 1.11 and is also available for download. It provides the same features set as the latest version. Its dependencies are detailed in the provided readme file. You may need to use this version if your entire website is still using mootools 1.11 or if you need compatibility with the old Safari 1.3.
+Slimbox 1.5, which uses mootools 1.11, is also available for download. It provides the same features set as the latest version. Its dependencies are detailed in the provided readme file. You may need to use this version if your website is still using mootools 1.11 or if you need compatibility with older browsers like Safari 1.3, Firefox 1.x or Opera 8.x.
 
 =Usage=
 
@@ -53,23 +57,31 @@ Because Slimbox was designed to be 100% compatible with Lightbox, you can just r
 
 There are some options that you can specify inside the script. The default values should be just fine, however if you want you can change the following:
 
-  * *loop:* Boolean; if true, allows to navigate between the first and last images of a Slimbox gallery, when there is more than one image to display.  _Default is false._
-  * *overlayOpacity:* The level of opacity of the background overlay. 1 Is opaque, 0 is completely transparent. You can change the color in the CSS file. _Default is 0.8_
-  * *resizeDuration:* The duration of the resize animation for width and height, in milliseconds. _Default is 400._
-  * *resizeTransition:* The transition you want to use for the resize animation. You can choose amongst lots of cool transitions that are part of the optional "Transitions" module of mootools, like "Fx.Transitions.Elastic.easeOut". Many transitions require a longer execution time to look good, so you should adjust the resizeDuration option above as well.
-  * *initialWidth:* The initial width of the box, in pixels. _Default is 250._
-  * *initialHeight:* The initial height of the box, in pixels. _Default is 250._
-  * *animateCaption:* Boolean; set it to false to disable the caption animation. _Default is true._
+  * *loop:* Boolean; if true, allows the user to navigate between the first and last images of a Slimbox gallery, when there is more than one image to display.  _Default is {{{false}}}._
+  * *overlayOpacity:* The level of opacity of the background overlay. {{{1}}} Is opaque, {{{0}}} is completely transparent. You can change the color in the CSS file. _Default is {{{0.8}}}_
+  * *overlayFadeDuration:* The duration of the overlay fade-in and fade-out animations, in milliseconds. Set it to {{{0}}} to disable the overlay fade effects. _Default is {{{400}}}._
+  * *resizeDuration:* The duration of the resize animation for width and height, in milliseconds. Set it to {{{0}}} to disable resize animations. _Default is {{{400}}}._
+  * *resizeTransition:* The transition you want to use for the resize animation. You can choose amongst lots of cool transitions that are part of the optional "Transitions" module of mootools, like {{{Fx.Transitions.Elastic.easeOut}}}. Many transitions require a longer execution time to look good, so you should adjust the resizeDuration option above as well. _Default is mootools' default transition, sineInOut._
+  * *initialWidth:* The initial width of the box, in pixels. _Default is {{{250}}}._
+  * *initialHeight:* The initial height of the box, in pixels. _Default is {{{250}}}._
+  * *imageFadeDuration:* The duration of the image fade-in animation, in milliseconds. Set it to {{{0}}} to disable this effect and make the image appear instantly. _Default is {{{400}}}._
+  * *captionAnimationDuration:* The duration of the caption animation, in milliseconds. Set it to {{{0}}} to disable it and make the caption appear instantly. _Default is {{{400}}}._
   * *showCounter:* Boolean; if true, a counter will be shown at the bottom of the caption zone if there is more than 1 image to display.  _Default is true._
-  * *counterText:* Allows you to customize or translate the default text for the counter. Inside the text, {{{{x}}}} will be replaced by the current image index, and {{{{y}}}} will be replaced by the total number of images. _Default is "Image {x} of {y}"_.
+  * *counterText:* Text value; allows you to customize, translate or disable the text of the counter which appears in the captions when multiple images are shown. Inside the text, {{{{x}}}} will be replaced by the current image index, and {{{{y}}}} will be replaced by the total number of images. Set it to {{{false}}} (boolean value, without quotes) or {{{""}}} to disable the counter display. _Default is {{{"Image {x} of {y}"}}}_.
+  * closeKeys: An array of [http://www.webonweboff.com/tips/js/event_key_codes.aspx key codes] of the keys to press to close Slimbox. _Default is {{{[27, 88, 67]}}} meaning *Esc* (27), *"x"* (88) and *"c"* (67)._
+  * previousKeys: An array of [http://www.webonweboff.com/tips/js/event_key_codes.aspx key codes] of the keys to press to navigate to the previous image. _Default is {{{[37, 80]}}} meaning *Left arrow* (37) and *"p"* (80)._
+  * nextKeys: An array of [http://www.webonweboff.com/tips/js/event_key_codes.aspx key codes] of the keys to press to navigate to the next image. _Default is {{{[39, 78]}}} meaning *Right arrow* (39) and *"n"* (78)._
 
-Example of a custom options object:
+Example of a custom options object, including french translation:
 
 {{{
 {
 	overlayOpacity: 0.6,
 	resizeTransition: Fx.Transitions.Elastic.easeOut,
-	counterText: "Image {x} sur {y}"
+	animateCaption: 0,
+	counterText: "Image {x} sur {y}",
+	closeKeys: [27, 70],
+	nextKeys: [39, 83]
 }
 }}}
 
@@ -93,7 +105,7 @@ Add the {{{rel="lightbox"}}} attribute to the links pointing to your full-sized 
 
 You can event use HTML in the caption if you want. You must replace the < and > characters with HTML entities and use single quotes instead of double quotes.
 
-For sets of related images that you want to group and make navigable, add a group name to the {{{rel}}} attribute after the "lightbox" word, for example:
+For sets of related images that you want to group and make navigable, add a group name to the {{{rel}}} attribute just after the "lightbox" word, for example:
 
 {{{
 <a href="images/image-1.jpg" rel="lightbox-atomium">image #1</a>
@@ -101,6 +113,6 @@ For sets of related images that you want to group and make navigable, add a grou
 <a href="images/image-3.jpg" rel="lightbox-atomium">image #3</a>
 }}}
 
-I don't recommend using square brackets "[ ]" for groups in the {{{rel}}} attribute like the original Lightbox scripts does because these characters are invalid for XHTML and XML attributes, meaning that your web page would not validate against the latest standards.
+I don't recommend using square brackets "[ ]" around group names in the {{{rel}}} attribute like the original Lightbox script does because these characters are invalid for XHTML and XML attributes, meaning that your web page would not validate against the latest standards.
 
 _Et voilà._
