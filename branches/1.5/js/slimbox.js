@@ -241,6 +241,7 @@ var Slimbox;
 
 	function stop() {
 		preload.onload = Class.empty;
+		preload.src = preloadPrev.src = preloadNext.src = "";
 		fxResize.clearChain();
 		fxResize.stop();
 		fxImage.stop();
