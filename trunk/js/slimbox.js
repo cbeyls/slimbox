@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.66 - The ultimate lightweight Lightbox clone
+	Slimbox v1.67 - The ultimate lightweight Lightbox clone
 	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -9,11 +9,10 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var win = window, state = 0, options, images, activeImage, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
-	// State values: 0 (closed or closing), 1 (open and ready), 2 (open and busy with animation)
+	var win = window, options, images, activeImage = -1, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
 
 	// Preload images
-	preload, preloadPrev = new Image(), preloadNext = new Image(),
+	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
 
 	// DOM elements
 	overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number,
@@ -91,9 +90,8 @@ var Slimbox;
 			if (compatibleOverlay) overlay.style.position = "absolute";
 			fxOverlay.set(0).start(options.overlayOpacity);
 			position();
-			setup(true);
+			setup(1);
 
-			state = 1;
 			images = _images;
 			options.loop = options.loop && (images.length > 1);
 			return changeImage(startImage);
@@ -183,14 +181,12 @@ var Slimbox;
 	}
 
 	function changeImage(imageIndex) {
-		if ((state == 1) && (imageIndex >= 0)) {
-			state = 2;
+		if (imageIndex >= 0) {
 			activeImage = imageIndex;
 			prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
 			nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
 
-			fxBottom.cancel();
-			$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
+			stop();
 			center.className = "lbLoading";
 
 			preload = new Image();
@@ -234,18 +230,22 @@ var Slimbox;
 		if (nextImage >= 0) nextLink.style.display = "";
 		fxBottom.set(-bottom.offsetHeight).start(0);
 		bottomContainer.style.visibility = "";
-		state = 1;
+	}
+
+	function stop() {
+		preload.onload = $empty;
+		fxResize.cancel();
+		fxImage.cancel();
+		fxBottom.cancel();
+		$$(prevLink, nextLink, image, bottomContainer).setStyle("display", "none");
 	}
 
 	function close() {
-		if (state) {
-			state = 0;
-			preload.onload = $empty;
-			[fxOverlay, fxResize, fxImage, fxBottom].forEach(function(fx) {
-				fx.cancel();
-			});
-			$$(center, bottomContainer).setStyle("display", "none");
-			fxOverlay.chain(setup).start(0);
+		if (activeImage >= 0) {
+			stop();
+			activeImage = prevImage = nextImage = -1;
+			center.style.display = "none";
+			fxOverlay.cancel().chain(setup).start(0);
 		}
 
 		return false;
