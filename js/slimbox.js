@@ -9,7 +9,7 @@ var Slimbox;
 (function() {
 
 	// Global variables, accessible to Slimbox only
-	var win = window, options, images, activeImage = -1, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
+	var win = window, ie6 = Browser.Engine.trident4, options, images, activeImage = -1, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
 
 	// Preload images
 	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
@@ -86,7 +86,7 @@ var Slimbox;
 			centerWidth = options.initialWidth;
 			centerHeight = options.initialHeight;
 			center.setStyles({top: Math.max(0, middle - (centerHeight / 2)), width: centerWidth, height: centerHeight, marginLeft: -centerWidth/2, display: ""});
-			compatibleOverlay = !win.XMLHttpRequest || (overlay.currentStyle && (overlay.currentStyle.position != "fixed"));
+			compatibleOverlay = ie6 || (overlay.currentStyle && (overlay.currentStyle.position != "fixed"));
 			if (compatibleOverlay) overlay.style.position = "absolute";
 			fxOverlay.set(0).start(options.overlayOpacity);
 			position();
@@ -149,7 +149,7 @@ var Slimbox;
 	}
 
 	function setup(open) {
-		["object", Browser.Engine.trident ? "select" : "embed"].forEach(function(tag) {
+		["object", ie6 ? "select" : "embed"].forEach(function(tag) {
 			Array.forEach(document.getElementsByTagName(tag), function(el) {
 				if (open) el._slimbox = el.style.visibility;
 				el.style.visibility = open ? "hidden" : el._slimbox;
@@ -200,7 +200,7 @@ var Slimbox;
 	function animateBox() {
 		center.className = "";
 		fxImage.set(0);
-		image.setStyles({width: preload.width, backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
+		image.setStyles({width: preload.width, backgroundImage: "url(" + preload.src + ")", display: ""});
 		$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
 		caption.set("html", images[activeImage][1] || "");
