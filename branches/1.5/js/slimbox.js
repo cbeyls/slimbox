@@ -156,7 +156,7 @@ var Slimbox;
 	}
 
 	function setup(open) {
-		["object", win.ie ? "select" : "embed"].forEach(function(tag) {
+		["object", win.ie6 ? "select" : "embed"].forEach(function(tag) {
 			$each(document.getElementsByTagName(tag), function(el) {
 				if (open) el._slimbox = el.style.visibility;
 				el.style.visibility = open ? "hidden" : el._slimbox;
@@ -207,7 +207,7 @@ var Slimbox;
 	function animateBox() {
 		center.className = "";
 		fxImage.set(0);
-		image.setStyles({width: preload.width, backgroundImage: "url(" + images[activeImage][0] + ")", display: ""});
+		image.setStyles({width: preload.width, backgroundImage: "url(" + preload.src + ")", display: ""});
 		$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
 		caption.setHTML(images[activeImage][1] || "");
