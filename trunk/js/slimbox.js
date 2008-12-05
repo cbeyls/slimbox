@@ -15,7 +15,7 @@ var Slimbox;
 	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
 
 	// DOM elements
-	overlay, center, image, prevLink, nextLink, bottomContainer, bottom, caption, number,
+	overlay, center, image, sizer, prevLink, nextLink, bottomContainer, bottom, caption, number,
 
 	// Effects
 	fxOverlay, fxResize, fxImage, fxBottom;
@@ -35,6 +35,7 @@ var Slimbox;
 		);
 
 		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
+			sizer = new Element("div"),
 			prevLink = new Element("a", {id: "lbPrevLink", href: "#"}).addEvent("click", previous),
 			nextLink = new Element("a", {id: "lbNextLink", href: "#"}).addEvent("click", next)
 		);
@@ -200,8 +201,9 @@ var Slimbox;
 	function animateBox() {
 		center.className = "";
 		fxImage.set(0);
-		image.setStyles({width: preload.width, backgroundImage: "url(" + preload.src + ")", display: ""});
-		$$(image, prevLink, nextLink).setStyle("height", preload.height);
+		image.setStyles({backgroundImage: "url(" + preload.src + ")", display: ""});
+		sizer.setStyle("width", preload.width);
+		$$(sizer, prevLink, nextLink).setStyle("height", preload.height);
 
 		caption.set("html", images[activeImage][1] || "");
 		number.set("html", (((images.length > 1) && options.counterText) || "").replace(/{x}/, activeImage + 1).replace(/{y}/, images.length));
