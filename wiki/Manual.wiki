@@ -8,9 +8,9 @@ From a _functional_ point of view, Slimbox has the following added features comp
   * Slimbox is ready to launch as soon as the document is ready. This means that you don't have to wait for all images of the page to be loaded before clicking on a link that will launch the Lightbox effect.
   * Slimbox also centers images vertically on startup, not just horizontally. Vertical scrolling is still possible.
   * It works perfectly on horizontal-scrolling websites.
-  * It temporary hides flash animations and other embedded videos while it is open to avoid display bugs in some browsers. It also hides select boxes in Internet Explorer.
-  * Using a special option (loop), it allows you to navigate between the first and last images.
-  * Slimbox is more responsive, it allows you to close it immediately at any time using the keyboard or mouse, and to navigate to the previous and next images before the caption animation is complete.
+  * It temporary hides flash animations and other embedded videos while it is open to avoid display bugs in some browsers. It also hides select boxes in Internet Explorer 6.
+  * Using a special option ("loop"), it allows you to navigate between the first and last images.
+  * Slimbox is more responsive; it allows you to close it immediately at any time using the keyboard or mouse and to instantly navigate to any image before the current image has loaded or the animations are complete.
   * The script is more robust; for example you can try to start and stop Slimbox or navigate between images very quickly to interrupt the animations and resume them and you won't notice any bug like in the original Lightbox where sometimes the animation stops or the elements are wrongly sized or positioned.
   * Slimbox can be launched from the traditional image links inside the page like the original Lightbox, but also directly from Javascript using its complete API.
 
