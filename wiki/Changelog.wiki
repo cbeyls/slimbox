@@ -1,6 +1,14 @@
 #summary The history of changes for each official release
 #labels changelog
 
+===v1.67 (2008-12-08)===
+
+   * Keyboard navigation is now always enabled, allowing instant keyboard navigation to any image without having to wait for the images to load or the effects to complete.
+   * In supported browsers like Firefox and IE, images preloading is now stopped when Slimbox is closed or when the user navigates to another image. This saves server bandwidth and allocates the full bandwidth for the currently viewed image rather than old image preloads.
+   * Images are not cropped anymore in quirks mode IE (this was due to the IE box model bug). *CSS update required.*
+   * Select boxes are now only hidden in IE6 because IE7 fixes the select boxes problem.
+   * Code optimizations.
+
 ===v1.66 (2008-12-02)===
 
    * New overlay implementation which works much better with standards-compliant browsers. A compatibility mode has been added for other browsers (IE6 and quirks mode IE7). *CSS update required.*
