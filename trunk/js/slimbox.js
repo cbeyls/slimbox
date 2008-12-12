@@ -26,7 +26,7 @@ var Slimbox = (function() {
 		// Append the Slimbox HTML code at the bottom of the document
 		$(document.body).adopt(
 			$$(
-				overlay = new Element("div", {id: "lbOverlay"}).addEvent("click", close),
+				overlay = new Element("div", {id: "lbOverlay", events: {click: close}}),
 				center = new Element("div", {id: "lbCenter"}),
 				bottomContainer = new Element("div", {id: "lbBottomContainer"})
 			).setStyle("display", "none")
@@ -34,12 +34,12 @@ var Slimbox = (function() {
 
 		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
 			sizer = new Element("div"),
-			prevLink = new Element("a", {id: "lbPrevLink", href: "#"}).addEvent("click", previous),
-			nextLink = new Element("a", {id: "lbNextLink", href: "#"}).addEvent("click", next)
+			prevLink = new Element("a", {id: "lbPrevLink", href: "#", events: {click: previous}}),
+			nextLink = new Element("a", {id: "lbNextLink", href: "#", events: {click: next}})
 		);
 
 		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer).adopt(
-			new Element("a", {id: "lbCloseLink", href: "#"}).addEvent("click", close),
+			new Element("a", {id: "lbCloseLink", href: "#", events: {click: close}}),
 			caption = new Element("div", {id: "lbCaption"}),
 			number = new Element("div", {id: "lbNumber"}),
 			new Element("div", {styles: {clear: "both"}})
