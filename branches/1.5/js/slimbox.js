@@ -4,9 +4,7 @@
 	MIT-style license.
 */
 
-var Slimbox;
-
-(function() {
+var Slimbox = (function() {
 
 	// Global variables, accessible to Slimbox only
 	var win = window, options, images, activeImage, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight, eventKeyDown = keyDown.bindWithEvent(),
@@ -49,99 +47,6 @@ var Slimbox;
 			new Element("div", {styles: {clear: "both"}})
 		);
 		closeLink.onclick = overlay.onclick = close;
-	});
-
-
-	/*
-		API
-	*/
-
-	Slimbox = {
-		open: function(_images, startImage, _options) {
-			options = $extend({
-				loop: false,				// Allows to navigate between first and last images
-				overlayOpacity: 0.8,			// 1 is opaque, 0 is completely transparent (change the color in the CSS file)
-				overlayFadeDuration: 400,		// Duration of the overlay fade-in and fade-out animations (in milliseconds)
-				resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
-				resizeTransition: false,		// "false" uses the mootools default transition
-				initialWidth: 250,			// Initial width of the box (in pixels)
-				initialHeight: 250,			// Initial height of the box (in pixels)
-				imageFadeDuration: 400,			// Duration of the image fade-in animation (in milliseconds)
-				captionAnimationDuration: 400,		// Duration of the caption animation (in milliseconds)
-				counterText: "Image {x} of {y}",	// Translate or change as you wish
-				closeKeys: [27, 88, 67],		// Array of keycodes to close Slimbox, default: Esc (27), 'x' (88), 'c' (67)
-				previousKeys: [37, 80],			// Array of keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
-				nextKeys: [39, 78]			// Array of keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
-			}, _options || {});
-
-			// Setup effects
-			fxOverlay = overlay.effect("opacity", {duration: options.overlayFadeDuration});
-			fxResize = center.effects($extend({duration: options.resizeDuration}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
-			fxImage = image.effect("opacity", {duration: options.imageFadeDuration, onComplete: animateCaption});
-			fxBottom = bottom.effect("margin-top", {duration: options.captionAnimationDuration});
-
-			// The function is called for a single image, with URL and Title as first two arguments
-			if (typeof _images == "string") {
-				_images = [[_images, startImage]];
-				startImage = 0;
-			}
-
-			middle = win.getScrollTop() + (win.getHeight() /2);
-			centerWidth = options.initialWidth;
-			centerHeight = options.initialHeight;
-			center.setStyles({top: Math.max(0, middle - (centerHeight / 2)), width: centerWidth, height: centerHeight, marginLeft: -centerWidth/2, display: ""});
-			compatibleOverlay = win.ie6 || (overlay.currentStyle && (overlay.currentStyle.position != "fixed"));
-			if (compatibleOverlay) overlay.style.position = "absolute";
-			fxOverlay.set(0).start(options.overlayOpacity);
-			position();
-			setup(1);
-
-			images = _images;
-			options.loop = options.loop && (images.length > 1);
-			return changeImage(startImage);
-		}
-	};
-
-	Element.extend({
-		slimbox: function(_options, linkMapper) {
-			// The processing of a single element is similar to the processing of a collection with a single element
-			$$(this).slimbox(_options, linkMapper);
-
-			return this;
-		}
-	});
-
-	Elements.extend({
-		/*
-			options:	Optional options object, see Slimbox.open()
-			linkMapper:	Optional function taking a link DOM element and an index as arguments and returning an array containing 2 elements:
-					the image URL and the image caption (may contain HTML)
-			linksFilter:	Optional function taking a link DOM element and an index as arguments and returning true if the element is part of
-					the image collection that will be shown on click, false if not. "this" refers to the element that was clicked.
-					This function must always return true when the DOM element argument is "this".
-		*/
-		slimbox: function(_options, linkMapper, linksFilter) {
-			linkMapper = linkMapper || function(el) {
-				return [el.href, el.title];
-			};
-
-			linksFilter = linksFilter || function() {
-				return true;
-			};
-
-			var links = this;
-
-			links.forEach(function(link) {
-				link.removeEvents("click").addEvent("click", function(event) {
-					// Build the list of images that will be displayed
-					var filteredLinks = links.filter(linksFilter, this);
-					Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
-					event.stop();
-				}.bindWithEvent(link));
-			});
-
-			return links;
-		}
 	});
 
 
@@ -259,5 +164,98 @@ var Slimbox;
 
 		return false;
 	}
+
+
+	/*
+		API
+	*/
+
+	Element.extend({
+		slimbox: function(_options, linkMapper) {
+			// The processing of a single element is similar to the processing of a collection with a single element
+			$$(this).slimbox(_options, linkMapper);
+
+			return this;
+		}
+	});
+
+	Elements.extend({
+		/*
+			options:	Optional options object, see Slimbox.open()
+			linkMapper:	Optional function taking a link DOM element and an index as arguments and returning an array containing 2 elements:
+					the image URL and the image caption (may contain HTML)
+			linksFilter:	Optional function taking a link DOM element and an index as arguments and returning true if the element is part of
+					the image collection that will be shown on click, false if not. "this" refers to the element that was clicked.
+					This function must always return true when the DOM element argument is "this".
+		*/
+		slimbox: function(_options, linkMapper, linksFilter) {
+			linkMapper = linkMapper || function(el) {
+				return [el.href, el.title];
+			};
+
+			linksFilter = linksFilter || function() {
+				return true;
+			};
+
+			var links = this;
+
+			links.forEach(function(link) {
+				link.removeEvents("click").addEvent("click", function(event) {
+					// Build the list of images that will be displayed
+					var filteredLinks = links.filter(linksFilter, this);
+					Slimbox.open(filteredLinks.map(linkMapper), filteredLinks.indexOf(this), _options);
+					event.stop();
+				}.bindWithEvent(link));
+			});
+
+			return links;
+		}
+	});
+
+	return {
+		open: function(_images, startImage, _options) {
+			options = $extend({
+				loop: false,				// Allows to navigate between first and last images
+				overlayOpacity: 0.8,			// 1 is opaque, 0 is completely transparent (change the color in the CSS file)
+				overlayFadeDuration: 400,		// Duration of the overlay fade-in and fade-out animations (in milliseconds)
+				resizeDuration: 400,			// Duration of each of the box resize animations (in milliseconds)
+				resizeTransition: false,		// "false" uses the mootools default transition
+				initialWidth: 250,			// Initial width of the box (in pixels)
+				initialHeight: 250,			// Initial height of the box (in pixels)
+				imageFadeDuration: 400,			// Duration of the image fade-in animation (in milliseconds)
+				captionAnimationDuration: 400,		// Duration of the caption animation (in milliseconds)
+				counterText: "Image {x} of {y}",	// Translate or change as you wish
+				closeKeys: [27, 88, 67],		// Array of keycodes to close Slimbox, default: Esc (27), 'x' (88), 'c' (67)
+				previousKeys: [37, 80],			// Array of keycodes to navigate to the previous image, default: Left arrow (37), 'p' (80)
+				nextKeys: [39, 78]			// Array of keycodes to navigate to the next image, default: Right arrow (39), 'n' (78)
+			}, _options || {});
+
+			// Setup effects
+			fxOverlay = overlay.effect("opacity", {duration: options.overlayFadeDuration});
+			fxResize = center.effects($extend({duration: options.resizeDuration}, options.resizeTransition ? {transition: options.resizeTransition} : {}));
+			fxImage = image.effect("opacity", {duration: options.imageFadeDuration, onComplete: animateCaption});
+			fxBottom = bottom.effect("margin-top", {duration: options.captionAnimationDuration});
+
+			// The function is called for a single image, with URL and Title as first two arguments
+			if (typeof _images == "string") {
+				_images = [[_images, startImage]];
+				startImage = 0;
+			}
+
+			middle = win.getScrollTop() + (win.getHeight() /2);
+			centerWidth = options.initialWidth;
+			centerHeight = options.initialHeight;
+			center.setStyles({top: Math.max(0, middle - (centerHeight / 2)), width: centerWidth, height: centerHeight, marginLeft: -centerWidth/2, display: ""});
+			compatibleOverlay = win.ie6 || (overlay.currentStyle && (overlay.currentStyle.position != "fixed"));
+			if (compatibleOverlay) overlay.style.position = "absolute";
+			fxOverlay.set(0).start(options.overlayOpacity);
+			position();
+			setup(1);
+
+			images = _images;
+			options.loop = options.loop && (images.length > 1);
+			return changeImage(startImage);
+		}
+	};
 
 })();
