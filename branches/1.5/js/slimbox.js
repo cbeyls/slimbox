@@ -219,10 +219,10 @@ var Slimbox;
 		centerWidth = image.offsetWidth;
 		centerHeight = image.offsetHeight;
 		var top = Math.max(0, middle - (centerHeight / 2));
-		if (center.clientHeight != centerHeight) {
+		if (center.offsetHeight != centerHeight) {
 			fxResize.chain(fxResize.start.pass({height: centerHeight, top: top}, fxResize));
 		}
-		if (center.clientWidth != centerWidth) {
+		if (center.offsetWidth != centerWidth) {
 			fxResize.chain(fxResize.start.pass({width: centerWidth, marginLeft: -centerWidth/2}, fxResize));
 		}
 		fxResize.chain(function() {
