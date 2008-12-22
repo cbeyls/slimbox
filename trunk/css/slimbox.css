@@ -47,7 +47,7 @@
 }
 
 #lbNextLink {
-	left: 50%;
+	right: 0;
 }
 
 #lbNextLink:hover {
