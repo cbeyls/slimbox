@@ -33,9 +33,10 @@ var Slimbox = (function() {
 		);
 
 		image = new Element("div", {id: "lbImage"}).injectInside(center).adopt(
-			sizer = new Element("div"),
-			prevLink = new Element("a", {id: "lbPrevLink", href: "#", events: {click: previous}}),
-			nextLink = new Element("a", {id: "lbNextLink", href: "#", events: {click: next}})
+			sizer = new Element("div", {styles: {position: "relative"}}).adopt(
+				prevLink = new Element("a", {id: "lbPrevLink", href: "#", events: {click: previous}}),
+				nextLink = new Element("a", {id: "lbNextLink", href: "#", events: {click: next}})
+			)
 		);
 
 		bottom = new Element("div", {id: "lbBottom"}).injectInside(bottomContainer).adopt(
