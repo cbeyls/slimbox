@@ -7,7 +7,8 @@
 var Slimbox = (function() {
 
 	// Global variables, accessible to Slimbox only
-	var win = window, options, images, activeImage, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight, eventKeyDown = keyDown.bindWithEvent(),
+	var win = window, options, images, activeImage, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
+		eventKeyDown = keyDown.bindWithEvent(), operaFix = window.opera && document.getElementsByClassName, documentElement = document.documentElement,
 
 	// Preload images
 	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
@@ -54,12 +55,8 @@ var Slimbox = (function() {
 		Internal functions
 	*/
 
-	function getDimension(what) {
-		return (win.opera && document.getElementsByClassName) ? document.documentElement["client"+what] : win["get"+what]();
-	}
-
 	function position() {
-		var l = win.getScrollLeft(), w = getDimension("Width");
+		var l = win.getScrollLeft(), w = operaFix ? documentElement.clientWidth : win.getWidth();
 		$$(center, bottomContainer).setStyle("left", l + (w / 2));
 		if (compatibleOverlay) overlay.setStyles({left: l, top: win.getScrollTop(), width: w, height: win.getHeight()});
 	}
@@ -246,7 +243,7 @@ var Slimbox = (function() {
 				startImage = 0;
 			}
 
-			middle = win.getScrollTop() + (getDimension("Height") / 2);
+			middle = win.getScrollTop() + ((operaFix ? documentElement.clientHeight : win.getHeight()) / 2);
 			centerWidth = options.initialWidth;
 			centerHeight = options.initialHeight;
 			center.setStyles({top: Math.max(0, middle - (centerHeight / 2)), width: centerWidth, height: centerHeight, marginLeft: -centerWidth/2, display: ""});
