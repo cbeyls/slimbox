@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.55 - The ultimate lightweight Lightbox clone
+	Slimbox v1.56 - The ultimate lightweight Lightbox clone
 	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -54,8 +54,12 @@ var Slimbox = (function() {
 		Internal functions
 	*/
 
+	function getDimension(what) {
+		return (win.opera && document.getElementsByClassName) ? document.documentElement["client"+what] : win["get"+what]();
+	}
+
 	function position() {
-		var l = win.getScrollLeft(), w = win.getWidth();
+		var l = win.getScrollLeft(), w = getDimension("Width");
 		$$(center, bottomContainer).setStyle("left", l + (w / 2));
 		if (compatibleOverlay) overlay.setStyles({left: l, top: win.getScrollTop(), width: w, height: win.getHeight()});
 	}
@@ -242,7 +246,7 @@ var Slimbox = (function() {
 				startImage = 0;
 			}
 
-			middle = win.getScrollTop() + (win.getHeight() /2);
+			middle = win.getScrollTop() + (getDimension("Height") / 2);
 			centerWidth = options.initialWidth;
 			centerHeight = options.initialHeight;
 			center.setStyles({top: Math.max(0, middle - (centerHeight / 2)), width: centerWidth, height: centerHeight, marginLeft: -centerWidth/2, display: ""});
