@@ -8,7 +8,7 @@ var Slimbox = (function() {
 
 	// Global variables, accessible to Slimbox only
 	var win = window, options, images, activeImage, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
-		eventKeyDown = keyDown.bindWithEvent(), operaFix = window.opera && document.getElementsByClassName, documentElement = document.documentElement,
+		eventKeyDown = keyDown.bindWithEvent(), operaFix = window.opera && (navigator.appVersion >= "9.3"), documentElement = document.documentElement,
 
 	// Preload images
 	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
