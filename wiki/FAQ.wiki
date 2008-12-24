@@ -59,13 +59,14 @@ However if Slimbox is opened by clicking on an image link, your visitors can rig
 
 If it's not enough for you and you want the visitors to be able to save the image from inside Slimbox, you can modify the "autoload code block" so that a link to the image is added automatically after the image caption. This is achieved by defining a _linkMapper_ function (see the [API] documentation for more information). The autoload code block is located by default in _slimbox.js_ but may be moved inside the HTML page if you want. Here's the new code:
 
+*mootools version*
+
 {{{
 // AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
 Slimbox.scanPage = function() {
-        var links = $$("a").filter(function(el) {
+        $$($$("a").filter(function(el) {
                 return el.rel && el.rel.test(/^lightbox/i);
-        });
-        $$(links).slimbox({/* Put custom options here */}, function(el) {
+        })).slimbox({/* Put custom options here */}, function(el) {
                 return [el.href, el.title + '<br /><a href="' + el.href + '">Download this image</a>'];
         }, function(el) {
                 return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
@@ -88,18 +89,19 @@ Note that you can mimic the appearance of an iFrame with the scrollbars using a 
 
 However, if you really, really want iFrames, there are two ways to do this by modifying the "autoload code block" of the parent frame. By default, this code is located in _slimbox.js_ but you can move it inside the HTML page if you want to. Each way has its own drawbacks and will not work as well as if you were not using iframes.
 
-In both cases, you need to setup the full slimbox in the parent frame (mootools + slimbox + css) and you only need to include mootools in the child frame (no slimbox or css). If you don't add mootools in the child frame, an error will occur when clicking on a slimbox-enabled link.
+In both cases, you need to setup the full slimbox in the parent frame (mootools/jQuery + slimbox + css) and you only need to include mootools/jQuery in the child frame (no slimbox or css). If you don't add mootools/jQuery in the child frame, an error will occur when clicking on a slimbox-enabled link.
 
 ==Solution 1==
+
+*mootools version*
 
 {{{
 // AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
 Slimbox.scanPage = function() {
         function scanFrame() {
-                var links = $$(this.document.links).filter(function(el) {
+                $$($$(this.document.links).filter(function(el) {
                         return el.rel && el.rel.test(/^lightbox/i);
-                });
-                $$(links).slimbox({/* Put custom options here */}, null, function(el) {
+                })).slimbox({/* Put custom options here */}, null, function(el) {
                         return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
                 });
         }
@@ -122,6 +124,8 @@ Drawbacks:
 
 ==Solution 2==
 
+*mootools version*
+
 {{{
 // AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
 Slimbox.scanPage = function() {
@@ -129,10 +133,9 @@ Slimbox.scanPage = function() {
         [window].extend(window.frames).forEach(function(frame) {
                 links.extend(frame.document.links);
         });
-        links = $$(links).filter(function(el) {
+        $$($$(links).filter(function(el) {
                 return el.rel && el.rel.test(/^lightbox/i);
-        });
-        $$(links).slimbox({/* Put custom options here */}, null, function(el) {
+        })).slimbox({/* Put custom options here */}, null, function(el) {
                 return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
         });
 
