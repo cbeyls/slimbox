@@ -1,4 +1,4 @@
-#summary Calling Slimbox functions from Javascript
+#summary Calling Slimbox 1 functions from Javascript
 #labels Featured
 
 <wiki:toc />

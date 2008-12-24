@@ -1,4 +1,4 @@
-#summary The history of changes for each official release
+#summary The history of changes for each official release of Slimbox 1
 #labels changelog
 
 ===v1.68 (2008-12-24)===

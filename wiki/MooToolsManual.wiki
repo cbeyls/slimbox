@@ -1,4 +1,4 @@
-#summary Slimbox Manual
+#summary Slimbox 1 Manual
 #labels features,requirements,usage,Featured
 
 =Features=
@@ -18,7 +18,7 @@ From a _design_ point of view, Slimbox is very different from Lightbox:
 
   * The code is optimized to an insane level and has been written from scratch with efficiency in mind for the mootools framework instead of the huge Prototype/Scriptaculous. The script itself is as tiny as 4kb (minified, uncompressed).
   * Slimbox can be entirely customized thanks to many options. You can change the duration of any effect, the counter text translation or even the navigtation keys.
-  * Slimbox has a much more powerful [API], allowing you to apply the Lightbox effect easily on any clickable element or from any script. For example, it can be easily integrated with links pointing to Flickr or Picasa Web Albums pages or with any javascript image gallery.
+  * Slimbox has a much more powerful [MooToolsAPI API], allowing you to apply the Lightbox effect easily on any clickable element or from any script. For example, it can be easily integrated with links pointing to Flickr or Picasa Web Albums pages or with any javascript image gallery.
   * The Slimbox CSS are simpler and 100% valid (no more CSS hacks). Also, every visual aspect of Slimbox (including images) is specified in the CSS instead of the Javascript so it is easier to style. You may even change any border size in the CSS and Slimbox will still work fine, which means that nothing is "hard-coded" in the source code.
 
 And of course, it has been tested in all modern browsers: Firefox 2+, Internet Explorer 6+, Opera 9+, Safari 2+, Camino and Google Chrome. It is not compatible with the old Internet Explorer 5.5 and will never be.

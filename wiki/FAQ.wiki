@@ -57,7 +57,7 @@ When you right-click on an image displayed in Slimbox, there is no option to sav
 
 However if Slimbox is opened by clicking on an image link, your visitors can right-click on that link and choose "save target as..." to save the image.
 
-If it's not enough for you and you want the visitors to be able to save the image from inside Slimbox, you can modify the "autoload code block" so that a link to the image is added automatically after the image caption. This is achieved by defining a _linkMapper_ function (see the [MooToolsAPI] documentation for more information). The autoload code block is located by default in _slimbox.js_ but may be moved inside the HTML page if you want. Here's the new code:
+If it's not enough for you and you want the visitors to be able to save the image from inside Slimbox, you can modify the "autoload code block" so that a link to the image is added automatically after the image caption. This is achieved by defining a _linkMapper_ function (see the [MooToolsAPI MooTools API] documentation for more information). The autoload code block is located by default in _slimbox.js_ but may be moved inside the HTML page if you want. Here's the new code:
 
 *mootools version*
 
