@@ -56,7 +56,7 @@ Because it was designed to be 100% compatible with Lightbox, you just need to re
 <script type="text/javascript" src="js/slimbox.js"></script>
 }}}
 
-There are some options that you can specify inside the script. The default values should be just fine, however if you want you can change the following:
+There are some options that you can specify in the form of a javascript object inside the script (look for "put custom options here"). The default values should be just fine, however if you want you can change the following:
 
   * *loop:* Boolean; if true, allows the user to navigate between the first and last images of a Slimbox gallery, when there is more than one image to display. Default is {{{false}}}.
   * *overlayOpacity:* The level of opacity of the background overlay. {{{1}}} Is opaque, {{{0}}} is completely transparent. You can change the color in the CSS file. Default is {{{0.8}}}
