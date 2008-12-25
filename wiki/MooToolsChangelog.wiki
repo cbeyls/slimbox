@@ -6,7 +6,7 @@
    * Fixed "next" and "prev" links not showing in Opera 9. This bug was introduced in the last version.
    * Removed the 1px right margin CSS fix for IE6 and IE7 quirks mode (introduced in the last version) because it caused the 1px right margin to appear in Safari, Chrome and Opera instead. *CSS update required.*
    * Small code optimizations.
-   * Added a fix in Slimbox 1.56 for MooTools 1.11 to make it compatible with Opera 9.5+ and Opera 9.3 for Wii. Sadly, MooTools 1.2 is not compatible with Opera for Wii.
+   * Added a fix in Slimbox 1.56 for mootools 1.11 to make it compatible with Opera 9.5+ and Opera 9.3 for Wii. Sadly, mootools 1.2 is not compatible with Opera for Wii.
 
 ===v1.67 (2008-12-08)===
 
