@@ -1,5 +1,5 @@
 #summary Calling Slimbox 1 functions from Javascript
-#labels Featured
+#labels Phase-Deploy,Featured
 
 <wiki:toc />
 
