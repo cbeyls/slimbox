@@ -21,7 +21,7 @@ Slimbox.open(url, description, options);
 
   * *url* is _mandatory_, it's the URL of the image to display.
   * *description* is _optional_, it's the image description text.
-  * *options* is _optional_, it's a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [Manual#Setup manual]. Example of options object: {{{{ animateCaption: false, loop: true, overlayOpacity: 0.5 }}}}
+  * *options* is _optional_, it's a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [MooToolsManual#Setup manual]. Example of options object: {{{{ animateCaption: false, loop: true, overlayOpacity: 0.5 }}}}
 
 _Examples:_
 
@@ -88,7 +88,7 @@ where *element* is either:
 
 parameters are all _optional_:
 
-  * *options* is a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [Manual#Setup manual].
+  * *options* is a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [MooToolsManual#Setup manual].
   * *linkMapper* is a function. It is described further in this page.
 
 _Example:_
@@ -120,7 +120,7 @@ where *elements* is either:
 
 parameters are all _optional_:
 
-  * *options* is a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [Manual#Setup manual].
+  * *options* is a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [MooToolsManual#Setup manual].
   * *linkMapper* is a function. It is described further in this page. If you want to omit this parameter, you can set it to {{{null}}}.
   * *linksFilter* is a function. It is described further in this page.
 
