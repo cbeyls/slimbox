@@ -58,11 +58,11 @@ Because it was designed to be 100% compatible with Lightbox, you just need to re
 
 There are some options that you can specify in the form of a javascript object inside the script (look for "put custom options here"). The default values should be just fine, however if you want you can change the following:
 
-  * *loop:* Boolean; if true, allows the user to navigate between the first and last images of a Slimbox gallery, when there is more than one image to display. Default is {{{false}}}.
+  * *loop:* Boolean; if set to {{{true}}}, allows the user to navigate between the first and last images of a Slimbox gallery, when there is more than one image to display. Default is {{{false}}}.
   * *overlayOpacity:* The level of opacity of the background overlay. {{{1}}} Is opaque, {{{0}}} is completely transparent. You can change the color in the CSS file. Default is {{{0.8}}}
   * *overlayFadeDuration:* The duration of the overlay fade-in and fade-out animations, in milliseconds. Set it to {{{0}}} to disable the overlay fade effects. Default is {{{400}}}.
   * *resizeDuration:* The duration of the resize animation for width and height, in milliseconds. Set it to {{{0}}} to disable resize animations. Default is {{{400}}}.
-  * *resizeTransition:* The transition you want to use for the resize animation. You can choose amongst lots of cool transitions that are part of the optional "Transitions" module of mootools, like {{{Fx.Transitions.Elastic.easeOut}}}. Many transitions require a longer execution time to look good, so you should adjust the resizeDuration option above as well. Default is mootools' default transition, sineInOut.
+  * *resizeTransition:* The transition that you want to use for the resize animation. You can choose amongst lots of cool transitions that are part of the optional "Transitions" module of mootools, like {{{Fx.Transitions.Elastic.easeOut}}}. Many transitions require a longer execution time to look good, so you should adjust the resizeDuration option above as well. Default is mootools' default transition, sineInOut.
   * *initialWidth:* The initial width of the box, in pixels. Default is {{{250}}}.
   * *initialHeight:* The initial height of the box, in pixels. Default is {{{250}}}.
   * *imageFadeDuration:* The duration of the image fade-in animation, in milliseconds. Set it to {{{0}}} to disable this effect and make the image appear instantly. Default is {{{400}}}.
@@ -91,9 +91,9 @@ Example of a custom options object, including french translation:
 <link rel="stylesheet" href="css/slimbox.css" type="text/css" media="screen" />
 }}}
 
-If you keep the provided CSS as is, you must place the 4 required images in the same folder as the CSS file. Of course you can change the images or move them to another place, then you just need to edit the CSS URLs to reflect your changes. You don't even need to edit the javascript.
+If you keep the provided CSS as is, you must place the 4 required images in the same folder as the CSS file. Of course you can change the images or move them to another place, then you just need to edit the CSS URLs (and the image width and height for the "Close" image) to reflect your changes. You don't even need to edit the javascript.
 
-You can also change the fonts for the caption and the image counter, the width of the border around the lightbox, and the background color. You must not change or add other CSS rules.
+You can also change the fonts for the caption and the image counter, the width of the border around the lightbox and the caption, the margins in the caption and every color. You must not add new CSS rules.
 
 ==Activate==
 
@@ -103,7 +103,7 @@ Add the {{{rel="lightbox"}}} attribute to the links pointing to your full-sized 
 <a href="images/image-1.jpg" rel="lightbox" title="my caption">image #1</a>
 }}}
 
-You can event use HTML in the caption if you want. You must replace the < and > characters with HTML entities and use single quotes instead of double quotes.
+You can even use HTML in the caption if you want. You must replace the < and > characters with HTML entities and use single quotes instead of double quotes.
 
 For sets of related images that you want to group and make navigable, add a group name to the {{{rel}}} attribute just after the "lightbox" word, for example:
 
