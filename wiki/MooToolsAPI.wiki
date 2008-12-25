@@ -21,7 +21,7 @@ Slimbox.open(url, description, options);
 
   * *url* is _mandatory_, it's the URL of the image to display.
   * *description* is _optional_, it's the image description text.
-  * *options* is _optional_, it's a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [MooToolsManual#Setup manual]. Example of options object: {{{{ animateCaption: false, loop: true, overlayOpacity: 0.5 }}}}
+  * *options* is _optional_, it's a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [MooToolsManual#Setup manual]. Example of options object: {{{{ captionAnimationDuration: 0, loop: true, overlayOpacity: 0.5 }}}}
 
 _Examples:_
 
