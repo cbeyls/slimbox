@@ -1,5 +1,5 @@
 #summary The history of changes for each official release of Slimbox 1
-#labels changelog
+#labels Phase-Support
 
 ===v1.68 (2008-12-24)===
 
