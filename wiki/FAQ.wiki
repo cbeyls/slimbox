@@ -59,6 +59,19 @@ However if Slimbox is opened by clicking on an image link, your visitors can rig
 
 If it's not enough for you and you want the visitors to be able to save the image from inside Slimbox, you can modify the "autoload code block" so that a link to the image is added automatically after the image caption. This is achieved by defining a _linkMapper_ function (see the [MooToolsAPI MooTools API] documentation for more information). The autoload code block is located by default in _slimbox.js_ but may be moved inside the HTML page if you want. Here's the new code:
 
+*jQuery version*
+
+{{{
+// AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
+jQuery(function($) {
+        $("a[rel^='lightbox']").slimbox({/* Put custom options here */}, function(el) {
+                return [el.href, el.title + '<br /><a href="' + el.href + '">Download this image</a>'];
+        }, function(el) {
+                return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+        });
+});
+}}}
+
 *mootools version*
 
 {{{
@@ -89,9 +102,27 @@ Note that you can mimic the appearance of an iFrame with the scrollbars using a 
 
 However, if you really, really want iFrames, there are two ways to do this by modifying the "autoload code block" of the parent frame. By default, this code is located in _slimbox.js_ but you can move it inside the HTML page if you want to. Each way has its own drawbacks and will not work as well as if you were not using iframes.
 
-In both cases, you need to setup the full slimbox in the parent frame (mootools/jQuery + slimbox + css) and you only need to include mootools/jQuery in the child frame (no slimbox or css). If you don't add mootools/jQuery in the child frame, an error will occur when clicking on a slimbox-enabled link.
+In both cases, you need to setup the full slimbox in the parent frame (jQuery/mootools + slimbox + css) and you only need to include jQuery/mootools in the child frame (no slimbox or css). If you don't add jQuery/mootools in the child frame, an error will occur when clicking on a slimbox-enabled link.
 
 ==Solution 1==
+
+*jQuery version*
+
+{{{
+// AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
+jQuery(function($) {
+        function scanFrame() {
+                $("a[rel^='lightbox']", this.document).slimbox({/* Put custom options here */}, null, function(el) {
+                        return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+                });
+        }
+        scanFrame.apply(window);
+        $.each(window.frames, function() {
+                this.onload = scanFrame;
+                scanFrame.apply(this);
+        });
+});
+}}}
 
 *mootools version*
 
@@ -110,7 +141,6 @@ Slimbox.scanPage = function() {
                 frame.onload = scanFrame;
                 scanFrame.apply(frame);
         });
-
 };
 
 window.addEvent("domready", Slimbox.scanPage);
@@ -123,6 +153,21 @@ Drawbacks:
   * The keyboard navigation will not work when you click on a slimbox-enabled link inside an iframe, because the iframe will capture the keyboard events instead of the main frame.
 
 ==Solution 2==
+
+*jQuery version*
+
+{{{
+// AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
+jQuery(function($) {
+        var links = [];
+        $.each($.merge([window], window.frames), function() {
+                $.merge(links, $("a[rel^='lightbox']", this.document));
+        });
+        $(links).slimbox({/* Put custom options here */}, null, function(el) {
+                return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+        });
+});
+}}}
 
 *mootools version*
 
@@ -138,7 +183,6 @@ Slimbox.scanPage = function() {
         })).slimbox({/* Put custom options here */}, null, function(el) {
                 return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
         });
-
 };
 
 window.addEvent("load", Slimbox.scanPage);
