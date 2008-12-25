@@ -1,5 +1,5 @@
 #summary Slimbox 1 Manual
-#labels features,requirements,usage,Featured
+#labels Phase-Deploy,Featured
 
 =Features=
 
