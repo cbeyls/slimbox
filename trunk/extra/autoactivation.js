@@ -9,11 +9,10 @@
 	Replace the default autoload code block with this one.
 */
 
-Slimbox.scanPage = function() {
-	$$(document.links).filter(function(el) {
-		return el.href && el.href.test(/\.(jpg|png|gif)$/i);
+jQuery(function($) {
+	$("a[href]").filter(function() {
+		return this.href.test(/\.(jpg|png|gif)$/i);
 	}).slimbox({}, null, function(el) {
 		return (this == el) || (this.parentNode && (this.parentNode == el.parentNode));
 	});
-};
-window.addEvent("domready", Slimbox.scanPage);
+});
