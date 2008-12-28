@@ -9,10 +9,8 @@
 	Add the following code to the autoload code block.
 */
 
-window.addEvent("domready", function() {
-	$$("a").filter(function(el) {
-		return el.href && !el.href.indexOf("http://picasaweb.google.") && el.firstChild && el.firstChild.src;
-	}).slimbox({}, function(el) {
+jQuery(function($) {
+	$("a[href^='http://picasaweb.google.'] > img:first-child[src]").parent().slimbox({}, function(el) {
 		return [el.firstChild.src.replace(/\/s\d+\/([^\/]+)$/, "/s640/$1"),
 			(el.title || el.firstChild.alt) + '<br /><a href="' + el.href + '">Picasa Web Albums page</a>'];
 	});
