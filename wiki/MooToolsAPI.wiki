@@ -142,7 +142,7 @@ $$("#gallery a").slimbox();
 
 ==The linkMapper function==
 
-The linkMapper is an optional function that you can pass as an optional parameter to the {{{slimbox()}}} function. It is responsible for doing the mapping between a DOM element and the image URL and description that will be shown in Slimbox when clicking on that element.
+The linkMapper is a function that you can pass as an optional parameter to the {{{slimbox()}}} function. It is responsible for doing the mapping between a DOM element and the image URL and description that will be shown in Slimbox when clicking on that element.
 
 You can change it in order to change the location where the URL and description will be retrieved, or even customize the URL or description itself.
 
@@ -151,7 +151,7 @@ It takes one parameter: *a DOM element*.
 It returns an *array* containing 2 elements: 
 
   * The image URL.
-  * The image description. It may be {{{null}}}, an empty string or event omitted because the description is optional.
+  * The image description. It may be {{{null}}}, an empty string or even omitted because the description is optional.
 
 When you don't provide a linkMapper function, a default one is used. Here is it:
 
