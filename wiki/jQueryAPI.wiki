@@ -1,0 +1,268 @@
+#summary Calling Slimbox 2 functions from Javascript
+#labels Phase-Deploy,Featured
+
+<wiki:toc />
+
+Slimbox 2 works as a jQuery plugin.
+
+=Launching Slimbox directly from Javascript code=
+
+{{{
+jQuery.slimbox()
+}}}
+
+You can launch Slimbox 2 using Javascript to display a single image or a group of images.
+
+==Single image==
+
+Call the {{{jQuery.slimbox()}}} function with the following parameters:
+
+{{{
+jQuery.slimbox(url, description, options);
+}}}
+
+  * *url* is _mandatory_, it's the URL of the image to display.
+  * *description* is _optional_, it's the image description text.
+  * *options* is _optional_, it's a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox [jQueryManual#Setup manual]. Example of options object: {{{{ captionAnimationDuration: 1, loop: true, overlayOpacity: 0.5 }}}}
+
+_Examples:_
+
+{{{
+jQuery.slimbox("tree.jpg");
+}}}
+
+{{{
+jQuery.slimbox("http://externalwebsite.com/tree.jpg", "My beautiful tree");
+}}}
+
+{{{
+jQuery.slimbox("tree.jpg", "", {overlayOpacity: 0.2});
+}}}
+
+==Multiple images==
+
+Call the {{{jQuery.slimbox()}}} function with the following parameters:
+
+{{{
+jQuery.slimbox(images, startImage, options);
+}}}
+
+  * *images* is _mandatory_, it's an array of arrays. The main array contains one array for each image. The second-level arrays contain the image URL as a _mandatory_ first element, and the image description as an _optional_ second element. Example, for 2 images: {{{[["image1.jpg"], ["image2.jpg", "description2"]]}}}
+  * *startImage* is _mandatory_, it's the zero-based index of the image that you want to show first when Slimbox opens. 0 is the first image of the array, 1 is the second, etc. Of course, this value must be smaller than the size of the main array. Most of the time, you will use *0*.
+  * *options* is _optional_, it's the same parameter as the one described above for displaying a single image.
+
+_Examples:_
+
+{{{
+jQuery.slimbox([["cat.jpg", "Nice cat"], ["dog.jpg"]], 0);
+}}}
+
+{{{
+jQuery.slimbox([["left.jpg"], ["middle.jpg"], ["right.jpg"]], 1, {loop: true});
+}}}
+
+=Enabling HTML DOM elements (such as links) to launch Slimbox when clicking=
+
+==The autoload code block==
+
+The *autoload code block* is the readable code block located by default inside the _slimbox2.js_ file of the official Slimbox 2 distribution. This code is using the Slimbox jQuery API to register Slimbox for a specific kind of links, so that it will open when the user clicks on any of these links. The registration is performed as soon as the DOM is ready.
+
+The default implementation mimics the original Lightbox behavior: it registers Slimbox for all links ({{{<a>}}} tags) having a {{{rel}}} attribute value starting with the word "lightbox". If the {{{rel}}} attribute contains only the word "lightbox", it opens Slimbox to display a single image. Otherwise, it displays an image gallery containing all the images having the same {{{rel}}} attribute value as the one that was clicked, like "lightbox-animal" for example. For each link, its target ({{{href}}} attribute) is used as the image URL and its {{{title}}} attribute is used as an optional description shown in a caption below the image.
+
+All the aspects of this default implementation may be freely changed to fit your needs thanks to the powerful Slimbox jQuery API. The following section explains how to do it.
+
+==The slimbox() function on jQuery objects==
+
+Slimbox makes a new function available to objects created by the [http://docs.jquery.com/Core/jQuery jQuery function]. This {{{slimbox()}}} function will usually be called for link elements ({{{<a>}}} tags) but it's not mandatory: for example you can also use image maps ({{{<area>}}} tags). For other kinds of DOM elements, you'll need to provide a linkMapper function (described further in this page).
+
+When calling this function, Slimbox will register itself and will open as soon as one of these DOM elements is clicked. The syntax is as follows.
+
+{{{
+jQuery(expression).slimbox(options, linkMapper, linksFilter);
+}}}
+
+parameters are all _optional_:
+
+  * *options* is a javascript object where the keys are option names and the values depend on the key. The options are described in detail in the Slimbox 2 [jQueryManual#Setup manual].
+  * *linkMapper* is a function. It is described further in this page. If you want to omit this parameter, you can set it to {{{null}}}.
+  * *linksFilter* is a function. It is described further in this page.
+
+This is the magic part: calling the {{{slimbox()}}} function on a jQuery object which actually selects more than one element will cause the associated images to be shown together as a group in Slimbox, with one image for each DOM element. The order of the images in the Slimbox gallery will follow the order of the DOM elements in the group.
+
+_Examples:_
+
+Single element:
+
+{{{
+<a id="myLink" href="tree.jpg">Click Me</a>
+}}}
+
+{{{
+jQuery("#myLink").slimbox();
+}}}
+
+Multiple elements:
+
+{{{
+<div id="gallery">
+   <a href="tree.jpg">A tree</a>
+   <a href="cat.jpg" title="Nice cat">A cat</a>
+   <a href="dog.jpg" title="Look at this dog">A dog</a>
+</div>
+}}}
+
+{{{
+jQuery("#gallery a").slimbox();
+}}}
+
+==The linkMapper function==
+
+The linkMapper is a function that you can pass as an optional parameter to the {{{slimbox()}}} function. It is responsible for doing the mapping between a DOM element and the image URL and description that will be shown in Slimbox when clicking on that element.
+
+You can change it in order to change the location where the URL and description will be retrieved, or even customize the URL or description itself.
+
+It takes one parameter: *a DOM element*.
+
+It returns an *array* containing 2 elements: 
+
+  * The image URL.
+  * The image description. It may be {{{null}}}, an empty string or even omitted because the description is optional.
+
+When you don't provide a linkMapper function, a default one is used. Here is it:
+
+{{{
+function(el) {
+	return [el.href, el.title];
+}
+}}}
+
+As you can see, the default linkMapper uses the {{{href}}} attribute of the DOM element as image URL, and the {{{title}}} attribute of the DOM element (if present, otherwise it will return {{{null}}}) as the image description.
+
+This default implementation works well with {{{<a>}}} and {{{<anchor>}}} tags. If you call the {{{slimbox()}}} function on other kinds of DOM elements which do not have an {{{href}}} attribute, of course it will not work and you will need to override the default linkMapper function.
+
+_Example 1:_
+
+Let's say that you want to fetch the image description from the {{{alt}}} attribute located in a DOM image node which is a *direct child* of the link node, instead of the {{{title}}} attribute of the link node itself. The HTML code looks like this:
+
+{{{
+<a href="flower.jpg" id="mypicture"><img src="flower-thumbnail.jpg" alt="Beautiful flower" /></a>
+}}}
+
+Here's the linkMapper function that you will need to use:
+
+{{{
+function(el) {
+	return [el.href, el.firstChild.alt];
+}
+}}}
+
+Please note that this function will only work if the DOM element actually has a child node, otherwise an error will occur when trying to access the {{{title}}} attribute.
+
+_Example 2:_
+
+This time, let's say that you want to use the image URL itself as description, so no need to fetch it from the {{{title}}} attribute of the DOM element. But you only want to keep the main part of the image URL, without the path at the beginning and without the file extension (.jpg). You will use a regular expression to achieve this. Here's what your custom linkMapper function will look like:
+
+{{{
+function(el) {
+	return [el.href, /[^\/]*(?=\.\w+$)/.exec(el.href)];
+}
+}}}
+
+_Example 3 (Flickr integration):_
+
+In this last example, we'll accomplish a complete Flickr integration with very little code. Let's say that we have links pointing to pages dedicated to pictures on the Flickr website. Each one of these links is surrounding an {{{<img>}}} tag, which is actually a thumbnail of the picture hosted on the Flickr website. It looks like this:
+
+{{{
+<a href="http://www.flickr.com/photos/14516334@N00/345009210/" 
+title="A bee"><img src="http://farm1.static.flickr.com/159/345009210_1f826cd5a1_t.jpg" alt="" /></a>
+}}}
+
+By default, clicking on this link (and thus on the thumbnail) will just make the browser navigate to the Flickr page of the picture.
+
+Now, *without changing anything to the HTML*, we want to register Slimbox on these links so that when the visitor clicks on them, Slimbox will open and display the *medium-sized* image, also hosted on the Flickr website.
+
+How to achieve this using a linkMapper function? It's quite simple actually. URLs of images hosted on the Flickr website are always the same for the same picture, only the end of the URL changes depending on the image size. Square-sized images name ends with {{{_s.jpg}}}, thumbnails name ends with {{{_t.jpg}}}, small images name ends with {{{_m.jpg}}} and medium-sized images name just ends with {{{.jpg}}}. So, we need to retrieve the URL of the thumbnail image which is a direct child of the clicked link, and then using a regular expression, replace the end of this URL with ".jpg" to get the URL of the medium-sized image. Done!
+
+But that's not all, we also want to automatically add a link to the Flickr page of the picture in its description inside Slimbox. This is easy to achieve: we just need to append some HTML at the end of the existing description.
+
+Last but not least, we'll filter out the link elements using a jQuery selector, only keeping those pointing to the Flickr webpages and surrounding a thumbnail image.
+
+Here's the code:
+
+{{{
+$("a[href^='http://www.flickr.com/photos/'] > img:first-child[src]").parent().slimbox({}, function(el) {
+	return [el.firstChild.src.replace(/_[mts]\.(\w+)$/, ".$1"),
+		(el.title || el.firstChild.alt) + '<br /><a href="' + el.href + '">Flickr page</a>'];
+});
+}}}
+
+==The linksFilter function==
+
+The linksFilter is an optional function that you can pass as an optional parameter to the {{{slimbox()}}} function when called on a *group* of DOM elements. It allows you to exclude specific elements of the group when clicking on a particular element, so they will not be part of the selection of images that will be displayed by Slimbox when it opens after the click. The element that was clicked must never be excluded because it's the one that will be displayed first when Slimbox opens.
+
+In other terms, this function allows you to divide a group into sub-groups based on a selected criteria, by hiding some images depending on the element that was clicked.
+
+It takes one parameter: *a DOM element*.
+
+Also, the *DOM element that was clicked* is accessible by using the {{{this}}} keyword from inside the function.
+
+It returns a boolean: {{{true}}} if the element that was passed as a parameter must be part of the selection of images that will be displayed, {{{false}}} if the element must be excluded. When the passed DOM element is equal to {{{this}}}, the function *must* return {{{true}}}.
+
+When you don't provide a linksFilter function, a default one is used. Here is it:
+
+{{{
+function(el) {
+	return true;
+}
+}}}
+
+which means that by default no DOM element will ever be filtered out. There will only be one big group.
+
+_Example 1:_
+
+Let's say that you want to display all the images having the word "exclusive" somewhere in the {{{title}}} attribute value of their DOM element together in a separate "exclusive" group, and all other images together in a default group. Here is the linksFilter function that you will use:
+
+{{{
+function(el) {
+	return /exclusive/i.test(this.title) == /exclusive/i.test(el.title);
+}
+}}}
+
+_Example 2:_
+
+This is a very useful one. Let's say that you want to automatically group together all the images with a DOM element having the same parent node (for example, all image links inside the same {{{<div>}}} block or the same paragraph). Images with a DOM element having no parent node or being a "unique slimbox child" will be displayed individually. Here is the linksFilter function that achieves this:
+
+{{{
+function(el) {
+	return (this == el) || (this.parentNode && (this.parentNode == el.parentNode));
+}
+}}}
+
+As you can see, we need to test first if the parent node exists before comparing the parent nodes of the clicked element and the passed element, otherwise all orphans will be grouped together. If there is no parent node, we return {{{false}}} so that all images are excluded, except for the one which was clicked for which we always return {{{true}}}.
+
+_Example 3 (Lightbox behavior):_
+
+The default *autoload code block* provided with Slimbox makes use of the following linksFilter function to mimic the default behavior of Lightbox:
+
+{{{
+function(el) {
+	return (this == el) || ((this.rel.length > 8) && (this.rel == el.rel));
+}
+}}}
+
+It may look a bit complicated at the beginning but it's not. Here's the detailed explanation.
+
+  * Before calling this linksFilter function, we have already narrowed our selection of DOM elements to the ones having a {{{rel}}} attribute value starting with the word "lightbox".
+  * First, if the clicked element ({{{this}}}) is the one being tested, we return {{{true}}} as required. It will always be part of the selection.
+  * If it's not, then we test if the {{{rel}}} attribute value has exactly 8 characters. If it has, it means that the {{{rel}}} attribute value is exactly "lightbox" (8 letters) and in this case we return {{{false}}} so that in the end all images will be filtered out, except for the one that was clicked of course. This allows to display the image individually if the {{{rel}}} attribute value is exactly "lightbox".
+  * Finally, if the {{{rel}}} attribute value has more than 8 characters, we know that it's a group name (like "lightbox-animals" for example) and we return {{{true}}} far all DOM elements having exactly the same group name as the one being clicked, or {{{false}}} to discard the other ones. This allows to display all the images having the same group name together.
+
+==Unregistering Slimbox from the DOM elements==
+
+In order to reverse the process and unregister Slimbox once the {{{slimbox()}}} function has been called on a jQuery object representing a selection of DOM elements, use the following code on the same jQuery object.
+
+{{{
+jQuery(expression).unbind("click");
+}}}
+
+The normal behavior will then be restored for these DOM elements and clicking on them will not launch Slimbox anymore.
