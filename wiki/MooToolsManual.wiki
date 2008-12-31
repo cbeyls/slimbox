@@ -88,7 +88,7 @@ Example of a custom options object, including french translation:
 {
 	overlayOpacity: 0.6,
 	resizeTransition: Fx.Transitions.Elastic.easeOut,
-	animateCaption: 0,
+	captionAnimationDuration: 0,
 	counterText: "Image {x} sur {y}",
 	closeKeys: [27, 70],
 	nextKeys: [39, 83]
