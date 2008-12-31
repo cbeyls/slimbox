@@ -1,6 +1,6 @@
 #summary The history of changes for each official release of Slimbox 2
 #labels Phase-Support
 
-===v2.0 (2008-12-30)===
+===v2.0 (2008-12-31)===
 
    * Initial release, provides the same features set as [http://www.digitalia.be/software/slimbox Slimbox 1.68 for MooTools] with better browser compatibility.
