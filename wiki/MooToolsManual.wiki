@@ -21,11 +21,21 @@ From a _design_ point of view, Slimbox is very different from Lightbox:
   * Slimbox has a much more powerful [MooToolsAPI API], allowing you to apply the Lightbox effect easily on any clickable element or from any script. For example, it can be easily integrated with links pointing to Flickr or Picasa Web Albums pages or with any javascript image gallery.
   * The Slimbox CSS are simpler and 100% valid (no more CSS hacks). Also, every visual aspect of Slimbox (including images) is specified in the CSS instead of the Javascript so it is easier to style. You may even change any border size in the CSS and Slimbox will still work fine, which means that nothing is "hard-coded" in the source code.
 
-And of course, it has been tested in all modern browsers: Firefox 1.5+, Internet Explorer 6+, Opera 9+, Safari 2+, Camino and Google Chrome. It is not compatible with the old Internet Explorer 5.5 and will never be.
+The total download size for the required modules of MooTools 1.1 + Slimbox 1.5, *both minified and gzipped*, is as small as *10 KB*. Without gzipping, it's 32 KB.
 
-Slimbox 1.5, which is also available, is also compatible with Safari 1.3, Firefox 1.0, Opera 8 and Opera for Wii.
+The total download size for the required modules of MooTools 1.2 + Slimbox 1.6, *both minified and gzipped*, is as small as *16 KB*. Without gzipping, it's 50 KB.
 
-The total download size for the required modules of mootools + Slimbox, *both minified and gzipped*, is currently as small as *16kb*.
+By comparison, the download size of the original Lightbox 2.04 and its required libraries is 44 KB with gzip compression. Without gzipping, it's 186 KB.
+
+=Compatibility=
+
+Slimbox 1.6 for mootools 1.2 is compatible with all modern browsers: Firefox 1.5+, Internet Explorer 6+, Opera 9+, Safari 2+, Camino and Google Chrome.
+
+It works with both strict mode and quirks mode web pages.
+
+Unlike many Lightbox-like scripts, it displays fine in case of horizontal scrolling of the web page.
+
+Slimbox 1.5 for mootools 1.1, which is also available, is also compatible with Safari 1.3, Firefox 1.0, Opera 8.x and Opera for Wii. It works with strict mode web pages only.
 
 =Requirements=
 
@@ -39,7 +49,7 @@ Slimbox 1.6 requires the [http://mootools.net/ mootools] framework, *version 1.2
 
 The Slimbox download package already includes mootools with the above dependencies only. If you need more dependencies for your own scripts or want to use a different mootools version, you have to build your own version of mootools on the mootools download page.
 
-Slimbox 1.5, which uses mootools 1.11, is also available for download. It provides the same features set as the latest version. Its dependencies are detailed in the provided readme file. You may need to use this version if your website is still using mootools 1.11 or if you need compatibility with older browsers like Safari 1.3, Firefox 1.0 or Opera 8.
+Slimbox 1.5, which uses mootools 1.11, is also available for download. It provides the same features set as the latest version. Its dependencies are detailed in the provided readme file. You may need to use this version if your website is still using mootools 1.11, if you want a smaller total download size or if you need compatibility with older browsers like Safari 1.3, Firefox 1.0 or Opera 8.
 
 =Usage=
 
