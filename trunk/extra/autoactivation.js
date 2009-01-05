@@ -11,7 +11,7 @@
 
 jQuery(function($) {
 	$("a[href]").filter(function() {
-		return this.href.test(/\.(jpg|png|gif)$/i);
+		return /\.(jpg|png|gif)$/i.test(this.href);
 	}).slimbox({}, null, function(el) {
 		return (this == el) || (this.parentNode && (this.parentNode == el.parentNode));
 	});
