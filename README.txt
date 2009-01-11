@@ -1,9 +1,9 @@
-SLIMBOX V2.0 README
-===================
+SLIMBOX V2.01 README
+====================
 The ultimate lightweight Lightbox clone
 ... now using the jQuery javascript library
 
-(c) Christophe Beyls 2007-2008
+(c) Christophe Beyls 2007-2009
 MIT-style license
 
 http://code.google.com/p/slimbox/
