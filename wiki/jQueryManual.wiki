@@ -33,7 +33,7 @@ Unlike many Lightbox-like scripts, it displays fine in case of horizontal scroll
 
 =Requirements=
 
-Slimbox 2.0 requires the [http://jquery.com/ jQuery] library, *version 1.2* (latest version is 1.2.6). If you don't already have it, you can download jQuery from its official website.
+Slimbox 2.0 requires the [http://jquery.com/ jQuery] library, *version 1.2.6* or more recent. If you don't already have it, you can download jQuery from its official website.
 
 =Usage=
 
