@@ -1,6 +1,11 @@
 #summary The history of changes for each official release of Slimbox 2
 #labels Phase-Support
 
+===v2.01 (2009-01-12)===
+
+   * Fixed compatibility code for Opera 9.5+ and Opera for Wii which was not working with quirks mode web pages.
+   * Fixed the provided extra script "autoactivation.js" which was not working because it was still using a MooTools function.
+
 ===v2.0 (2008-12-31)===
 
    * Initial release, provides the same features set as [http://www.digitalia.be/software/slimbox Slimbox 1.68 for MooTools] with better browser compatibility.
