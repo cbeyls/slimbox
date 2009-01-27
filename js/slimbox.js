@@ -1,13 +1,13 @@
 /*!
-	Slimbox v1.68 - The ultimate lightweight Lightbox clone
-	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
+	Slimbox v1.69 - The ultimate lightweight Lightbox clone
+	(c) 2007-2009 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
 
 var Slimbox = (function() {
 
 	// Global variables, accessible to Slimbox only
-	var win = window, ie6 = Browser.Engine.trident4, options, images, activeImage = -1, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
+	var win = window, ie6 = Browser.Engine.trident4, options, images, activeImage = -1, activeURL, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
 
 	// Preload images
 	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
@@ -93,6 +93,7 @@ var Slimbox = (function() {
 	function changeImage(imageIndex) {
 		if (imageIndex >= 0) {
 			activeImage = imageIndex;
+			activeURL = images[imageIndex][0];
 			prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
 			nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
 
@@ -101,7 +102,7 @@ var Slimbox = (function() {
 
 			preload = new Image();
 			preload.onload = animateBox;
-			preload.src = images[imageIndex][0];
+			preload.src = activeURL;
 		}
 
 		return false;
@@ -110,7 +111,7 @@ var Slimbox = (function() {
 	function animateBox() {
 		center.className = "";
 		fxImage.set(0);
-		image.setStyles({backgroundImage: "url(" + preload.src + ")", display: ""});
+		image.setStyles({backgroundImage: "url(" + activeURL + ")", display: ""});
 		sizer.setStyle("width", preload.width);
 		$$(sizer, prevLink, nextLink).setStyle("height", preload.height);
 
@@ -145,7 +146,7 @@ var Slimbox = (function() {
 
 	function stop() {
 		preload.onload = $empty;
-		preload.src = preloadPrev.src = preloadNext.src = "";
+		preload.src = preloadPrev.src = preloadNext.src = activeURL;
 		fxResize.cancel();
 		fxImage.cancel();
 		fxBottom.cancel();
