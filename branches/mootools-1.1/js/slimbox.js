@@ -1,13 +1,13 @@
 /*!
 	Slimbox v1.57 - The ultimate lightweight Lightbox clone
-	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
+	(c) 2007-2009 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
 
 var Slimbox = (function() {
 
 	// Global variables, accessible to Slimbox only
-	var win = window, options, images, activeImage, activeURL, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
+	var win = window, options, images, activeImage = -1, activeURL, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
 		eventKeyDown = keyDown.bindWithEvent(), operaFix = window.opera && (navigator.appVersion >= "9.3"), documentElement = document.documentElement,
 
 	// Preload images
@@ -159,7 +159,7 @@ var Slimbox = (function() {
 	function close() {
 		if (activeImage >= 0) {
 			stop();
-			activeImage = prevImage = nextImage = activeURL;
+			activeImage = prevImage = nextImage = -1;
 			center.style.display = "none";
 			fxOverlay.stop().chain(setup).start(0);
 		}
