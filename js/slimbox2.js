@@ -1,5 +1,5 @@
 /*!
-	Slimbox v2.01 - The ultimate lightweight Lightbox clone for jQuery
+	Slimbox v2.02 - The ultimate lightweight Lightbox clone for jQuery
 	(c) 2007-2009 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -7,7 +7,7 @@
 (function($) {
 
 	// Global variables, accessible to Slimbox only
-	var win = $(window), options, images, activeImage = -1, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight, ie6 = !window.XMLHttpRequest,
+	var win = $(window), options, images, activeImage = -1, activeURL, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight, ie6 = !window.XMLHttpRequest,
 		operaFix = window.opera && (document.compatMode == "CSS1Compat") && ($.browser.version >= 9.3), documentElement = document.documentElement,
 
 	// Preload images
@@ -166,6 +166,7 @@
 	function changeImage(imageIndex) {
 		if (imageIndex >= 0) {
 			activeImage = imageIndex;
+			activeURL = images[activeImage][0];
 			prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
 			nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
 
@@ -174,7 +175,7 @@
 
 			preload = new Image();
 			preload.onload = animateBox;
-			preload.src = images[activeImage][0];
+			preload.src = activeURL;
 		}
 
 		return false;
@@ -182,7 +183,7 @@
 
 	function animateBox() {
 		center.className = "";
-		$(image).css({backgroundImage: "url(" + preload.src + ")", visibility: "hidden", display: ""});
+		$(image).css({backgroundImage: "url(" + activeURL + ")", visibility: "hidden", display: ""});
 		$(sizer).width(preload.width);
 		$([sizer, prevLink, nextLink]).height(preload.height);
 
@@ -216,7 +217,7 @@
 
 	function stop() {
 		preload.onload = null;
-		preload.src = preloadPrev.src = preloadNext.src = "";
+		preload.src = preloadPrev.src = preloadNext.src = activeURL;
 		$([center, image, bottom]).stop(true);
 		$([prevLink, nextLink, image, bottomContainer]).hide();
 	}
