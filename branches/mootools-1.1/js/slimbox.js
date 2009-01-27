@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.56 - The ultimate lightweight Lightbox clone
+	Slimbox v1.57 - The ultimate lightweight Lightbox clone
 	(c) 2007-2008 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
@@ -7,7 +7,7 @@
 var Slimbox = (function() {
 
 	// Global variables, accessible to Slimbox only
-	var win = window, options, images, activeImage, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
+	var win = window, options, images, activeImage, activeURL, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
 		eventKeyDown = keyDown.bindWithEvent(), operaFix = window.opera && (navigator.appVersion >= "9.3"), documentElement = document.documentElement,
 
 	// Preload images
@@ -96,6 +96,7 @@ var Slimbox = (function() {
 	function changeImage(imageIndex) {
 		if (imageIndex >= 0) {
 			activeImage = imageIndex;
+			activeURL = images[imageIndex][0];
 			prevImage = (activeImage || (options.loop ? images.length : 0)) - 1;
 			nextImage = ((activeImage + 1) % images.length) || (options.loop ? 0 : -1);
 
@@ -104,7 +105,7 @@ var Slimbox = (function() {
 
 			preload = new Image();
 			preload.onload = animateBox;
-			preload.src = images[imageIndex][0];
+			preload.src = activeURL;
 		}
 
 		return false;
@@ -113,7 +114,7 @@ var Slimbox = (function() {
 	function animateBox() {
 		center.className = "";
 		fxImage.set(0);
-		image.setStyles({width: preload.width, backgroundImage: "url(" + preload.src + ")", display: ""});
+		image.setStyles({width: preload.width, backgroundImage: "url(" + activeURL + ")", display: ""});
 		$$(image, prevLink, nextLink).setStyle("height", preload.height);
 
 		caption.setHTML(images[activeImage][1] || "");
@@ -147,7 +148,7 @@ var Slimbox = (function() {
 
 	function stop() {
 		preload.onload = Class.empty;
-		preload.src = preloadPrev.src = preloadNext.src = "";
+		preload.src = preloadPrev.src = preloadNext.src = activeURL;
 		fxResize.clearChain();
 		fxResize.stop();
 		fxImage.stop();
@@ -158,7 +159,7 @@ var Slimbox = (function() {
 	function close() {
 		if (activeImage >= 0) {
 			stop();
-			activeImage = prevImage = nextImage = -1;
+			activeImage = prevImage = nextImage = activeURL;
 			center.style.display = "none";
 			fxOverlay.stop().chain(setup).start(0);
 		}
