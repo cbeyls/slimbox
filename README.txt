@@ -1,6 +1,6 @@
-SLIMBOX V1.68 README
+SLIMBOX V1.69 README
 ====================
-(c) Christophe Beyls 2007-2008
+(c) Christophe Beyls 2007-2009
 
 http://code.google.com/p/slimbox/
 
