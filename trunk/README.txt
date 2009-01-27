@@ -1,4 +1,4 @@
-SLIMBOX V2.01 README
+SLIMBOX V2.02 README
 ====================
 The ultimate lightweight Lightbox clone
 ... now using the jQuery javascript library
@@ -20,7 +20,7 @@ src/slimbox2.js		The Slimbox 2 source. Contains many comments and is not suitabl
 extra/*			Some extra scripts that you can add to the autoload code block inside slimbox2.js to add special functionality.
 
 
-Slimbox 2 requires version 1.2 of the jQuery library to be installed on your website in order to work properly.
+Slimbox 2 requires the jQuery library (version 1.2.6 or more recent) to be installed on your website in order to work properly.
 
 You can remove or customize the provided autoload code block by editing the slimbox2.js file. By default, it behaves like Lightbox.
 When deploying slimbox2.js, you MUST always preserve the copyright notice at the beginning of the file.
