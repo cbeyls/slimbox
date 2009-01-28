@@ -9,8 +9,10 @@
 	Add the following code to the autoload code block.
 */
 
-jQuery(function($) {
-	$("a[href^='http://picasaweb.google.'] > img:first-child[src]").parent().slimbox({}, function(el) {
+window.addEvent("domready", function() {
+	$$($$("a").filter(function(el) {
+		return el.href && !el.href.indexOf("http://picasaweb.google.") && el.firstChild && el.firstChild.src;
+	})).slimbox({}, function(el) {
 		return [el.firstChild.src.replace(/\/s\d+(?:\-c)?\/([^\/]+)$/, "/s512/$1"),
 			(el.title || el.firstChild.alt) + '<br /><a href="' + el.href + '">Picasa Web Albums page</a>'];
 	});
