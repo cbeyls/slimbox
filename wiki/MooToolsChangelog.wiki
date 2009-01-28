@@ -1,6 +1,11 @@
 #summary The history of changes for each official release of Slimbox 1
 #labels Phase-Support
 
+===v1.69 (2009-01-28)===
+
+   * Fixed a bug in smart preloading which caused Slimbox to perform an unnecessary HTTP GET request.
+   * The Picasa Web Albums integration example script is now also compatible with square thumbnails.
+
 ===v1.68 (2008-12-24)===
 
    * Fixed "next" and "prev" links not showing in Opera 9. This bug was introduced in the last version.
