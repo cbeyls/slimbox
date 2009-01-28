@@ -1,6 +1,11 @@
 #summary The history of changes for each official release of Slimbox 2
 #labels Phase-Support
 
+===v2.02 (2009-01-28)===
+
+   * Fixed a bug in smart preloading which caused Slimbox to perform an unnecessary HTTP GET request.
+   * The Picasa Web Albums integration example script is now also compatible with square thumbnails.
+
 ===v2.01 (2009-01-12)===
 
    * Fixed compatibility code for Opera 9.5+ and Opera for Wii which was not working with quirks mode web pages.
