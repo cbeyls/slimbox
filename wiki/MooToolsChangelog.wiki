@@ -1,6 +1,11 @@
 #summary The history of changes for each official release of Slimbox 1
 #labels Phase-Support
 
+===v1.7 (2009-04-29)===
+
+   * Fixed code for mootools 1.2.2.
+   * Upgraded the provided mootools.js to version 1.2.2.
+
 ===v1.69 (2009-01-28)===
 
    * Fixed a bug in smart preloading which caused Slimbox to perform an unnecessary HTTP GET request.
