@@ -23,13 +23,13 @@ From a _design_ point of view, Slimbox is very different from Lightbox:
 
 The total download size for the required modules of MooTools 1.1 + Slimbox 1.5, *both minified and gzipped*, is as small as *10 KB*. Without gzipping, it's 32 KB.
 
-The total download size for the required modules of MooTools 1.2 + Slimbox 1.6, *both minified and gzipped*, is as small as *16 KB*. Without gzipping, it's 50 KB.
+The total download size for the required modules of MooTools 1.2 + Slimbox 1.7, *both minified and gzipped*, is as small as *16 KB*. Without gzipping, it's 50 KB.
 
 By comparison, the download size of the original Lightbox 2.04 and its required libraries is 44 KB with gzip compression. Without gzipping, it's 186 KB.
 
 =Compatibility=
 
-Slimbox 1.6 for mootools 1.2 is compatible with all modern browsers: Firefox 1.5+, Internet Explorer 6+, Opera 9+, Safari 2+, Camino and Google Chrome.
+Slimbox 1.7 for mootools 1.2 is compatible with all modern browsers: Firefox 1.5+, Internet Explorer 6+, Opera 9+, Safari 2+, Camino and Google Chrome.
 
 It works with both strict mode and quirks mode web pages.
 
@@ -39,7 +39,7 @@ Slimbox 1.5 for mootools 1.1, which is also available, is also compatible with S
 
 =Requirements=
 
-Slimbox 1.6 requires the [http://mootools.net/ mootools] framework, *version 1.2* or more recent. Because mootools is modular, you can make your download smaller by only downloading the modules your scripts are actually using. Here are the core modules required by Slimbox:
+Slimbox 1.7 requires the [http://mootools.net/ mootools] framework, *version 1.2* or more recent. Because mootools is modular, you can make your download smaller by only downloading the modules your scripts are actually using. Here are the core modules required by Slimbox:
 
   * *Native:* _all_
   * *Class:* _all_
