@@ -1,5 +1,5 @@
-SLIMBOX V1.69 README
-====================
+SLIMBOX V1.7 README
+===================
 (c) Christophe Beyls 2007-2009
 
 http://code.google.com/p/slimbox/
@@ -10,7 +10,7 @@ example.html		A simple example page demonstrating how to use Slimbox with the de
 example.jpg		An example image used on the example page.
 README.txt		The file you are reading.
 css/*			The Slimbox stylesheet and its associated images. You can edit them to customize Slimbox appearance.
-js/mootools.js		The minified version of mootools v1.2.1 including only the modules required by Slimbox.
+js/mootools.js		The minified version of mootools v1.2.2 including only the modules required by Slimbox.
 js/slimbox.js		The minified version of Slimbox, plus the editable autoloading code using default options.
 src/slimbox.js		The Slimbox source. Contains many comments and is not suitable for production use (needs to be minified first).
 extra/*			Some extra scripts that you can add to the autoload code block inside slimbox.js to add special functionality.
