@@ -21,11 +21,11 @@ From a _design_ point of view, Slimbox is very different from Lightbox:
   * Slimbox has a much more powerful [MooToolsAPI API], allowing you to apply the Lightbox effect easily on any clickable element or from any script. For example, it can be easily integrated with links pointing to Flickr or Picasa Web Albums pages or with any javascript image gallery.
   * The Slimbox CSS are simpler and 100% valid (no more CSS hacks). Also, every visual aspect of Slimbox (including images) is specified in the CSS instead of the Javascript so it is easier to style. You may even change any border size in the CSS and Slimbox will still work fine, which means that nothing is "hard-coded" in the source code.
 
-The total download size for the required modules of MooTools 1.1 + Slimbox 1.5, *both minified and gzipped*, is as small as *10 KB*. Without gzipping, it's 32 KB.
+The total download size for the required modules of mootools 1.1 + Slimbox 1.5, *both minified and gzipped*, is as small as *10 KB*. Without gzipping, it's 32 KB.
 
-The total download size for the required modules of MooTools 1.2 + Slimbox 1.7, *both minified and gzipped*, is as small as *16 KB*. Without gzipping, it's 50 KB.
+The total download size for the required modules of mootools 1.2 + Slimbox 1.7, *both minified and gzipped*, is as small as *16 KB*. Without gzipping, it's 50 KB.
 
-By comparison, the download size of the original Lightbox 2.04 and its required libraries is 44 KB with gzip compression. Without gzipping, it's 186 KB.
+In comparison, the download size of the original Lightbox 2.04 and its required libraries is 44 KB with gzip compression. Without gzipping, it's 186 KB.
 
 =Compatibility=
 
