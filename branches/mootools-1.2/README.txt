@@ -1,5 +1,5 @@
-SLIMBOX V1.7 README
-===================
+SLIMBOX V1.71 README
+====================
 (c) Christophe Beyls 2007-2009
 
 http://code.google.com/p/slimbox/
