@@ -16,4 +16,6 @@ Slimbox.scanPage = function() {
 		return (this == el) || (this.parentNode && (this.parentNode == el.parentNode));
 	});
 };
-window.addEvent("domready", Slimbox.scanPage);
+if (!/android|iphone|ipod|series60|symbian|windows ce|blackberry/i.test(navigator.userAgent)) {
+	window.addEvent("domready", Slimbox.scanPage);
+}
