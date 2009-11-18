@@ -9,10 +9,12 @@
 	Replace the default autoload code block with this one.
 */
 
-jQuery(function($) {
-	$("a[href]").filter(function() {
-		return /\.(jpg|png|gif)$/i.test(this.href);
-	}).slimbox({}, null, function(el) {
-		return (this == el) || (this.parentNode && (this.parentNode == el.parentNode));
-	});
-});
+if (!/android|iphone|ipod|series60|symbian|windows ce|blackberry/i.test(navigator.userAgent)) {
+    jQuery(function($) {
+        $("a[href]").filter(function() {
+            return /\.(jpg|png|gif)$/i.test(this.href);
+        }).slimbox({}, null, function(el) {
+            return (this == el) || (this.parentNode && (this.parentNode == el.parentNode));
+        });
+    });
+}
