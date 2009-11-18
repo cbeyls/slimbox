@@ -1,4 +1,4 @@
-SLIMBOX V1.57 README
+SLIMBOX V1.58 README
 ====================
 (c) Christophe Beyls 2007-2009
 
