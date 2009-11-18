@@ -1,5 +1,5 @@
 /*!
-	Slimbox v1.57 - The ultimate lightweight Lightbox clone
+	Slimbox v1.58 - The ultimate lightweight Lightbox clone
 	(c) 2007-2009 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
