@@ -169,8 +169,8 @@ Drawbacks:
 
 {{{
 // AUTOLOAD CODE BLOCK (MAY BE CHANGED OR REMOVED)
-jQuery(function($) {
-        var links = [];
+jQuery(window).load(function() {
+        var $ = jQuery, links = [];
         $.each($.merge([window], window.frames), function() {
                 $.merge(links, $("a[rel^='lightbox']", this.document));
         });
