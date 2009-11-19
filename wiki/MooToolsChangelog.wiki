@@ -1,6 +1,12 @@
 #summary The history of changes for each official release of Slimbox 1
 #labels Phase-Support
 
+===v1.71 (2009-11-19)===
+
+   * Now Slimbox does not activate by default on mobile devices.
+   * Changed the default autoload code block to activate only on "a" elements instead of "document.links" which also includes "area" elements. "area" elements can still be used but not with the default Lightbox behavior because they do not support the "rel" attribute in a standard way.
+   * Upgraded the provided mootools.js to version 1.2.4.
+
 ===v1.7 (2009-04-29)===
 
    * Fixed code for mootools 1.2.2.
