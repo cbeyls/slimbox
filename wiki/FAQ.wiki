@@ -38,7 +38,7 @@ In particular, Internet Explorer tends to be less tolerant regarding invalid CSS
 
 Yes of course, you just need to edit the values in the CSS file. Slimbox uses CSS instead of javascript whenever possible.
 
-=Can I use HTML for the image descriptions and put these HTML descriptions inside the "title" attribute of my links ?=
+=How can I use HTML for the image descriptions?=
 
 You can use HTML for the image descriptions without problems. But if you insert HTML markup inside a "title" attribute in your HTML page, you need to replace the following characters:
   * {{{<}}} must be replaced with {{{&lt;}}}
