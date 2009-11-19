@@ -38,6 +38,17 @@ In particular, Internet Explorer tends to be less tolerant regarding invalid CSS
 
 Yes of course, you just need to edit the values in the CSS file. Slimbox uses CSS instead of javascript whenever possible.
 
+=Can I use HTML for the image descriptions and put these HTML descriptions inside the "title" attribute of my links ?=
+
+You can use HTML for the image descriptions without problems. But if you insert HTML markup inside a "title" attribute in your HTML page, you need to replace the following characters:
+  * {{{<}}} must be replaced with {{{&lt;}}}
+  * {{{>}}} must be replaced with {{{&gt;}}}
+  * {{{"}}} must be replaced with {{{&quot;}}}
+
+You don't need to do this if you set the HTML markup for the description programmatically using Javascript (see [jQueryAPI jQuery API] or [MooToolsAPI MooTools API]).
+
+You can also write a custom [jQueryAPI#The_linkMapper_function linkMapper] function which will grab the whole HTML content of a paragraph in the page for example and use it as a description instead of fetching it from the "title" attribute. This way, you don't need to transform the HTML markup either.
+
 =The loading of one of my images in Slimbox takes forever. What's wrong?=
 
 This happens when the URL of the image is incorrect or unavailable. Check that the URL is correct and that the server hosting the image is online.
@@ -57,7 +68,7 @@ When you right-click on an image displayed in Slimbox, there is no option to sav
 
 However if Slimbox is opened by clicking on an image link, your visitors can right-click on that link and choose "save target as..." to save the image.
 
-If it's not enough for you and you want the visitors to be able to save the image from inside Slimbox, you can modify the "autoload code block" so that a link to the image is added automatically after the image caption. This is achieved by defining a _linkMapper_ function (see the [MooToolsAPI MooTools API] documentation for more information). The autoload code block is located by default in _slimbox.js_ but may be moved inside the HTML page if you want. Here's the new code:
+If it's not enough for you and you want the visitors to be able to save the image from inside Slimbox, you can modify the "autoload code block" so that a link to the image is added automatically after the image caption. This is achieved by defining a _linkMapper_ function (see the [jQueryAPI jQuery API] or [MooToolsAPI MooTools API] documentation for more information). The autoload code block is located by default in _slimbox.js_ but may be moved inside the HTML page if you want. Here's the new code:
 
 *jQuery version*
 
