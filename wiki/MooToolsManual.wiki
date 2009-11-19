@@ -35,9 +35,9 @@ It works with both strict mode and quirks mode web pages.
 
 Unlike many Lightbox-like scripts, it displays fine in case of horizontal scrolling of the web page.
 
-Slimbox 1.5 for mootools 1.1, which is also available, is also compatible with Safari 1.3, Firefox 1.0, Opera 8.x and Opera for Wii. It works with strict mode web pages only.
-
 It is disabled by default on mobile devices (Android, iPhone/iPod, Symbian, Windows Mobile, BlackBerry).
+
+Slimbox 1.5 for mootools 1.1, which is also available, is also compatible with Safari 1.3, Firefox 1.0, Opera 8.x and Opera for Wii. It works with strict mode web pages only.
 
 =Requirements=
 
