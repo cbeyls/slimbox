@@ -1,6 +1,10 @@
 #summary The history of changes for each official release of Slimbox 2
 #labels Phase-Support
 
+===v2.03 (2009-11-19)===
+
+   * Now Slimbox does not activate by default on mobile devices.
+
 ===v2.02 (2009-01-28)===
 
    * Fixed a bug in smart preloading which caused Slimbox to perform an unnecessary HTTP GET request.
