@@ -31,6 +31,8 @@ It works with both strict mode and quirks mode web pages.
 
 Unlike many Lightbox-like scripts, it displays fine in case of horizontal scrolling of the web page.
 
+It is disabled by default on mobile devices (Android, iPhone/iPod, Symbian, Windows Mobile, BlackBerry).
+
 =Requirements=
 
 Slimbox 2.0 requires the [http://jquery.com/ jQuery] library, *version 1.2.6* or more recent. If you don't already have it, you can download jQuery from its official website.
