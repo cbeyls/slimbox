@@ -1,14 +1,14 @@
 /*!
-	Slimbox v2.03 - The ultimate lightweight Lightbox clone for jQuery
-	(c) 2007-2009 Christophe Beyls <http://www.digitalia.be>
+	Slimbox v2.04 - The ultimate lightweight Lightbox clone for jQuery
+	(c) 2007-2010 Christophe Beyls <http://www.digitalia.be>
 	MIT-style license.
 */
 
 (function($) {
 
 	// Global variables, accessible to Slimbox only
-	var win = $(window), options, images, activeImage = -1, activeURL, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight, ie6 = !window.XMLHttpRequest,
-		operaFix = window.opera && (document.compatMode == "CSS1Compat") && ($.browser.version >= 9.3), documentElement = document.documentElement,
+	var win = $(window), options, images, activeImage = -1, activeURL, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
+		ie6 = !window.XMLHttpRequest, documentElement = document.documentElement,
 
 	// Preload images
 	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
@@ -74,7 +74,7 @@
 			startImage = 0;
 		}
 
-		middle = win.scrollTop() + ((operaFix ? documentElement.clientHeight : win.height()) / 2);
+		middle = win.scrollTop() + (win.height() / 2);
 		centerWidth = options.initialWidth;
 		centerHeight = options.initialHeight;
 		$(center).css({top: Math.max(0, middle - (centerHeight / 2)), width: centerWidth, height: centerHeight, marginLeft: -centerWidth/2}).show();
@@ -131,7 +131,7 @@
 	*/
 
 	function position() {
-		var l = win.scrollLeft(), w = operaFix ? documentElement.clientWidth : win.width();
+		var l = win.scrollLeft(), w = win.width();
 		$([center, bottomContainer]).css("left", l + (w / 2));
 		if (compatibleOverlay) $(overlay).css({left: l, top: win.scrollTop(), width: w, height: win.height()});
 	}
