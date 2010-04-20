@@ -8,7 +8,7 @@
 
 	// Global variables, accessible to Slimbox only
 	var win = $(window), options, images, activeImage = -1, activeURL, prevImage, nextImage, compatibleOverlay, middle, centerWidth, centerHeight,
-		ie6 = !window.XMLHttpRequest, documentElement = document.documentElement,
+		ie6 = !window.XMLHttpRequest, hiddenElements = [], documentElement = document.documentElement,
 
 	// Preload images
 	preload = {}, preloadPrev = new Image(), preloadNext = new Image(),
@@ -137,10 +137,17 @@
 	}
 
 	function setup(open) {
-		$("object").add(ie6 ? "select" : "embed").each(function(index, el) {
-			if (open) $.data(el, "slimbox", el.style.visibility);
-			el.style.visibility = open ? "hidden" : $.data(el, "slimbox");
-		});
+		if (open) {
+			$("object").add(ie6 ? "select" : "embed").each(function(index, el) {
+				hiddenElements[index] = [el, el.style.visibility];
+				el.style.visibility = "hidden";
+			});
+		} else {
+			$.each(hiddenElements, function(index, el) {
+				el[0].style.visibility = el[1];
+			});
+			hiddenElements = [];
+		}
 		var fn = open ? "bind" : "unbind";
 		win[fn]("scroll resize", position);
 		$(document)[fn]("keydown", keyDown);
