@@ -39,19 +39,19 @@
 }
 
 #lbPrevLink {
-	left: 0;
-}
-
-#lbPrevLink:hover {
-	background: transparent url(prevlabel.gif) no-repeat 0 15%;
-}
-
-#lbNextLink {
 	right: 0;
 }
 
+#lbPrevLink:hover {
+	background: transparent url(prevlabel.gif) no-repeat 100% 15%;
+}
+
+#lbNextLink {
+	left: 0;
+}
+
 #lbNextLink:hover {
-	background: transparent url(nextlabel.gif) no-repeat 100% 15%;
+	background: transparent url(nextlabel.gif) no-repeat 0 15%;
 }
 
 #lbBottom {
