@@ -10,10 +10,10 @@
 */
 
 if (!/android|iphone|ipod|series60|symbian|windows ce|blackberry/i.test(navigator.userAgent)) {
-    jQuery(function($) {
-        $("a[href^='http://www.flickr.com/photos/'] > img:first-child[src]").parent().slimbox({}, function(el) {
-            return [el.firstChild.src.replace(/_[mts]\.(\w+)$/, ".$1"),
-                (el.title || el.firstChild.alt) + '<br /><a href="' + el.href + '">Flickr page</a>'];
-        });
-    });
+	jQuery(function($) {
+		$("a[href^='http://www.flickr.com/photos/'] > img:first-child[src]").parent().slimbox({}, function(el) {
+			return [el.firstChild.src.replace(/_[mts]\.(\w+)$/, ".$1"),
+				(el.title || el.firstChild.alt) + '<br /><a href="' + el.href + '">Flickr page</a>'];
+		});
+	});
 }
