@@ -10,10 +10,10 @@
 */
 
 if (!/android|iphone|ipod|series60|symbian|windows ce|blackberry/i.test(navigator.userAgent)) {
-    jQuery(function($) {
-        $("a[href^='http://picasaweb.google.'] > img:first-child[src]").parent().slimbox({}, function(el) {
-            return [el.firstChild.src.replace(/\/s\d+(?:\-c)?\/([^\/]+)$/, "/s512/$1"),
-                (el.title || el.firstChild.alt) + '<br /><a href="' + el.href + '">Picasa Web Albums page</a>'];
-        });
-    });
+	jQuery(function($) {
+		$("a[href^='http://picasaweb.google.'] > img:first-child[src]").parent().slimbox({}, function(el) {
+			return [el.firstChild.src.replace(/\/s\d+(?:\-c)?\/([^\/]+)$/, "/s512/$1"),
+				(el.title || el.firstChild.alt) + '<br /><a href="' + el.href + '">Picasa Web Albums page</a>'];
+		});
+	});
 }
