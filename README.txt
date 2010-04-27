@@ -18,6 +18,7 @@ css/*            The Slimbox stylesheet and its associated images. You can edit 
                  You can choose between the standard slimbox2.css or slimbox2-rtl.css which is designed for right-to-left languages.
 js/slimbox2.js   The minified version of Slimbox 2, plus the editable autoloading code using default options.
 src/slimbox2.js  The Slimbox 2 source. Contains many comments and is not suitable for production use (needs to be minified first).
+src/autoload.js  The default autoloading code included after the main minified code in the final production file. It activates Slimbox on selected links.
 extra/*          Some extra scripts that you can add to the autoload code block inside slimbox2.js to add special functionality.
 
 
