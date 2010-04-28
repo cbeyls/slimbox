@@ -1,6 +1,14 @@
 #summary The history of changes for each official release of Slimbox 2
 #labels Phase-Support
 
+===v2.04 (2010-04-28)===
+
+   * Fixed a bug with jQuery 1.4, where flash animations would not reappear after being hidden.
+   * Removed compatibility code for Opera 9.5+ and Opera for Wii used with jQuery 1.2.6. The minimum required version of jQuery is now 1.3.
+   * Added CSS file for full support of right-to-left languages. Everything is inverted, including "previous" and "next" buttons.
+   * Added an extra script for displaying QR codes when clicking on Android Market links in desktop browsers.
+   * Added an extra script for automatic fixing of invalid URLs.
+
 ===v2.03 (2009-11-19)===
 
    * Now Slimbox does not activate by default on mobile devices.
