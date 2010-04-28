@@ -25,17 +25,17 @@ Slimbox 2 is currently the smallest Lightbox-like script available for the jQuer
 
 =Compatibility=
 
-Slimbox 2 is compatible with all modern browsers: Firefox 1.5+, Internet Explorer 6+, Opera 8.5+ and Opera for Wii, Safari 2+, Camino and Google Chrome.
+Slimbox 2 is compatible with all modern browsers: Firefox 2+, Internet Explorer 6+, Opera 9+ and Opera for Wii, Safari 3+, Camino and Google Chrome.
 
 It works with both strict mode and quirks mode web pages.
 
 Unlike many Lightbox-like scripts, it displays fine in case of horizontal scrolling of the web page.
 
-It is disabled by default on mobile devices (Android, iPhone/iPod, Symbian, Windows Mobile, BlackBerry).
+It is disabled by default on mobile devices (Android, iPhone/iPod, Symbian, Windows Mobile, !BlackBerry).
 
 =Requirements=
 
-Slimbox 2.0 requires the [http://jquery.com/ jQuery] library, *version 1.2.6* or more recent. If you don't already have it, you can download jQuery from its official website.
+Slimbox 2.04 requires the [http://jquery.com/ jQuery] library, *version 1.3* or more recent. If you don't already have it, you can download jQuery from its official website.
 
 =Usage=
 
@@ -85,6 +85,12 @@ Example of a custom options object, including french translation:
 
 {{{
 <link rel="stylesheet" href="css/slimbox2.css" type="text/css" media="screen" />
+}}}
+
+Or, if you are using a right-to-left language:
+
+{{{
+<link rel="stylesheet" href="css/slimbox2-rtl.css" type="text/css" media="screen" />
 }}}
 
 If you keep the provided CSS as is, you must place the 4 required images in the same folder as the CSS file. Of course you can change the images or move them to another place, then you just need to edit the CSS URLs (and the image width and height for the "Close" image) to reflect your changes. You don't even need to edit the javascript.
