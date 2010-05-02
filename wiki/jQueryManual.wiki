@@ -73,7 +73,7 @@ Example of a custom options object, including french translation:
 {{{
 {
 	overlayOpacity: 0.6,
-	easing: "easeOutElastic",
+	resizeEasing: "easeOutElastic",
 	captionAnimationDuration: 1,
 	counterText: "Image {x} sur {y}",
 	closeKeys: [27, 70],
