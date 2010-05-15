@@ -154,12 +154,12 @@
 	}
 
 	function keyDown(event) {
-		var code = event.keyCode, fn = $.inArray;
+		var code = event.which, fn = $.inArray;
 		// Prevent default keyboard action (like navigating inside the page)
 		return (fn(code, options.closeKeys) >= 0) ? close()
 			: (fn(code, options.nextKeys) >= 0) ? next()
 			: (fn(code, options.previousKeys) >= 0) ? previous()
-			: false;
+			: null;
 	}
 
 	function previous() {
