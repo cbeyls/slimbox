@@ -33,6 +33,8 @@ Unlike many Lightbox-like scripts, it displays fine in case of horizontal scroll
 
 It is disabled by default on mobile devices (Android, iPhone/iPod, Symbian, Windows Mobile, !BlackBerry).
 
+_Note: there is a bug in Google Chrome 4/5/6 for Linux with many non-english locales, causing the overlay to stay invisible when Slimbox is opened. This bug does not affect other operating systems. You can watch this issue [http://code.google.com/p/chromium/issues/detail?id=22782 here]._
+
 =Requirements=
 
 Slimbox 2.04 requires the [http://jquery.com/ jQuery] library, *version 1.3* or more recent. If you don't already have it, you can download jQuery from its official website.
