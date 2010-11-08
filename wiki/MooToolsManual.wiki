@@ -29,7 +29,7 @@ In comparison, the download size of the original Lightbox 2.04 and its required 
 
 =Compatibility=
 
-Slimbox 1.7 for mootools 1.2 is compatible with all modern browsers: Firefox 1.5+, Internet Explorer 6+, Opera 9+, Safari 2+, Camino and Google Chrome.
+Slimbox 1.7 for mootools 1.2 is compatible with all modern browsers: Firefox 1.5+, Internet Explorer 6+, Opera 9+, Safari 2+, Camino and Google Chrome (mootools 1.2.5 or more recent is required for Chrome 7+).
 
 It works with both strict mode and quirks mode web pages.
 
