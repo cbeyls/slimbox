@@ -33,7 +33,7 @@ Unlike many Lightbox-like scripts, it displays fine in case of horizontal scroll
 
 It is disabled by default on mobile devices (Android, iPhone/iPod, Symbian, Windows Mobile, !BlackBerry).
 
-_Note: there is a bug in Google Chrome 4/5/6 for Linux with many non-english locales, causing the overlay to stay invisible when Slimbox is opened. This bug does not affect other operating systems. You can watch this issue [http://code.google.com/p/chromium/issues/detail?id=22782 here]._
+_Note: there is a bug in Google Chrome versions 4 to 8 for Linux with many non-english locales, causing the overlay to stay invisible when Slimbox is opened. This bug does not affect other operating systems and was fixed since Chrome 9._
 
 =Requirements=
 
