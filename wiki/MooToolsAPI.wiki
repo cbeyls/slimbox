@@ -114,9 +114,10 @@ where *elements* is either:
   * a comma-separated list of DOM elements (multiple arguments).
   * a string, which may contain either:
     * A tag name. This will select all DOM elements with the specified tag name.
-    * A [http://mootools.net/docs/Utilities/Selectors mootools selector] (See the warning below).
+    * A [http://www.w3.org/TR/css3-selectors/#selectors CSS selector].
 
-*Warning:* If you want to use mootools selectors, your mootools build must include selectors support. The minimal mootools build included in the Slimbox distribution does not provide selectors support. The standard [http://mootools.net/download Mootools Core] download provides selectors support.
+*Warning:* If you are using mootools 1.2 or below (the older versions), your mootools build must include selectors support. The minimal mootools build included in the Slimbox distribution does not provide selectors support for these older version and therefore you need to download the full Mootools Core from the Mootools website if you want to use this feature.
+Starting with mootools 1.3, selectors support is part of the mootools core and is always available.
 
 parameters are all _optional_:
 
@@ -126,7 +127,7 @@ parameters are all _optional_:
 
 This is the magic part: calling the {{{slimbox()}}} function on a group of elements which actually contains more than one element will cause the associated images to be shown together as a group in Slimbox, with one image for each DOM element. The order of the images in the Slimbox gallery will follow the order of the DOM elements in the group.
 
-_Example (using a mootools selector):_
+_Example (using a CSS selector):_
 
 {{{
 <div id="gallery">
@@ -212,12 +213,10 @@ But that's not all, we also want to automatically add a link to the Flickr page 
 
 Last but not least, we'll filter out the link elements, only keeping those pointing to the Flickr webpages and surrounding a thumbnail image.
 
-Here's the code:
+Here's the code (using a CSS selector):
 
 {{{
-$$("a").filter(function(el) {
-	return el.href && !el.href.indexOf("http://www.flickr.com/photos/") && el.firstChild && el.firstChild.src;
-}).slimbox({}, function(el) {
+$$("a[href^=http://www.flickr.com/photos/] > img:first-child[src]").getParent().slimbox({}, function(el) {
 	return [el.firstChild.src.replace(/_[mts]\.(\w+)$/, ".$1"),
 		(el.title || el.firstChild.alt) + '<br /><a href="' + el.href + '">Flickr page</a>'];
 });
