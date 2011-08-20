@@ -21,15 +21,17 @@ From a _design_ point of view, Slimbox is very different from Lightbox:
   * Slimbox has a much more powerful [MooToolsAPI API], allowing you to apply the Lightbox effect easily on any clickable element or from any script. For example, it can be easily integrated with links pointing to Flickr or Picasa Web Albums pages or with any javascript image gallery.
   * The Slimbox CSS are simpler and 100% valid (no more CSS hacks). Also, every visual aspect of Slimbox (including images) is specified in the CSS instead of the Javascript so it is easier to style. You may even change any border size in the CSS and Slimbox will still work fine, which means that nothing is "hard-coded" in the source code.
 
-The total download size for the required modules of mootools 1.1 + Slimbox 1.5, *both minified and gzipped*, is as small as *10 KB*. Without gzipping, it's 32 KB.
+The total download size for the required modules of mootools 1.3 + Slimbox 1.8, *both minified and gzipped*, is as small as *24 KB*. Without gzipping, it's 73 KB.
 
 The total download size for the required modules of mootools 1.2 + Slimbox 1.7, *both minified and gzipped*, is as small as *16 KB*. Without gzipping, it's 50 KB.
+
+The total download size for the required modules of mootools 1.1 + Slimbox 1.5, *both minified and gzipped*, is as small as *10 KB*. Without gzipping, it's 32 KB.
 
 In comparison, the download size of the original Lightbox 2.04 and its required libraries is 44 KB with gzip compression. Without gzipping, it's 186 KB.
 
 =Compatibility=
 
-Slimbox 1.7 for mootools 1.2 is compatible with all modern browsers: Firefox 1.5+, Internet Explorer 6+, Opera 9+, Safari 2+, Camino and Google Chrome (mootools 1.2.5 or more recent is required for Chrome 7+).
+Slimbox 1.8 for mootools 1.3 is compatible with all modern browsers: Firefox 2+, Internet Explorer 6+, Opera 9+, Safari 3+ and Google Chrome 4+.
 
 It works with both strict mode and quirks mode web pages.
 
@@ -37,21 +39,23 @@ Unlike many Lightbox-like scripts, it displays fine in case of horizontal scroll
 
 It is disabled by default on mobile devices (Android, iPhone/iPod, Symbian, Windows Mobile, BlackBerry).
 
-Slimbox 1.5 for mootools 1.1, which is also available, is also compatible with Safari 1.3, Firefox 1.0, Opera 8.x and Opera for Wii. It works with strict mode web pages only.
+Older versions:
+
+Slimbox 1.71 for mootools 1.2.5 is also compatible with Firefox 1.5, Safari 2 and Google Chrome 1-3.
+
+Slimbox 1.58 for mootools 1.11 is also compatible with Safari 1.3, Firefox 1.0, Opera 8.x and Opera for Wii. It works with strict mode web pages only and support for newer browsers is not garanteed, so it is recommended to upgrade to a newer version of mootools.
 
 =Requirements=
 
-Slimbox 1.7 requires the [http://mootools.net/ mootools] framework, *version 1.2* or more recent. Because mootools is modular, you can make your download smaller by only downloading the modules your scripts are actually using. Here are the core modules required by Slimbox:
+Slimbox 1.8 requires the [http://mootools.net/ mootools] framework, *version 1.3* or more recent. Because mootools is modular, you can make your download smaller by only downloading the modules your scripts are actually using. Here are the core modules required by Slimbox:
 
-  * *Native:* _all_
-  * *Class:* _all_
-  * *Element:* _all_
-  * *Utilities:* !DomReady
-  * *Fx:* Fx.Tween, Fx.Morph (optionally Fx.Transitions)
+  * Element.Style, Element.Event, Element.Dimensions
+  * Fx.Tween, Fx.Morph (optionally Fx.Transitions)
+  * DOMReady
 
 The Slimbox download package already includes mootools with the above dependencies only. If you need more dependencies for your own scripts or want to use a different mootools version, you have to build your own version of mootools on the mootools download page.
 
-Slimbox 1.5, which uses mootools 1.11, is also available for download. It provides the same features set as the latest version. Its dependencies are detailed in the provided readme file. You may need to use this version if your website is still using mootools 1.11, if you want a smaller total download size or if you need compatibility with older browsers like Safari 1.3, Firefox 1.0 or Opera 8.
+Slimbox 1.71, which uses mootools 1.2.5, is also available for download. It provides the same features set as the latest version. Its dependencies are detailed in the provided readme file. You may need to use this version if your website is still using mootools 1.2 or if you want a smaller total download size.
 
 =Usage=
 
@@ -103,6 +107,12 @@ Example of a custom options object, including french translation:
 <link rel="stylesheet" href="css/slimbox.css" type="text/css" media="screen" />
 }}}
 
+Or, if you are using a right-to-left language:
+
+{{{
+<link rel="stylesheet" href="css/slimbox-rtl.css" type="text/css" media="screen" />
+}}}
+
 If you keep the provided CSS as is, you must place the 4 required images in the same folder as the CSS file. Of course you can change the images or move them to another place, then you just need to edit the CSS URLs (and the image width and height for the "Close" image) to reflect your changes. You don't even need to edit the javascript.
 
 You can also change the fonts for the caption and the image counter, the width of the border around the lightbox and the caption, the margins in the caption and every color. You must not add new CSS rules.
@@ -125,6 +135,6 @@ For sets of related images that you want to group and make navigable, add a grou
 <a href="images/image-3.jpg" rel="lightbox-atomium">image #3</a>
 }}}
 
-I don't recommend using square brackets "[ ]" around group names in the {{{rel}}} attribute like the original Lightbox script does because these characters are invalid for XHTML and XML attributes, meaning that your web page would not validate against the latest standards.
+It is not recommended to use square brackets "[ ]" around group names in the {{{rel}}} attribute like the original Lightbox script does because these characters are invalid for XHTML and XML attributes, meaning that your web page would not validate against these standards.
 
 _Et voilà._
