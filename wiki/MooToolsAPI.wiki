@@ -116,7 +116,7 @@ where *elements* is either:
     * A tag name. This will select all DOM elements with the specified tag name.
     * A [http://www.w3.org/TR/css3-selectors/#selectors CSS selector].
 
-*Warning:* If you are using mootools 1.2 or below (the older versions), your mootools build must include selectors support. The minimal mootools build included in the Slimbox distribution does not provide selectors support for these older version and therefore you need to download the full Mootools Core from the Mootools website if you want to use this feature.
+*Warning:* If you are using mootools 1.2 or below (the older versions), your mootools build must include selectors support. The minimal mootools build included in the Slimbox distribution does not provide selectors support for these older versions and therefore you need to download the full Mootools Core from the Mootools website if you want to use this feature.
 Starting with mootools 1.3, selectors support is part of the mootools core and is always available.
 
 parameters are all _optional_:
