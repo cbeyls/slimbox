@@ -26,23 +26,23 @@ var Slimbox = (function() {
 		// Append the Slimbox HTML code at the bottom of the document
 		$(document.body).adopt(
 			$$(
-				overlay = new Element("div", {id: "lbOverlay", events: {click: close}}),
-				center = new Element("div", {id: "lbCenter"}),
-				bottomContainer = new Element("div", {id: "lbBottomContainer"})
+				overlay = new Element("div#lbOverlay", {events: {click: close}}),
+				center = new Element("div#lbCenter"),
+				bottomContainer = new Element("div#lbBottomContainer")
 			).setStyle("display", "none")
 		);
 
-		image = new Element("div", {id: "lbImage"}).inject(center).adopt(
+		image = new Element("div#lbImage").inject(center).adopt(
 			sizer = new Element("div", {styles: {position: "relative"}}).adopt(
-				prevLink = new Element("a", {id: "lbPrevLink", href: "#", events: {click: previous}}),
-				nextLink = new Element("a", {id: "lbNextLink", href: "#", events: {click: next}})
+				prevLink = new Element("a#lbPrevLink[href=#]", {events: {click: previous}}),
+				nextLink = new Element("a#lbNextLink[href=#]", {events: {click: next}})
 			)
 		);
 
-		bottom = new Element("div", {id: "lbBottom"}).inject(bottomContainer).adopt(
-			new Element("a", {id: "lbCloseLink", href: "#", events: {click: close}}),
-			caption = new Element("div", {id: "lbCaption"}),
-			number = new Element("div", {id: "lbNumber"}),
+		bottom = new Element("div#lbBottom").inject(bottomContainer).adopt(
+			new Element("a#lbCloseLink[href=#]", {events: {click: close}}),
+			caption = new Element("div#lbCaption"),
+			number = new Element("div#lbNumber"),
 			new Element("div", {styles: {clear: "both"}})
 		);
 	});
