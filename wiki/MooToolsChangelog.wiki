@@ -1,6 +1,12 @@
 #summary The history of changes for each official release of Slimbox 1
 #labels Phase-Support
 
+===v1.8 (2011-08-21)===
+
+_requires mootools >= 1.3_
+
+   * Updated core code and plugins for mootools 1.3, including the usage of CSS selectors instead of filtering functions.
+
 ===v1.71 (2009-11-19)===
 
    * Now Slimbox does not activate by default on mobile devices.
@@ -55,7 +61,7 @@
 
 ===v1.63 (2008-06-10)===
 
-_requires mootools >= 1.2._
+_requires mootools >= 1.2_
 
   * Updated code for mootools 1.2.
   * Slimbox is now fully compatible with Opera 9.5+ and quirks mode web pages!
@@ -97,7 +103,7 @@ _requires mootools >= 1.2._
 
 ===v1.4 (2007-05-21)===
 
-_requires mootools >= 1.1._
+_requires mootools >= 1.1_
 
   * Updated code for mootools 1.1.
   * Added an option to hide the counter.
@@ -110,7 +116,7 @@ _requires mootools >= 1.1._
 
 ===v1.3 (2007-02-05)===
 
-_requires mootools >= 1.0._
+_requires mootools >= 1.0_
 
   * Updated code for mootools 1.0.
   * The caption now animates using a nice slide effect like the original Lightbox. *CSS update required.*
