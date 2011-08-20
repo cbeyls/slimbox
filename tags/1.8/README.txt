@@ -10,6 +10,7 @@ example.html		A simple example page demonstrating how to use Slimbox with the de
 example.jpg		An example image used on the example page.
 README.txt		The file you are reading.
 css/*			The Slimbox stylesheet and its associated images. You can edit them to customize Slimbox appearance.
+				You can choose between the standard slimbox.css or slimbox-rtl.css which is designed for right-to-left languages.
 js/mootools.js		The minified version of mootools v1.3.2 including only the modules required by Slimbox.
 js/slimbox.js		The minified version of Slimbox, plus the editable autoloading code using default options.
 src/slimbox.js		The Slimbox source. Contains many comments and is not suitable for production use (needs to be minified first).
@@ -20,7 +21,7 @@ You can use the provided mootools.js and slimbox.js scripts "as is", or you can 
 downloaded from the official mootools website and/or edit the autoloading code inside slimbox.js.
 
 You need to download a new mootools version if your web page scripts require additional mootools modules,
-or if you want to use a different version of mootools.
+or if you want to use a different version of mootools. This script is only compatible with mootools 1.3 and more recent.
 
 Here are the mootools core modules required by this version of Slimbox:
 - Element.Style, Element.Event, Element.Dimensions
