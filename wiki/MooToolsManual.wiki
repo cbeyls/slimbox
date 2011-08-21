@@ -27,7 +27,7 @@ The total download size for the required modules of mootools 1.2 + Slimbox 1.7, 
 
 The total download size for the required modules of mootools 1.1 + Slimbox 1.5, *both minified and gzipped*, is as small as *10 KB*. Without gzipping, it's 32 KB.
 
-In comparison, the download size of the original Lightbox 2.04 and its required libraries is 44 KB with gzip compression. Without gzipping, it's 186 KB.
+In comparison, the download size of the original Lightbox 2.05 and its required libraries is 51 KB with gzip compression. Without gzipping, it's 222 KB.
 
 =Compatibility=
 
