@@ -43,7 +43,7 @@ Older versions:
 
 Slimbox 1.71 for mootools 1.2.5 is also compatible with Firefox 1.5, Safari 2 and Google Chrome 1-3.
 
-Slimbox 1.58 for mootools 1.11 is also compatible with Safari 1.3, Firefox 1.0, Opera 8.x and Opera for Wii. It works with strict mode web pages only and support for newer browsers is not garanteed, so it is recommended to upgrade to a newer version of mootools.
+Slimbox 1.58 for mootools 1.11 is also compatible with Safari 1.3, Firefox 1.0, Opera 8.x and Opera for Wii. It works with strict mode web pages only and support for recent browsers is not garanteed, so it is not recommended to use this version anymore.
 
 =Requirements=
 
