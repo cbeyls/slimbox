@@ -1,6 +1,11 @@
 #summary The history of changes for each official release of Slimbox 2
 #labels Phase-Support
 
+===v2.05 (2013-05-07)===
+
+   * Backward-compatible fix for jQuery 1.9 and 2.0.
+   * Removed obsolete Android Market extra script.
+
 ===v2.04 (2010-04-28)===
 
 _requires jQuery >= 1.3_
