@@ -37,7 +37,7 @@ _Note: there is a bug in Google Chrome versions 4 to 8 for Linux with many non-e
 
 =Requirements=
 
-Slimbox 2.04 requires the [http://jquery.com/ jQuery] library, *version 1.3* or more recent. If you don't already have it, you can download jQuery from its official website.
+Slimbox 2.05 requires the [http://jquery.com/ jQuery] library, *version 1.3* or more recent. If you don't already have it, you can download jQuery from its official website.
 
 =Usage=
 
