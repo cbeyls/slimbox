@@ -6,7 +6,7 @@ The ultimate lightweight Lightbox clone
 (c) Christophe Beyls 2007-2013
 MIT-style license
 
-http://code.google.com/p/slimbox/
+https://github.com/cbeyls/slimbox
 
 
 Included files:
