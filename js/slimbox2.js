@@ -190,9 +190,9 @@
 
 	function animateBox() {
 		center.className = "";
-		$(image).css({backgroundImage: "url(" + activeURL + ")", visibility: "hidden", display: ""});
-		$(sizer).width(preload.width);
-		$([sizer, prevLink, nextLink]).height(preload.height);
+		$(image).css({backgroundSize: "100% 100%", backgroundImage: "url(" + activeURL + ")", visibility: "hidden", display: ""});
+		$(sizer).width(Math.min($(window).width() * 13/15, preload.width));
+		$([sizer, prevLink, nextLink]).height(Math.min($(window).height() * 13/15, preload.height));
 
 		$(caption).html(images[activeImage][1] || "");
 		$(number).html((((images.length > 1) && options.counterText) || "").replace(/{x}/, activeImage + 1).replace(/{y}/, images.length));
