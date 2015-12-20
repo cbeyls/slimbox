@@ -30,12 +30,21 @@
 	background-repeat: no-repeat;
 }
 
+#lbSlide{
+	display: block;
+	position: absolute;
+	width: 100%;
+}
+
 #lbPrevLink, #lbNextLink {
 	display: block;
 	position: absolute;
 	top: 0;
 	width: 50%;
 	outline: none;
+	font-size: 100000px;  /* Workaround needed for IE */
+	overflow: hidden;     /* Workaround needed for IE */
+	color: #666;
 }
 
 #lbPrevLink {
@@ -47,6 +56,7 @@
 }
 
 #lbNextLink {
+	width: 100%;
 	right: 0;
 }
 
