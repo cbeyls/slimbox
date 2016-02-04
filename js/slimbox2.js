@@ -190,7 +190,7 @@
 
 	function animateBox() {
 		center.className = "";
-		$(image).css({backgroundImage: "url(" + activeURL + ")", visibility: "hidden", display: ""});
+		$(image).css({backgroundImage: 'url("' + activeURL + '")', visibility: "hidden", display: ""});
 		$(sizer).width(preload.width);
 		$([sizer, prevLink, nextLink]).height(preload.height);
 
